@@ -18,15 +18,17 @@ const store = {
 console.log(store);
 
 const logGrid = () => {
-  console.log("");
-  console.log(" --- --- ---");
-  console.log(`| ${store.grid[1]} | ${store.grid[2]} | ${store.grid[3]} |`);
-  console.log(" --- --- ---");
-  console.log(`| ${store.grid[4]} | ${store.grid[5]} | ${store.grid[6]} |`);
-  console.log(" --- --- ---");
-  console.log(`| ${store.grid[7]} | ${store.grid[8]} | ${store.grid[9]} |`);
-  console.log(" --- --- ---");
-  console.log("");
+  console.log(
+    `
+     --- --- ---
+    | ${store.grid[1]} | ${store.grid[2]} | ${store.grid[3]} |
+     --- --- ---
+    | ${store.grid[4]} | ${store.grid[5]} | ${store.grid[6]} |
+     --- --- ---
+    | ${store.grid[7]} | ${store.grid[8]} | ${store.grid[9]} |
+     --- --- ---
+    `
+  );
 };
 
 const rl = require("readline").createInterface({
@@ -34,18 +36,23 @@ const rl = require("readline").createInterface({
   output: process.stdout,
 });
 
-// Validate choice is a string of "O" or "X"
 const chooseOX = () => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     rl.question("Choose O or X = ", (choice) => {
-      store.userTeam = choice;
-      if (choice === "O") {
-        store.cpuTeam = "X";
+      let val = choice.toUpperCase();
+      if (val === "O" || val === "X") {
+        store.userTeam = val;
+        if (val === "O") {
+          store.cpuTeam = "X";
+        } else {
+          store.cpuTeam = "O";
+        }
+        console.log(store);
+        return resolve();
       } else {
-        store.cpuTeam = "O";
+        console.log("Please enter only the letter O or X to choose your team");
+        return resolve(chooseOX());
       }
-      console.log(store);
-      resolve();
     });
   });
 };
