@@ -1,3 +1,10 @@
+// TODO
+//--------
+// 1. Add 'play again?' option
+// 2. Randomise turn order / add option to decide
+// 3. Add ability to play 2 player
+// 4. Make CPU smarter? Add difficulty levels (Impossible/Normal/Stupid)?
+
 const store = {
   grid: {
     1: 1,
@@ -52,9 +59,11 @@ const checkWin = () => {
       if (result.split("")[0] === store.userTeam) {
         logGrid();
         console.log("You won!");
+        process.exit();
       } else {
         logGrid();
         console.log("CPU won!");
+        process.exit();
       }
     }
   });
@@ -90,19 +99,16 @@ const chooseUserGrid = () => {
   return new Promise((resolve) => {
     rl.question("Enter your choice of grid number = ", (grid) => {
       let val = Number(grid);
-      if (isNaN(val) || val < 1 || val > 9) {
-        console.log("Please enter a valid grid number");
-        return resolve(chooseUserGrid());
-      }
-      if (store.choices.includes(Number(grid))) {
+      if (isNaN(val) || val < 1 || val > 9 || store.choices.includes(val)) {
         console.log(
-          "Please choose a grid number that hasn't already been picked"
+          "Please enter a valid grid number. Make sure it hasn't already been picked!"
         );
         return resolve(chooseUserGrid());
       } else {
         store.grid[val] = store.userTeam;
         store.choices.push(val);
         console.log(`You chose ${val}!`);
+        checkWin();
         return resolve();
       }
     });
@@ -122,25 +128,15 @@ const chooseCpuGrid = () => {
       x = true;
     }
   }
+  checkWin();
 };
 
 const play = async () => {
   await chooseOX();
-  rl.pause();
   while (checkWin() === false) {
-    rl.resume();
     logGrid();
     await chooseUserGrid();
-    if (checkWin()) {
-      rl.close();
-      process.exit();
-    }
     chooseCpuGrid();
-    if (checkWin()) {
-      rl.close();
-      process.exit();
-    }
-    rl.pause();
   }
 };
 
