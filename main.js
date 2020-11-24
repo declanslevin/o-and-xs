@@ -15,8 +15,6 @@ const store = {
   choices: [],
 };
 
-console.log(store);
-
 const logGrid = () => {
   console.log(
     `
@@ -29,63 +27,6 @@ const logGrid = () => {
      --- --- ---
     `
   );
-};
-
-const rl = require("readline").createInterface({
-  input: process.stdin,
-  output: process.stdout,
-});
-
-const chooseOX = () => {
-  return new Promise((resolve) => {
-    rl.question("Choose O or X = ", (choice) => {
-      let val = choice.toUpperCase();
-      if (val === "O" || val === "X") {
-        store.userTeam = val;
-        if (val === "O") {
-          store.cpuTeam = "X";
-        } else {
-          store.cpuTeam = "O";
-        }
-        console.log(store);
-        return resolve();
-      } else {
-        console.log("Please enter only the letter O or X to choose your team");
-        return resolve(chooseOX());
-      }
-    });
-  });
-};
-
-// Validate user isn't choosing an existing choice
-const acceptUserGrid = () => {
-  return new Promise((resolve, reject) => {
-    rl.question("Enter grid choice = ", (grid) => {
-      store.grid[grid] = store.userTeam;
-      store.choices.push(grid);
-      console.log(`You chose ${grid}!`);
-      logGrid();
-      resolve();
-    });
-  });
-};
-
-// Need to check that it correctly doesn't overwrite user choice
-// Else arg can overwrite currently
-const chooseCpuGrid = () => {
-  let x = false;
-  while (x === false) {
-    let choice = Math.floor(Math.random() * 8 + 1);
-    if (store.choices.includes(choice)) {
-      choice = Math.floor(Math.random() * 8 + 1);
-    } else {
-      store.grid[choice] = store.cpuTeam;
-      store.choices.push(choice);
-      console.log(`CPU chose ${choice}!`);
-      x = true;
-    }
-  }
-  logGrid();
 };
 
 const checkWin = () => {
@@ -109,8 +50,10 @@ const checkWin = () => {
     if (result === "XXX" || result === "OOO") {
       win = true;
       if (result.split("")[0] === store.userTeam) {
+        logGrid();
         console.log("You won!");
       } else {
+        logGrid();
         console.log("CPU won!");
       }
     }
@@ -118,18 +61,87 @@ const checkWin = () => {
   return win;
 };
 
+const rl = require("readline").createInterface({
+  input: process.stdin,
+  output: process.stdout,
+});
+
+const chooseOX = () => {
+  return new Promise((resolve) => {
+    rl.question("Pick your team. O or X? = ", (choice) => {
+      let val = choice.toUpperCase();
+      if (val === "O" || val === "X") {
+        store.userTeam = val;
+        if (val === "O") {
+          store.cpuTeam = "X";
+        } else {
+          store.cpuTeam = "O";
+        }
+        return resolve();
+      } else {
+        console.log("Please enter only the letter O or X to choose your team");
+        return resolve(chooseOX());
+      }
+    });
+  });
+};
+
+const chooseUserGrid = () => {
+  return new Promise((resolve) => {
+    rl.question("Enter your choice of grid number = ", (grid) => {
+      let val = Number(grid);
+      if (isNaN(val) || val < 1 || val > 9) {
+        console.log("Please enter a valid grid number");
+        return resolve(chooseUserGrid());
+      }
+      if (store.choices.includes(Number(grid))) {
+        console.log(
+          "Please choose a grid number that hasn't already been picked"
+        );
+        return resolve(chooseUserGrid());
+      } else {
+        store.grid[val] = store.userTeam;
+        store.choices.push(val);
+        console.log(`You chose ${val}!`);
+        return resolve();
+      }
+    });
+  });
+};
+
+const chooseCpuGrid = () => {
+  let x = false;
+  while (x === false) {
+    let choice = Math.floor(Math.random() * 8 + 1);
+    if (store.choices.includes(choice)) {
+      choice = Math.floor(Math.random() * 8 + 1);
+    } else {
+      store.grid[choice] = store.cpuTeam;
+      store.choices.push(choice);
+      console.log(`CPU chose ${choice}!`);
+      x = true;
+    }
+  }
+};
+
 const play = async () => {
-  logGrid();
   await chooseOX();
   rl.pause();
   while (checkWin() === false) {
     rl.resume();
-    await acceptUserGrid();
-    rl.pause();
-    checkWin();
+    logGrid();
+    await chooseUserGrid();
+    if (checkWin()) {
+      rl.close();
+      process.exit();
+    }
     chooseCpuGrid();
+    if (checkWin()) {
+      rl.close();
+      process.exit();
+    }
+    rl.pause();
   }
-  rl.close();
 };
 
 play();
