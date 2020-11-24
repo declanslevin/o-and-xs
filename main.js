@@ -1,5 +1,3 @@
-const { StringDecoder } = require("string_decoder");
-
 const store = {
   grid: {
     1: 1,
@@ -20,6 +18,7 @@ const store = {
 console.log(store);
 
 const logGrid = () => {
+  console.log("");
   console.log(" --- --- ---");
   console.log(`| ${store.grid[1]} | ${store.grid[2]} | ${store.grid[3]} |`);
   console.log(" --- --- ---");
@@ -35,6 +34,7 @@ const rl = require("readline").createInterface({
   output: process.stdout,
 });
 
+// Validate choice is a string of "O" or "X"
 const chooseOX = () => {
   return new Promise((resolve, reject) => {
     rl.question("Choose O or X = ", (choice) => {
@@ -50,6 +50,7 @@ const chooseOX = () => {
   });
 };
 
+// Validate user isn't choosing an existing choice
 const acceptUserGrid = () => {
   return new Promise((resolve, reject) => {
     rl.question("Enter grid choice = ", (grid) => {
@@ -62,6 +63,8 @@ const acceptUserGrid = () => {
   });
 };
 
+// Need to check that it correctly doesn't overwrite user choice
+// Else arg can overwrite currently
 const chooseCpuGrid = () => {
   let x = false;
   while (x === false) {
@@ -78,12 +81,48 @@ const chooseCpuGrid = () => {
   logGrid();
 };
 
+const checkWin = () => {
+  let win = false;
+  let gridArray = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9],
+    [1, 4, 7],
+    [2, 5, 8],
+    [3, 6, 9],
+    [1, 5, 9],
+    [3, 5, 7],
+  ];
+  gridArray.map((array) => {
+    let result = array
+      .map((ref) => {
+        return store.grid[ref];
+      })
+      .join("");
+    if (result === "XXX" || result === "OOO") {
+      win = true;
+      if (result.split("")[0] === store.userTeam) {
+        console.log("You won!");
+      } else {
+        console.log("CPU won!");
+      }
+    }
+  });
+  return win;
+};
+
 const play = async () => {
   logGrid();
   await chooseOX();
-  await acceptUserGrid();
+  rl.pause();
+  while (checkWin() === false) {
+    rl.resume();
+    await acceptUserGrid();
+    rl.pause();
+    checkWin();
+    chooseCpuGrid();
+  }
   rl.close();
-  chooseCpuGrid();
 };
 
 play();
