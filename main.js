@@ -1,11 +1,11 @@
 // TODO
 //--------
-// 1. Add 'play again?' option
+//// 1. Add 'play again?' option - DONE
 // 2. Randomise turn order / add option to decide
 // 3. Add ability to play 2 player
 // 4. Make CPU smarter? Add difficulty levels (Impossible/Normal/Stupid)?
 
-const store = {
+let store = {
   grid: {
     1: 1,
     2: 2,
@@ -36,6 +36,41 @@ const logGrid = () => {
   );
 };
 
+const playAgain = () => {
+  return new Promise((resolve) => {
+    rl.question("Play again? (y/n) = ", (answer) => {
+      let val = answer.toLowerCase();
+      if (val === "y" || val === "yes") {
+        store = {
+          grid: {
+            1: 1,
+            2: 2,
+            3: 3,
+            4: 4,
+            5: 5,
+            6: 6,
+            7: 7,
+            8: 8,
+            9: 9,
+          },
+          userTeam: null,
+          cpuTeam: null,
+          choices: [],
+        };
+        play();
+        return resolve();
+      } else if (val === "n" || val === "no") {
+        process.exit();
+      } else {
+        console.log(
+          "Please enter one of the following 'y', 'yes', 'n' or 'no'"
+        );
+        return resolve(playAgain());
+      }
+    });
+  });
+};
+
 const checkWin = () => {
   let win = false;
   let gridArray = [
@@ -59,11 +94,11 @@ const checkWin = () => {
       if (result.split("")[0] === store.userTeam) {
         logGrid();
         console.log("You won!");
-        process.exit();
+        playAgain();
       } else {
         logGrid();
         console.log("CPU won!");
-        process.exit();
+        playAgain();
       }
     }
   });
