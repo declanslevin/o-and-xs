@@ -19,7 +19,9 @@ let store = {
   },
   userTeam: null,
   cpuTeam: null,
+  firstPlayer: null,
   choices: [],
+  winner: false,
 };
 
 const logGrid = () => {
@@ -34,6 +36,17 @@ const logGrid = () => {
      --- --- ---
     `
   );
+};
+
+const playOrder = () => {
+  let order = Math.random();
+  if (order < 0.5) {
+    store.firstPlayer = "user";
+    console.log("You get to go first!");
+  } else {
+    store.firstPlayer = "cpu";
+    console.log("CPU goes first.");
+  }
 };
 
 const playAgain = () => {
@@ -55,10 +68,11 @@ const playAgain = () => {
           },
           userTeam: null,
           cpuTeam: null,
+          firstPlayer: null,
           choices: [],
+          winner: false,
         };
-        play();
-        return resolve();
+        return resolve(play());
       } else if (val === "n" || val === "no") {
         process.exit();
       } else {
@@ -72,37 +86,43 @@ const playAgain = () => {
 };
 
 const checkWin = () => {
-  let win = false;
-  let gridArray = [
-    [1, 2, 3],
-    [4, 5, 6],
-    [7, 8, 9],
-    [1, 4, 7],
-    [2, 5, 8],
-    [3, 6, 9],
-    [1, 5, 9],
-    [3, 5, 7],
-  ];
-  gridArray.map((array) => {
-    let result = array
-      .map((ref) => {
-        return store.grid[ref];
-      })
-      .join("");
-    if (result === "XXX" || result === "OOO") {
-      win = true;
-      if (result.split("")[0] === store.userTeam) {
-        logGrid();
-        console.log("You won!");
-        playAgain();
-      } else {
-        logGrid();
-        console.log("CPU won!");
-        playAgain();
+  return new Promise((resolve) => {
+    let gridArray = [
+      [1, 2, 3],
+      [4, 5, 6],
+      [7, 8, 9],
+      [1, 4, 7],
+      [2, 5, 8],
+      [3, 6, 9],
+      [1, 5, 9],
+      [3, 5, 7],
+    ];
+    gridArray.map((array) => {
+      let result = array
+        .map((ref) => {
+          return store.grid[ref];
+        })
+        .join("");
+      if (result === "XXX" || result === "OOO") {
+        store.winner = true;
+        if (result.split("")[0] === store.userTeam) {
+          logGrid();
+          console.log("You won!");
+          return resolve(playAgain());
+        } else {
+          logGrid();
+          console.log("CPU won!");
+          return resolve(playAgain());
+        }
       }
-    }
+      if (store.choices.length === 9) {
+        store.winner = true;
+        logGrid();
+        console.log("You drew!");
+        return resolve(playAgain());
+      }
+    });
   });
-  return win;
 };
 
 const rl = require("readline").createInterface({
@@ -132,6 +152,7 @@ const chooseOX = () => {
 
 const chooseUserGrid = () => {
   return new Promise((resolve) => {
+    logGrid();
     rl.question("Enter your choice of grid number = ", (grid) => {
       let val = Number(grid);
       if (isNaN(val) || val < 1 || val > 9 || store.choices.includes(val)) {
@@ -151,6 +172,7 @@ const chooseUserGrid = () => {
 };
 
 const chooseCpuGrid = () => {
+  logGrid();
   let x = false;
   while (x === false) {
     let choice = Math.floor(Math.random() * 8 + 1);
@@ -159,7 +181,9 @@ const chooseCpuGrid = () => {
     } else {
       store.grid[choice] = store.cpuTeam;
       store.choices.push(choice);
+
       console.log(`CPU chose ${choice}!`);
+
       x = true;
     }
   }
@@ -168,10 +192,19 @@ const chooseCpuGrid = () => {
 
 const play = async () => {
   await chooseOX();
-  while (checkWin() === false) {
-    logGrid();
-    await chooseUserGrid();
-    chooseCpuGrid();
+  playOrder();
+  while (store.winner === false) {
+    if (store.firstPlayer === "user") {
+      await chooseUserGrid();
+      if (store.winner === false) {
+        chooseCpuGrid();
+      }
+    } else {
+      chooseCpuGrid();
+      if (store.winner === false) {
+        await chooseUserGrid();
+      }
+    }
   }
 };
 
