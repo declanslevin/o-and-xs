@@ -1,0 +1,12 @@
+{
+  "name": "o-and-xs",
+  "version": "1.0.0",
+  "description": "Noughts and Crosses. Or Tic-Tac-Toe if you prefer.",
+  "main": "index.js",
+  "repository": "https://github.com/declanslevin/o-and-xs.git",
+  "author": "declanslevin <33623842+declanslevin@users.noreply.github.com>",
+  "license": "MIT",
+  "dependencies": {
+    "jest": "^26.6.3"
+  }
+}
