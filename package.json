@@ -6,11 +6,12 @@
   "repository": "https://github.com/declanslevin/o-and-xs.git",
   "author": "declanslevin <33623842+declanslevin@users.noreply.github.com>",
   "license": "MIT",
-  "dependencies": {
-    "babel": "^6.23.0",
-    "jest": "^26.6.3"
-  },
+  "dependencies": {},
   "scripts": {
+    "test": "jest",
     "play": "scripts/play.sh"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3"
   }
 }
