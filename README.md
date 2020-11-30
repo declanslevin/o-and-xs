@@ -1,1 +1,1 @@
-To run, from root execute "node main.js"
+To run, from /src/ execute "node main.js"
