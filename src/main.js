@@ -26,4 +26,24 @@ const store = {
   winner: false,
 };
 
+const storeTest = {
+  grid: {
+    1: "X",
+    2: "O",
+    3: "X",
+    4: "O",
+    5: 5,
+    6: "O",
+    7: "X",
+    8: "O",
+    9: "X",
+  },
+  userTeam: null,
+  cpuTeam: null,
+  firstPlayer: null,
+  choices: [],
+  winner: false,
+};
+
 play(store);
+// play(storeTest);
