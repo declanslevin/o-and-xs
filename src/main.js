@@ -21,26 +21,26 @@ const store = {
   },
   userTeam: null,
   cpuTeam: null,
-  firstPlayer: null,
+  nextPlayer: null,
   choices: [],
   winner: false,
 };
 
 const storeTest = {
   grid: {
-    1: "X",
+    1: "O",
     2: "O",
     3: "X",
-    4: "O",
+    4: "X",
     5: 5,
     6: "O",
-    7: "X",
-    8: "O",
+    7: "O",
+    8: "X",
     9: "X",
   },
   userTeam: null,
   cpuTeam: null,
-  firstPlayer: null,
+  nextPlayer: null,
   choices: [],
   winner: false,
 };
