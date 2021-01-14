@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebSockets</title>
+</head>
+<body>
+  <h1>WebSockets Test</h1>
+
+  <script>
+    // ws is fine for local dev
+    // wss for secure prod
+    const wss = new WebSocket("wss://localhost:8080");
+
+    wss.on("upgrade", (req, socket, head) => {
+  wss.handleUpgrade(req, socket, head);
+});
+
+    wss.addEventListener("open", () => {
+      console.log("We are connected!");
+    })
+  </script>
+</body>
+</html>
