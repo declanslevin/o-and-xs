@@ -5,6 +5,7 @@
 // 3. Add ability to play 2 player
 // 4. Make CPU smarter? Add difficulty levels (Impossible/Normal/Stupid)?
 
-const { runPlayLoop } = require("../lib/play");
+// const { runPlayLoop } = require("../lib/play");
+const { runPlayLoop } = require("../lib/2-player");
 
 runPlayLoop();
