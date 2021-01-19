@@ -7,19 +7,33 @@
 </head>
 <body>
   <h1>WebSockets Test</h1>
+  <input name="submit-form" id="input"/>
+  <!-- <button name="submit-form" id="submit">Submit</button> -->
 
   <script>
     // ws is fine for local dev
     // wss for secure prod
-    const wss = new WebSocket("wss://localhost:8080");
+    const ws = new WebSocket("ws://localhost:8080");
 
-    wss.on("upgrade", (req, socket, head) => {
-  wss.handleUpgrade(req, socket, head);
-});
-
-    wss.addEventListener("open", () => {
+    ws.addEventListener("open", () => {
       console.log("We are connected!");
+
+      // ws.send("Hello world");
+
+      document.getElementById("input").addEventListener("keyup", event => {
+        if (event.key === "Enter") {
+          console.log(event.target.value)
+          ws.send(event.target.value)
+          ws.send("bar")
+        }
+      })
+
+      ws.addEventListener("message", (message) => {
+        console.log(message.data)
+      })
     })
+
+
   </script>
 </body>
 </html>
