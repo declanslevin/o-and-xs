@@ -6,14 +6,6 @@ console.log("*****************");
 console.log("STARTING");
 const wss = new WebSocket.Server({ port: 8080 });
 
-const promptForTeamChoice = () => {
-  return new Promise((resolve) => {
-    rl.question("Pick your team. O or X? = ", (choice) => {
-      return resolve(choice.toUpperCase());
-    });
-  });
-};
-
 wss.on("connection", async (ws) => {
   console.log("New client connected!");
 
@@ -33,5 +25,5 @@ wss.on("connection", async (ws) => {
   };
   rl.question = question;
 
-  await runPlayLoop();
+  await runPlayLoop(ws);
 });
