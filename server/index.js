@@ -1,5 +1,6 @@
 const WebSocket = require("ws");
 const rl = require("../lib/rl");
+const { runPlayLoop } = require("../lib/play");
 
 console.log("*****************");
 console.log("STARTING");
@@ -15,11 +16,15 @@ const promptForTeamChoice = () => {
 
 wss.on("connection", async (ws) => {
   console.log("New client connected!");
+
+  ws.on("close", () => {
+    console.log("Client has disconnected");
+  });
+
+  // UGLY AF HAX
   const question = (prompt, cb) => {
     console.log(prompt);
     ws.send(prompt);
-    // TODO unregister cb
-    // ws.on("message", cb);
     ws.onmessage = ({ data }) => {
       console.log("DATA = " + data);
       cb(data);
@@ -27,14 +32,6 @@ wss.on("connection", async (ws) => {
     };
   };
   rl.question = question;
-  const result = await promptForTeamChoice();
-  console.log("RESULT = " + result);
 
-  // ws.on("message", (data) => {
-  //   console.log(`Client has sent us: ${data}`);
-  // });
-
-  ws.on("close", () => {
-    console.log("Client has disconnected");
-  });
+  await runPlayLoop();
 });
