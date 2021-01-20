@@ -6,7 +6,9 @@
   "repository": "https://github.com/declanslevin/o-and-xs.git",
   "author": "declanslevin <33623842+declanslevin@users.noreply.github.com>",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "ws": "^7.4.2"
+  },
   "scripts": {
     "test": "jest",
     "play": "scripts/play.sh"
