@@ -7,8 +7,35 @@
 </head>
 <body>
   <h1>WebSockets Test</h1>
-  <input name="submit-form" id="input"/>
-  <!-- <button name="submit-form" id="submit">Submit</button> -->
+
+
+  <div class="prompts" style="display: flex;">
+    <h3 id="prompt">Prompt appears here</h3>
+    <input id="input"/>
+  </div>
+
+  <div class="game">
+    <div class="game-header" style="display: flex; justify-content: center;">
+      <h2 class="game-header-player" id="current-player" style="margin-right: 50px;">Current Player</h2>
+      <h2 class="game-header-team" id="current-team">Team</h2>
+    </div>
+    <div class="container" style="display: flex; justify-content: center;">
+    <div class="game-grid" style="display: grid; grid-template-columns: 60px 60px 60px; grid-template-rows: 60px 60px 60px;">
+      <div class="game-grid-item" id="grid-1" style="border: 1px solid black; height: 50px; width: 50px;">1</div>
+      <div class="game-grid-item" id="grid-2" style="border: 1px solid black; height: 50px; width: 50px;">2</div>
+      <div class="game-grid-item" id="grid-3" style="border: 1px solid black; height: 50px; width: 50px;">3</div>
+      <div class="game-grid-item" id="grid-4" style="border: 1px solid black; height: 50px; width: 50px;">4</div>
+      <div class="game-grid-item" id="grid-5" style="border: 1px solid black; height: 50px; width: 50px;">5</div>
+      <div class="game-grid-item" id="grid-6" style="border: 1px solid black; height: 50px; width: 50px;">6</div>
+      <div class="game-grid-item" id="grid-7" style="border: 1px solid black; height: 50px; width: 50px;">7</div>
+      <div class="game-grid-item" id="grid-8" style="border: 1px solid black; height: 50px; width: 50px;">8</div>
+      <div class="game-grid-item" id="grid-9" style="border: 1px solid black; height: 50px; width: 50px;">9</div>
+    </div>
+  </div>
+    <div class="game-log">
+      <p class="game-log-text" id="logs" style="display: block">Logs go here</p>
+    </div>
+  </div>
 
   <script>
     const ws = new WebSocket("ws://localhost:8080");
@@ -18,14 +45,64 @@
 
       document.getElementById("input").addEventListener("keyup", event => {
         if (event.key === "Enter") {
-          console.log(event.target.value)
-          ws.send(event.target.value)
-          ws.send("bar")
+          let inputVal = event.target.value;
+          let inputObj = {
+            id: "input",
+            input: inputVal,
+          }
+          ws.send(JSON.stringify(inputObj))
+          event.target.value = "";
         }
       })
 
+      const gridArray = document.getElementsByClassName("game-grid-item")
+      for(let i = 0; i < gridArray.length; i++) {
+        gridArray[i].addEventListener("click", event => {
+          const id = gridArray[i].getAttribute("id").split("-")[1]
+          let idObj = {
+            grid: Number(id),
+            id: "grid"
+          }
+          ws.send(JSON.stringify(idObj));
+        })
+      }
+
       ws.addEventListener("message", (message) => {
-        console.log(message.data)
+        let msg = JSON.parse(message.data)
+        console.log(msg)
+
+        const logElement = document.getElementById("logs")
+        let currentText = logElement.innerHTML;
+        switch(msg.id) {
+          case "prompt":
+            // currentText = logElement.innerHTML;
+            document.getElementById("prompt").innerHTML = msg.prompt;
+            document.getElementById("logs").innerHTML = msg.prompt + "<br>" + currentText;
+            break;
+          case "log":
+            // currentText = logElement.innerHTML;
+            document.getElementById("logs").innerHTML = msg.log + "<br>" + currentText;
+            break;
+          case "currentPlayer":
+            document.getElementById("current-player").innerHTML = msg.currentPlayer + " turn";
+            break;
+          case "currentPlayerTeam":
+            document.getElementById("current-team").innerHTML = "Team: " + msg.currentPlayerTeam;
+            break;
+        }
+
+        // if (msg.id === "currentPlayer") {
+        //   document.getElementById("current-player").innerHTML = msg.currentPlayer + " turn";
+        // } else if (msg.id === "currentPlayerTeam") {
+        //   console.log(msg)
+        //   document.getElementById("current-team").innerHTML = "Team: " + msg.currentPlayerTeam;
+        // }
+
+        // const logElement = document.getElementById("logs")
+        // let currentText = logElement.innerHTML;
+        // document.getElementById("logs").innerHTML = msg.prompt + "<br>" + currentText;
+
+        // document.getElementById("prompt").innerHTML = msg.prompt;
       })
     })
 

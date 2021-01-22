@@ -13,14 +13,28 @@ wss.on("connection", async (ws) => {
     console.log("Client has disconnected");
   });
 
+  ws.on("message", (message) => {
+    let gridObj = JSON.parse(message);
+    if (gridObj.id === "grid") {
+      console.log(gridObj.grid);
+    }
+  });
+
   // UGLY AF HAX
   const question = (prompt, cb) => {
-    console.log(prompt);
-    ws.send(prompt);
+    let promptObj = {
+      id: "prompt",
+      prompt: prompt,
+    };
+    ws.send(JSON.stringify(promptObj));
+
     ws.onmessage = ({ data }) => {
-      console.log("DATA = " + data);
-      cb(data);
-      ws.onmessage = null;
+      let dataObj = JSON.parse(data);
+      if (dataObj.id === "input") {
+        console.log("DATA = " + dataObj.input);
+        cb(dataObj.input);
+        ws.onmessage = null;
+      }
     };
   };
   rl.question = question;
