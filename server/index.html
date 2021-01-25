@@ -64,7 +64,10 @@
             id: "grid"
           }
           ws.send(JSON.stringify(idObj));
+          gridArray[i].innerHTML = document.getElementById("current-team").innerHTML.split(" ")[1];
+          gridArray[i].setAttribute("style", "pointer-events:none")
         })
+
       }
 
       ws.addEventListener("message", (message) => {
@@ -75,12 +78,10 @@
         let currentText = logElement.innerHTML;
         switch(msg.id) {
           case "prompt":
-            // currentText = logElement.innerHTML;
             document.getElementById("prompt").innerHTML = msg.prompt;
             document.getElementById("logs").innerHTML = msg.prompt + "<br>" + currentText;
             break;
           case "log":
-            // currentText = logElement.innerHTML;
             document.getElementById("logs").innerHTML = msg.log + "<br>" + currentText;
             break;
           case "currentPlayer":
@@ -90,19 +91,6 @@
             document.getElementById("current-team").innerHTML = "Team: " + msg.currentPlayerTeam;
             break;
         }
-
-        // if (msg.id === "currentPlayer") {
-        //   document.getElementById("current-player").innerHTML = msg.currentPlayer + " turn";
-        // } else if (msg.id === "currentPlayerTeam") {
-        //   console.log(msg)
-        //   document.getElementById("current-team").innerHTML = "Team: " + msg.currentPlayerTeam;
-        // }
-
-        // const logElement = document.getElementById("logs")
-        // let currentText = logElement.innerHTML;
-        // document.getElementById("logs").innerHTML = msg.prompt + "<br>" + currentText;
-
-        // document.getElementById("prompt").innerHTML = msg.prompt;
       })
     })
 
