@@ -90,6 +90,11 @@
           case "currentPlayerTeam":
             document.getElementById("current-team").innerHTML = "Team: " + msg.currentPlayerTeam;
             break;
+          case "cpuChoice":
+            let grid = document.getElementById(`grid-${msg.choice}`)
+            grid.innerHTML = msg.team;
+            grid.setAttribute("style", "pointer-events:none")
+            break;
         }
       })
     })
