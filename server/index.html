@@ -47,7 +47,7 @@
         if (event.key === "Enter") {
           let inputVal = event.target.value;
           let inputObj = {
-            id: "input",
+            type: "input",
             input: inputVal,
           }
           ws.send(JSON.stringify(inputObj))
@@ -59,11 +59,11 @@
       for(let i = 0; i < gridArray.length; i++) {
         gridArray[i].addEventListener("click", event => {
           const id = gridArray[i].getAttribute("id").split("-")[1]
-          let idObj = {
+          let gridObj = {
             grid: Number(id),
-            id: "grid"
+            type: "grid"
           }
-          ws.send(JSON.stringify(idObj));
+          ws.send(JSON.stringify(gridObj));
           gridArray[i].innerHTML = document.getElementById("current-team").innerHTML.split(" ")[1];
           gridArray[i].setAttribute("style", "pointer-events:none")
         })
@@ -71,12 +71,14 @@
       }
 
       ws.addEventListener("message", (message) => {
+        // add try/catch block, log msg and error
+        // debugger;
         let msg = JSON.parse(message.data)
         console.log(msg)
 
         const logElement = document.getElementById("logs")
         let currentText = logElement.innerHTML;
-        switch(msg.id) {
+        switch(msg.type) {
           case "prompt":
             document.getElementById("prompt").innerHTML = msg.prompt;
             document.getElementById("logs").innerHTML = msg.prompt + "<br>" + currentText;

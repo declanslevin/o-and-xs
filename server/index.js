@@ -15,7 +15,7 @@ wss.on("connection", async (ws) => {
 
   ws.on("message", (message) => {
     let gridObj = JSON.parse(message);
-    if (gridObj.id === "grid") {
+    if (gridObj.type === "grid") {
       console.log(gridObj.grid);
     }
   });
@@ -23,14 +23,14 @@ wss.on("connection", async (ws) => {
   // UGLY AF HAX
   const question = (prompt, cb) => {
     let promptObj = {
-      id: "prompt",
+      type: "prompt",
       prompt: prompt,
     };
     ws.send(JSON.stringify(promptObj));
 
     ws.onmessage = ({ data }) => {
       let dataObj = JSON.parse(data);
-      if (dataObj.id === "input") {
+      if (dataObj.type === "input") {
         console.log("DATA = " + dataObj.input);
         cb(dataObj.input);
         ws.onmessage = null;
