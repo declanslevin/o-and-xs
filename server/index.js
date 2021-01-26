@@ -14,9 +14,12 @@ wss.on("connection", async (ws) => {
   });
 
   ws.on("message", (message) => {
-    let gridObj = JSON.parse(message);
-    if (gridObj.type === "grid") {
-      console.log(gridObj.grid);
+    let msg = JSON.parse(message);
+    if (msg.type === "grid") {
+      console.log(msg.grid);
+    } else if (msg.type === "prompt") {
+      console.log(msg.players);
+      console.log(msg.team);
     }
   });
 

@@ -3,38 +3,101 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebSockets</title>
+
+  <link rel="stylesheet" href="../css/styles.min.css">
+
+  <title>Tic-tac-toe</title>
 </head>
+<script>
+  const submitForm = () => {
+    const checkNumPlayers = document.getElementById("1-player").checked;
+    const numPlayers = checkNumPlayers ? 1 : 2;
+    const checkTeamChoice = document.getElementById("team-o").checked;
+    const teamChoice = checkTeamChoice ? "O" : "X";
+    let promptObj = {
+      type: "prompt",
+      players: numPlayers,
+      team: teamChoice,
+    }
+    ws.send(JSON.stringify(promptObj));
+    const radioArray = document.getElementsByClassName("prompts-radio");
+    console.log(radioArray)
+    for (let i = 0; i < radioArray.length; i++) {
+      console.log(radioArray[i])
+      radioArray[i].setAttribute("style", "pointer-events: none");
+    }
+  }
+</script>
+
 <body>
-  <h1>WebSockets Test</h1>
-
-
-  <div class="prompts" style="display: flex;">
-    <h3 id="prompt">Prompt appears here</h3>
-    <input id="input"/>
-  </div>
-
-  <div class="game">
-    <div class="game-header" style="display: flex; justify-content: center;">
-      <h2 class="game-header-player" id="current-player" style="margin-right: 50px;">Current Player</h2>
-      <h2 class="game-header-team" id="current-team">Team</h2>
+  <header class="header">
+    <div class="container">
+      <h1>Tic-tac-toe</h1>
     </div>
-    <div class="container" style="display: flex; justify-content: center;">
-    <div class="game-grid" style="display: grid; grid-template-columns: 60px 60px 60px; grid-template-rows: 60px 60px 60px;">
-      <div class="game-grid-item" id="grid-1" style="border: 1px solid black; height: 50px; width: 50px;">1</div>
-      <div class="game-grid-item" id="grid-2" style="border: 1px solid black; height: 50px; width: 50px;">2</div>
-      <div class="game-grid-item" id="grid-3" style="border: 1px solid black; height: 50px; width: 50px;">3</div>
-      <div class="game-grid-item" id="grid-4" style="border: 1px solid black; height: 50px; width: 50px;">4</div>
-      <div class="game-grid-item" id="grid-5" style="border: 1px solid black; height: 50px; width: 50px;">5</div>
-      <div class="game-grid-item" id="grid-6" style="border: 1px solid black; height: 50px; width: 50px;">6</div>
-      <div class="game-grid-item" id="grid-7" style="border: 1px solid black; height: 50px; width: 50px;">7</div>
-      <div class="game-grid-item" id="grid-8" style="border: 1px solid black; height: 50px; width: 50px;">8</div>
-      <div class="game-grid-item" id="grid-9" style="border: 1px solid black; height: 50px; width: 50px;">9</div>
+  </header>
+  <div class="container">
+    <!-- <h2 id="prompt">Prompt appears here</h3>
+      <input id="input"/> -->
+    <div class="game">
+      <div class="prompts">
+        <form class="prompts-form">
+          <div class="prompts-wrapper">
+            <section class="prompts-players">
+              <h2 class="prompts-player-header">Players</h2>
+              <div class="prompts-wrapper-inner">
+                <label class="prompts-radio-label" for="player-num-1">1</label>
+                <input class="prompts-radio" type="radio" id="1-player" name="player-num" value="1-player" checked>
+
+                <label class="prompts-radio-label" for="player-num-2">2</label>
+                <input class="prompts-radio" type="radio" id="2-player" name="player-num" value="2-player">
+              </div>
+            </section>
+            <section class="prompts-team">
+              <h2 class="prompts-team-header">Team</h2>
+              <div class="prompts-wrapper-inner">
+                <label class="prompts-radio-label" for="team-o">O</label>
+                <input class="prompts-radio" type="radio" id="team-o" name="player-team" value="team-o" checked>
+
+                <label class="prompts-radio-label" for="team-x">X</label>
+                <input class="prompts-radio" type="radio" id="team-x" name="player-team" value="team-x">
+              </div>
+            </section>
+          </div>
+          <div class="prompts-submit">
+            <button
+            type="button" class="prompts-form-submit" onClick="submitForm()">Start Game!</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="game-header" style="display: flex; justify-content: center;">
+        <h2 class="game-header-player" id="current-player" style="margin-right: 50px;">Current Player</h2>
+        <h2 class="game-header-team" id="current-team">Team</h2>
+      </div>
+      <div class="game-grid-wrapper">
+        <div class="game-grid">
+          <div class="game-grid-item" id="grid-1">1</div>
+          <div class="game-grid-item" id="grid-2">2</div>
+          <div class="game-grid-item" id="grid-3">3</div>
+          <div class="game-grid-item" id="grid-4">4</div>
+          <div class="game-grid-item" id="grid-5">5</div>
+          <div class="game-grid-item" id="grid-6">6</div>
+          <div class="game-grid-item" id="grid-7">7</div>
+          <div class="game-grid-item" id="grid-8">8</div>
+          <div class="game-grid-item" id="grid-9">9</div>
+        </div>
+      </div>
     </div>
-  </div>
-    <div class="game-log">
-      <p class="game-log-text" id="logs" style="display: block">Logs go here</p>
+
+    <div class="log-wrapper">
+      <div class="log">
+        <h2 class="log-header">Game Logs</h2>
+        <div class="log-text-wrapper">
+          <p class="log-text" id="logs">Logs appear here</p>
+        </div>
+      </div>
     </div>
+
   </div>
 
   <script>
@@ -43,17 +106,17 @@
     ws.addEventListener("open", () => {
       console.log("We are connected!");
 
-      document.getElementById("input").addEventListener("keyup", event => {
-        if (event.key === "Enter") {
-          let inputVal = event.target.value;
-          let inputObj = {
-            type: "input",
-            input: inputVal,
-          }
-          ws.send(JSON.stringify(inputObj))
-          event.target.value = "";
-        }
-      })
+      // document.getElementById("input").addEventListener("keyup", event => {
+      //   if (event.key === "Enter") {
+      //     let inputVal = event.target.value;
+      //     let inputObj = {
+      //       type: "input",
+      //       input: inputVal,
+      //     }
+      //     ws.send(JSON.stringify(inputObj))
+      //     event.target.value = "";
+      //   }
+      // })
 
       const gridArray = document.getElementsByClassName("game-grid-item")
       for(let i = 0; i < gridArray.length; i++) {
@@ -67,7 +130,6 @@
           gridArray[i].innerHTML = document.getElementById("current-team").innerHTML.split(" ")[1];
           gridArray[i].setAttribute("style", "pointer-events:none")
         })
-
       }
 
       ws.addEventListener("message", (message) => {
@@ -79,12 +141,16 @@
         const logElement = document.getElementById("logs")
         let currentText = logElement.innerHTML;
         switch(msg.type) {
-          case "prompt":
-            document.getElementById("prompt").innerHTML = msg.prompt;
-            document.getElementById("logs").innerHTML = msg.prompt + "<br>" + currentText;
-            break;
+          // case "prompt":
+          //   document.getElementById("prompt").innerHTML = msg.prompt;
+          //   document.getElementById("logs").innerHTML = msg.prompt + "<br>" + currentText;
+          //   break;
           case "log":
-            document.getElementById("logs").innerHTML = msg.log + "<br>" + currentText;
+            // document.getElementById("logs").innerHTML = currentText + "<br>" + msg.log;
+            if (currentText === "Logs appear here") {
+              currentText = "";
+            }
+            document.getElementById("logs").innerHTML = currentText + `<p class="log-text">${msg.log}</p>`
             break;
           case "currentPlayer":
             document.getElementById("current-player").innerHTML = msg.currentPlayer + " turn";

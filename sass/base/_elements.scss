@@ -1,0 +1,64 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+// div {
+//   border: 1px solid red;
+// }
+
+.prompts {
+  padding: 20px 0;
+  display: flex;
+  justify-content: center;
+
+  &-wrapper {
+    display: flex;
+    padding: 10px 0;
+    &-inner {
+      padding: 10px;
+    }
+  }
+
+  &-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    section {
+      border: 1px solid black;
+      padding-top: 10px;
+    }
+  }
+
+  &-radio {
+    &-label {
+      font-size: 24px;
+    }
+  }
+
+  &-submit {
+    padding-top: 30px;
+
+    button {
+      padding: 5px 10px;
+      font-family: inherit;
+    }
+  }
+
+  &-players {
+    margin-right: 50px;
+  }
+
+  &-players,
+  &-team {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+.active {
+  background-color: lightgrey;
+}
