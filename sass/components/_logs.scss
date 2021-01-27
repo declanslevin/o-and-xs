@@ -14,11 +14,10 @@
   &-text {
     padding: 10px;
 
-    &-wrapper {
+    &-container {
       width: 100%;
       height: 500px;
       display: flex;
-      flex-direction: column-reverse;
       overflow: scroll;
       color: limegreen;
       background-color: black;

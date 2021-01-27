@@ -1,6 +1,7 @@
 .game {
   display: flex;
   flex-direction: column;
+  align-items: center;
 
   &-header {
     padding: 20px 0;
@@ -12,11 +13,13 @@
     grid-template-rows: repeat(3, 1fr);
     grid-column-gap: 5px;
     grid-row-gap: 5px;
-    background-color: black;
+    background-color: darkgray;
 
     &-wrapper {
       display: flex;
       justify-content: center;
+      position: relative;
+      width: fit-content;
     }
 
     &-item {
@@ -29,6 +32,21 @@
       background-color: white;
       cursor: pointer;
       font-size: 40px;
+
+      &:hover {
+        background-color: lightgrey;
+      }
     }
+  }
+
+  &-over {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(169, 169, 169, 0.9);
   }
 }

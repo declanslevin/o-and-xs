@@ -20,6 +20,8 @@ wss.on("connection", async (ws) => {
     } else if (msg.type === "prompt") {
       console.log(msg.players);
       console.log(msg.team);
+    } else if (msg.type === "playAgain") {
+      console.log("PLAYAGAIN = " + msg.val);
     }
   });
 
@@ -36,6 +38,9 @@ wss.on("connection", async (ws) => {
       if (dataObj.type === "input") {
         console.log("DATA = " + dataObj.input);
         cb(dataObj.input);
+        ws.onmessage = null;
+      } else if (dataObj.type === "playAgain") {
+        cb(dataObj.val);
         ws.onmessage = null;
       }
     };
