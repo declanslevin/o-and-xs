@@ -7,15 +7,14 @@ on:
     branches: [master]
 
 jobs:
-  build_css:
+  compile_css:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Sass Build
-        uses: gha-utilities/sass-build@v0.3.4
+      - name: Scss compile
+        uses: actions/checkout@v2
         with:
-          source: ~/scss/styles.scss
-          destination: ~/css/styles.min.css
+          cmd: sass-compile
 #       - name: Checkout source Git branch
 #         uses: actions/checkout@v2
 #         with:
