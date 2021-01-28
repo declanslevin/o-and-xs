@@ -157,7 +157,7 @@
           const id = gridArray[i].getAttribute("id").split("-")[1]
           let gridObj = {
             grid: Number(id),
-            type: "grid"
+            type: "grid",
           }
           ws.send(JSON.stringify(gridObj));
           gridArray[i].innerHTML = document.getElementById("current-team").innerHTML.split(" ")[1];

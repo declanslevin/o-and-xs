@@ -16,12 +16,15 @@ wss.on("connection", async (ws) => {
   ws.on("message", (message) => {
     let msg = JSON.parse(message);
     if (msg.type === "grid") {
-      console.log(msg.grid);
+      console.log(`User choice made (${msg.grid})`);
     } else if (msg.type === "prompt") {
-      console.log(msg.players);
-      console.log(msg.team);
+      const log =
+        msg.players === true
+          ? `Game started with 1 human player. They chose team ${msg.team}.`
+          : `Game started with 2 human players. Player 1 chose ${msg.team}.`;
+      console.log(log);
     } else if (msg.type === "playAgain") {
-      console.log("PLAYAGAIN = " + msg.val);
+      console.log("User(s) decided to play again");
     }
   });
 
@@ -49,19 +52,3 @@ wss.on("connection", async (ws) => {
 
   await runPlayLoop(ws);
 });
-
-// var http = require('http');
-// var fs = require('fs');
-
-// const PORT=8080;
-
-// fs.readFile('./index.html', (err, html) => {
-
-//     if (err) throw err;
-
-//     http.createServer(function(request, response) {
-//         response.writeHeader(200, {"Content-Type": "text/html"});
-//         response.write(html);
-//         response.end();
-//     }).listen(PORT);
-// });
