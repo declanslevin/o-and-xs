@@ -14,8 +14,10 @@
   "scripts": {
     "test": "jest",
     "play": "scripts/play.sh",
-    "sass-compile": "sass scss/styles.scss css/styles.min.css -s compressed",
-    "sass-watch": "sass scss/styles.scss css/styles.min.css -s compressed --watch"
+    "server": "scripts/server.sh",
+    "server:watch": "scripts/server-watch.sh",
+    "sass:compile": "sass scss/styles.scss css/styles.min.css -s compressed",
+    "sass:watch": "sass scss/styles.scss css/styles.min.css -s compressed --watch"
   },
   "devDependencies": {
     "jest": "^26.6.3"
