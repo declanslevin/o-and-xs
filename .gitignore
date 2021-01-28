@@ -1,2 +1,4 @@
 /node_modules
 .DS_store
+/css/styles.min.css
+/css/styles.min.css.map
