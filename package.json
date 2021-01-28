@@ -14,6 +14,7 @@
   "scripts": {
     "test": "jest",
     "play": "scripts/play.sh",
+    "play:browser": "scripts/play-browser.sh",
     "server": "scripts/server.sh",
     "server:watch": "scripts/server-watch.sh",
     "sass:compile": "sass scss/styles.scss css/styles.min.css -s compressed",

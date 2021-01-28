@@ -1,27 +1,33 @@
 # Command Line
 
-To run, from /src/ execute `node main.js`.
+To play the game on the command line: `yarn play`.
 
-To test, from /lib/ execute `yarn test`.
+To run tests: `yarn test`.
 Run specific tests with `yarn test <test name>`.
 
 # Browser
 
+To play the game in a browser: `yarn play:browser`.
+
 Compile SASS:
 
-- `yarn sass-compile`
+- `yarn sass:compile`
   Watch SASS:
-- `yarn sass-watch`
+- `yarn sass:watch`
 
 Run the server:
 
+- `yarn server`
+  OR
 - cd into /server/
 - execute `node index.js`
 
 To run the server with live updating:
 
+- `yarn server:watch`
+  OR
 - install watchexec if you don't already have it `brew install watchexec`
 - run `watchexec --restart --watch index.js -- node index.js`
 
-Run the frontend:
+If you want live updating in the frontend:
 `npx live-server`
