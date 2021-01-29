@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="../../css/styles.min.css">
+  <script type="text/javascript" src="./index.js"></script>
+  <script type="text/javascript" src="./server.js"></script>
+
+  <title>Tic-tac-toe</title>
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <h1>Tic-tac-toe</h1>
+    </div>
+  </header>
+  <div class="container">
+    <div class="game">
+      <div class="prompts">
+        <form class="prompts-form">
+          <div class="prompts-wrapper">
+            <section class="prompts-players">
+              <h2 class="prompts-player-header">Players</h2>
+              <div class="prompts-wrapper-inner">
+                <label class="prompts-radio-label" for="player-num-1">1</label>
+                <input class="prompts-radio" type="radio" id="1-player" name="player-num" value="1-player" checked>
+
+                <label class="prompts-radio-label" for="player-num-2">2</label>
+                <input class="prompts-radio" type="radio" id="2-player" name="player-num" value="2-player">
+              </div>
+            </section>
+            <section class="prompts-team">
+              <h2 class="prompts-team-header">Team</h2>
+              <div class="prompts-wrapper-inner">
+                <label class="prompts-radio-label" for="team-o">O</label>
+                <input class="prompts-radio" type="radio" id="team-o" name="player-team" value="team-o" checked>
+
+                <label class="prompts-radio-label" for="team-x">X</label>
+                <input class="prompts-radio" type="radio" id="team-x" name="player-team" value="team-x">
+              </div>
+            </section>
+          </div>
+          <div class="prompts-submit">
+            <button
+            type="button" class="prompts-form-submit" onClick="startGame()">Start Game!</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="game-header" style="display: flex; justify-content: center;">
+        <h2 class="game-header-player" id="current-player" style="margin-right: 50px;">Current Player</h2>
+        <h2 class="game-header-team" id="current-team">Team</h2>
+      </div>
+      <div class="game-grid-wrapper">
+        <div class="game-grid disabled" id="game-grid">
+          <div class="game-grid-item" id="grid-1">1</div>
+          <div class="game-grid-item" id="grid-2">2</div>
+          <div class="game-grid-item" id="grid-3">3</div>
+          <div class="game-grid-item" id="grid-4">4</div>
+          <div class="game-grid-item" id="grid-5">5</div>
+          <div class="game-grid-item" id="grid-6">6</div>
+          <div class="game-grid-item" id="grid-7">7</div>
+          <div class="game-grid-item" id="grid-8">8</div>
+          <div class="game-grid-item" id="grid-9">9</div>
+        </div>
+        <div class="game-over hidden" id="game-over">
+          <h2 class="game-over-header">GAME OVER</h2>
+          <h3 class="game-over-winner" id="game-winner">Someone won!</h3>
+          <button type="button" onClick="playAgain()">Play Again?</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="log-wrapper">
+      <div class="log">
+        <h2 class="log-header">Game Logs</h2>
+        <div class="log-text-container" id="log-container">
+          <p class="log-text" id="logs">Logs appear here</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
