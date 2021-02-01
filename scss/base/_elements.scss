@@ -4,17 +4,28 @@
   box-sizing: border-box;
 }
 
-// div {
-//   border: 1px solid red;
-// }
+.game-header {
+  display: flex;
+  justify-content: center;
+
+  &-player {
+    margin-right: 50px;
+  }
+}
 
 .prompts {
   padding: 20px 0;
   display: flex;
   justify-content: center;
+  position: absolute;
+  background-color: rgba(169, 169, 169, 0.9);
+  height: 100%;
+  width: 100%;
 
   &-wrapper {
     display: flex;
+    justify-content: space-around;
+    width: 100%;
     padding: 10px 0;
     &-inner {
       padding: 10px;
@@ -24,7 +35,9 @@
   &-form {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
+    width: 100%;
 
     section {
       border: 1px solid black;
@@ -48,21 +61,14 @@
     }
   }
 
-  &-players {
-    margin-right: 50px;
-  }
-
   &-players,
   &-team {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: lightgray;
   }
 }
-
-// .active {
-//   background-color: lightgrey;
-// }
 
 .hidden {
   visibility: hidden;

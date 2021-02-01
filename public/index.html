@@ -18,42 +18,45 @@
   </header>
   <div class="container">
     <div class="game">
-      <div class="prompts">
-        <form class="prompts-form">
-          <div class="prompts-wrapper">
-            <section class="prompts-players">
-              <h2 class="prompts-player-header">Players</h2>
-              <div class="prompts-wrapper-inner">
-                <label class="prompts-radio-label" for="player-num-1">1</label>
-                <input class="prompts-radio" type="radio" id="1-player" name="player-num" value="1-player" checked>
 
-                <label class="prompts-radio-label" for="player-num-2">2</label>
-                <input class="prompts-radio" type="radio" id="2-player" name="player-num" value="2-player">
-              </div>
-            </section>
-            <section class="prompts-team">
-              <h2 class="prompts-team-header">Team</h2>
-              <div class="prompts-wrapper-inner">
-                <label class="prompts-radio-label" for="team-o">O</label>
-                <input class="prompts-radio" type="radio" id="team-o" name="player-team" value="team-o" checked>
 
-                <label class="prompts-radio-label" for="team-x">X</label>
-                <input class="prompts-radio" type="radio" id="team-x" name="player-team" value="team-x">
-              </div>
-            </section>
-          </div>
-          <div class="prompts-submit">
-            <button
-            type="button" class="prompts-form-submit" onClick="startGame()">Start Game!</button>
-          </div>
-        </form>
-      </div>
-
-      <div class="game-header" style="display: flex; justify-content: center;">
-        <h2 class="game-header-player" id="current-player" style="margin-right: 50px;">Current Player</h2>
+      <div class="game-header">
+        <h2 class="game-header-player" id="current-player">Current Player</h2>
         <h2 class="game-header-team" id="current-team">Team</h2>
       </div>
       <div class="game-grid-wrapper">
+
+        <div class="prompts" id="prompts">
+          <form class="prompts-form">
+            <div class="prompts-wrapper">
+              <section class="prompts-players">
+                <h2 class="prompts-player-header">Players</h2>
+                <div class="prompts-wrapper-inner">
+                  <label class="prompts-radio-label" for="player-num-1">1</label>
+                  <input class="prompts-radio" type="radio" id="1-player" name="player-num" value="1-player" checked>
+
+                  <label class="prompts-radio-label" for="player-num-2">2</label>
+                  <input class="prompts-radio" type="radio" id="2-player" name="player-num" value="2-player">
+                </div>
+              </section>
+              <section class="prompts-team">
+                <h2 class="prompts-team-header">Team</h2>
+                <div class="prompts-wrapper-inner">
+                  <label class="prompts-radio-label" for="team-o">O</label>
+                  <input class="prompts-radio" type="radio" id="team-o" name="player-team" value="team-o" checked>
+
+                  <label class="prompts-radio-label" for="team-x">X</label>
+                  <input class="prompts-radio" type="radio" id="team-x" name="player-team" value="team-x">
+                </div>
+              </section>
+            </div>
+            <div class="prompts-submit">
+              <button
+              type="button" class="prompts-form-submit" onClick="startGame()">Start Game!</button>
+            </div>
+          </form>
+        </div>
+
         <div class="game-grid disabled" id="game-grid">
           <div class="game-grid-item" id="grid-1">1</div>
           <div class="game-grid-item" id="grid-2">2</div>
@@ -82,5 +85,41 @@
       </div>
     </div>
   </div>
+
+
 </body>
+<script>
+//   try {
+// const ws = new WebSocket("ws://localhost:8080");
+// } catch (err) {
+// console.log(err);
+// console.log(
+//   "Could not connect to websocket. Is the server running? (Try 'yarn server')"
+// );
+// }
+
+// const ws = try {
+//   new WebSocket("ws://localhost:8080");
+// } catch(err) {
+//   console.log(err);
+//   console.log("Could not connect to websocket. Is the server running? (Try 'yarn server')")
+// }
+  let ws;
+  try {
+    ws = new WebSocket("ws://localhost:8080");
+  } catch(err) {
+    console.log(err);
+    console.log("Could not connect to websocket. Is the server running? (Try 'yarn server')")
+  }
+
+  ws.addEventListener("open", () => {
+    console.log("We are connected!");
+
+    gridBehaviour();
+
+    ws.addEventListener("message", (message) => {
+      handleMessage(message);
+    });
+  });
+</script>
 </html>
