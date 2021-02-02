@@ -14,9 +14,17 @@ wss.on("connection", async (ws) => {
   });
 
   ws.on("message", (message) => {
-    let gridObj = JSON.parse(message);
-    if (gridObj.type === "grid") {
-      console.log(gridObj.grid);
+    let msg = JSON.parse(message);
+    if (msg.type === "grid") {
+      console.log(`User choice made (${msg.grid})`);
+    } else if (msg.type === "prompt") {
+      const log =
+        msg.players === true
+          ? `Game started with 1 human player. They chose team ${msg.team}.`
+          : `Game started with 2 human players. Player 1 chose ${msg.team}.`;
+      console.log(log);
+    } else if (msg.type === "playAgain") {
+      console.log("User(s) decided to play again");
     }
   });
 
@@ -33,6 +41,9 @@ wss.on("connection", async (ws) => {
       if (dataObj.type === "input") {
         console.log("DATA = " + dataObj.input);
         cb(dataObj.input);
+        ws.onmessage = null;
+      } else if (dataObj.type === "playAgain") {
+        cb(dataObj.val);
         ws.onmessage = null;
       }
     };
