@@ -17,7 +17,7 @@
     "play:browser": "scripts/play-browser.sh",
     "server": "scripts/server.sh",
     "server:watch": "scripts/server-watch.sh",
-    "sass:compile": "sass scss/styles.scss css/styles.min.css -s compressed",
+    "sass:compile": "sass scss/styles.scss public/css/styles.min.css -s compressed",
     "sass:watch": "sass scss/styles.scss css/styles.min.css -s compressed --watch"
   },
   "devDependencies": {
