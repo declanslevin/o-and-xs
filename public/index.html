@@ -87,28 +87,21 @@
 
 </body>
 <script>
-//   try {
-// const ws = new WebSocket("ws://localhost:8080");
-// } catch (err) {
-// console.log(err);
-// console.log(
-//   "Could not connect to websocket. Is the server running? (Try 'yarn server')"
-// );
-// }
 
-// const ws = try {
-//   new WebSocket("ws://localhost:8080");
-// } catch(err) {
-//   console.log(err);
-//   console.log("Could not connect to websocket. Is the server running? (Try 'yarn server')")
-// }
-  let ws;
-  try {
-    ws = new WebSocket("ws://localhost:8080");
-  } catch(err) {
-    console.log(err);
-    console.log("Could not connect to websocket. Is the server running? (Try 'yarn server')")
-  }
+  // add ticket to add retry logic
+  // ? kill server and reconnect to games already running (database?)
+  const ws = new WebSocket("ws://localhost:8080");
+  ws.addEventListener("error", (err) => {
+    // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
+    // 3	CLOSED	The connection is closed or couldn't be opened.
+    if (err.currentTarget.readyState === 3) {
+      console.log("run your server dummy")
+      const logElement = document.getElementById("logs");
+      let currentText = logElement.innerHTML;
+      logElement.innerHTML = "Check your server is running (try 'yarn server')"
+    }
+    console.log(err)
+  })
 
   ws.addEventListener("open", () => {
     console.log("We are connected!");
