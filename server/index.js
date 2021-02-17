@@ -28,27 +28,5 @@ wss.on("connection", async (ws) => {
     }
   });
 
-  // UGLY AF HAX
-  const question = (prompt, cb) => {
-    let promptObj = {
-      type: "prompt",
-      prompt: prompt,
-    };
-    ws.send(JSON.stringify(promptObj));
-
-    ws.onmessage = ({ data }) => {
-      let dataObj = JSON.parse(data);
-      if (dataObj.type === "input") {
-        console.log("DATA = " + dataObj.input);
-        cb(dataObj.input);
-        ws.onmessage = null;
-      } else if (dataObj.type === "playAgain") {
-        cb(dataObj.val);
-        ws.onmessage = null;
-      }
-    };
-  };
-  rl.question = question;
-
   await runPlayLoop(ws);
 });
