@@ -13,18 +13,35 @@ const removeClass = (element, classToRemove) => {
   element.setAttribute("class", removedClass);
 };
 
-const startGame = () => {
-  const checkNumPlayers = document.getElementById("1-player").checked;
-  // const numPlayers = checkNumPlayers ? 1 : 2;
-  const numPlayers = checkNumPlayers ? true : false;
-  const checkTeamChoice = document.getElementById("team-o").checked;
-  const teamChoice = checkTeamChoice ? "O" : "X";
-  let promptObj = {
-    type: "prompt",
-    players: numPlayers,
-    team: teamChoice,
+const gameMode = () => {
+  const modeArray = document.getElementsByClassName("mode");
+  let checkedMode;
+  for (let i = 0; i < modeArray.length; i++) {
+    if (modeArray[i].checked) {
+      checkedMode = modeArray[i].getAttribute("id").split("-")[1];
+    }
+  }
+  console.log(checkedMode);
+  let modeObj = {
+    type: "mode",
+    mode: checkedMode,
   };
-  ws.send(JSON.stringify(promptObj));
+  ws.send(JSON.stringify(modeObj));
+};
+
+const startGame = () => {
+  // const checkNumPlayers = document.getElementById("1-player").checked;
+  // // const numPlayers = checkNumPlayers ? 1 : 2;
+  // const numPlayers = checkNumPlayers ? true : false;
+  // const checkTeamChoice = document.getElementById("team-o").checked;
+  // const teamChoice = checkTeamChoice ? "O" : "X";
+  // let promptObj = {
+  //   type: "prompt",
+  //   players: numPlayers,
+  //   team: teamChoice,
+  // };
+  // ws.send(JSON.stringify(promptObj));
+  gameMode();
 
   const promptElement = document.getElementById("prompts");
   addClass(promptElement, "hidden");

@@ -26,14 +26,6 @@ const handleMessage = (message) => {
         "Turn: " + msg.player.name;
       document.getElementById("current-team").innerHTML = "Team: " + msg.team;
       break;
-    // case "currentPlayer":
-    //   document.getElementById("current-player").innerHTML =
-    //     "Turn: " + msg.currentPlayer;
-    //   break;
-    // case "currentPlayerTeam":
-    //   document.getElementById("current-team").innerHTML =
-    //     "Team: " + msg.currentPlayerTeam;
-    //   break;
     case "cpuChoice":
       let grid = document.getElementById(`grid-${msg.choice}`);
       grid.innerHTML = msg.team;

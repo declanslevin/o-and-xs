@@ -1,7 +1,7 @@
-// const { createWebSocketConnection } = require("./webSocket");
 const WebSocket = require("ws");
 const rl = require("../lib/rl");
 const { runPlayLoop } = require("../lib/play");
+const { HumanPlayer } = require("../lib/player");
 
 console.log("*****************");
 console.log("STARTING");
@@ -15,6 +15,7 @@ wss.on("connection", async (ws) => {
 
   ws.on("message", (message) => {
     let msg = JSON.parse(message);
+    console.log(msg);
     if (msg.type === "grid") {
       console.log(`User choice made (${msg.grid})`);
     } else if (msg.type === "prompt") {
@@ -25,15 +26,12 @@ wss.on("connection", async (ws) => {
       console.log(log);
     } else if (msg.type === "playAgain") {
       console.log("User(s) decided to play again");
+    } else if (msg.type === "mode") {
+      console.log("Game mode = " + msg.mode);
     }
   });
 
-  await runPlayLoop(ws);
+  const player = new HumanPlayer(ws);
+
+  await runPlayLoop(player);
 });
-
-// const play = async () => {
-//   const ws = createWebSocketConnection();
-//   await runPlayLoop(ws);
-// };
-
-// play();
