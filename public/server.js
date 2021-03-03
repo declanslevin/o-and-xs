@@ -21,13 +21,17 @@ const handleMessage = (message) => {
         currentText + `<p class="log-text">${msg.log}</p>`;
       updateScroll();
       break;
-    case "player":
+    case "currentPlayer":
       document.getElementById("current-player").innerHTML =
         "Turn: " + msg.player.name;
       document.getElementById("current-team").innerHTML = "Team: " + msg.team;
       break;
-    case "cpuChoice":
+    case "playerChoice":
       let grid = document.getElementById(`grid-${msg.choice}`);
+      grid.innerHTML = msg.team;
+      grid.setAttribute("style", "pointer-events:none");
+    case "cpuChoice":
+      grid = document.getElementById(`grid-${msg.choice}`);
       grid.innerHTML = msg.team;
       grid.setAttribute("style", "pointer-events:none");
       break;

@@ -7,10 +7,12 @@
 
 const { runPlayLoop } = require("../lib/play");
 const { HumanPlayer } = require("../lib/player");
+const { Lobby } = require("../lib/lobby");
 
+const lobby = new Lobby();
 const player = new HumanPlayer();
 
-runPlayLoop(player);
+runPlayLoop(lobby, player);
 
 // Launched from Console
 // Prompt for vs CPU / Local 2 Player / Online 2 Player
