@@ -36,11 +36,11 @@ runPlayLoop(lobby, player);
 // Create WebSocket
 
 // Online 2 Player:
-// Start Server, create Store
+// Start Server, create Game
 // Create HumanPlayer with WebSocket
-// Set name to Player 1, add to Store
+// Set name to Player 1, add to Game
 // Create HumanPlayer with WebSocket
-// Set name to Player 2, add to Store
+// Set name to Player 2, add to Game
 // Server communicates back that both players have connected
 // Whoever got Player 1 gets to pick team
 // Player 2 gets message "waiting for player 1 to choose their team"

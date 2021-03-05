@@ -116,6 +116,7 @@
     gridBehaviour();
 
     ws.addEventListener("message", (message) => {
+      console.log(message)
       handleMessage(message);
     });
   });
