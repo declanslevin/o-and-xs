@@ -19,7 +19,9 @@ wss.on("connection", async (ws) => {
   });
 
   ws.on("message", (message) => {
+    console.log(message);
     let msg = JSON.parse(message);
+    console.log(msg);
     if (msg.type === "grid") {
       console.log(`DEBUG User choice made (${msg.grid})`);
     } else if (msg.type === "prompt") {
@@ -34,7 +36,7 @@ wss.on("connection", async (ws) => {
   });
 
   playerCount++;
-  const player = new HumanPlayer(`${playerCount}`, true, ws);
+  const player = new HumanPlayer(`Player ${playerCount}`, true, ws);
 
   await runPlayLoop(lobby, player);
 });

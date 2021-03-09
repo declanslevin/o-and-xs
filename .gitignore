@@ -2,3 +2,4 @@
 .DS_store
 public/css/styles.min.css
 public/css/styles.min.css.map
+.vscode/
