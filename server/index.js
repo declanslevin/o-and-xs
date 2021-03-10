@@ -1,6 +1,4 @@
-// const { createWebSocketConnection } = require("./webSocket");
 const WebSocket = require("ws");
-const rl = require("../lib/rl");
 const { runPlayLoop } = require("../lib/play");
 const { Lobby } = require("../lib/lobby");
 const { HumanPlayer } = require("../lib/player");
@@ -40,10 +38,3 @@ wss.on("connection", async (ws) => {
 
   await runPlayLoop(lobby, player);
 });
-
-// const play = async () => {
-//   const ws = createWebSocketConnection();
-//   await runPlayLoop(ws);
-// };
-
-// play();

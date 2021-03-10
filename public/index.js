@@ -21,7 +21,6 @@ const gameMode = () => {
       checkedMode = modeArray[i].getAttribute("id").split("-")[1];
     }
   }
-  console.log(checkedMode);
   let modeObj = {
     type: "mode",
     mode: checkedMode,
