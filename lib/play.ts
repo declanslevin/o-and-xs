@@ -1,24 +1,26 @@
 import { checkForGameOver, waitForGameOver } from "./checkWin";
 import { playAgain } from "./playAgain";
 import Game from "./game";
-import { HumanPlayer, CpuPlayer } from "./player";
+import { Player, HumanPlayer, CpuPlayer } from "./player";
+import Lobby from "./lobby";
 
-const playerTurn = async (game: any, player: any) => {
+const playerTurn = async (game: Game, player: Player): Promise<void> => {
   const choice = await player.getGridChoice(game);
   player.setGridChoice(game, choice);
 };
 
-const makeTurn = async (game: any) => {
+const makeTurn = async (game: Game): Promise<void> => {
   const player = game.players[game.nextPlayer];
   player.logGrid(game);
   await playerTurn(game, player);
   game.setNextPlayer();
 };
 
-const receiveGameModeChoice = async (player: any) => {
+const receiveGameModeChoice = async (player: HumanPlayer): Promise<string> => {
   return new Promise((resolve) => {
-    player.ws.on("message", (message: any) => {
+    player.ws.on("message", (message: string) => {
       let msg = JSON.parse(message);
+      // TODO: Message validation
       if (msg.type === "mode") {
         return resolve(msg.mode);
       }
@@ -26,7 +28,7 @@ const receiveGameModeChoice = async (player: any) => {
   });
 };
 
-const play = async (game: any, players?: any) => {
+const play = async (game: Game, players?: Player[]): Promise<void> => {
   if (players) {
     await game.setPlayers(players);
     game.setPlayOrder();
@@ -42,7 +44,10 @@ const play = async (game: any, players?: any) => {
   }
 };
 
-const runPlayLoop = async (lobby: any, player: any) => {
+const runPlayLoop = async (
+  lobby: Lobby,
+  player: HumanPlayer
+): Promise<void> => {
   console.log("Starting runPlayLoop");
   let playAgainResult = true;
   while (playAgainResult) {
@@ -52,11 +57,11 @@ const runPlayLoop = async (lobby: any, player: any) => {
       const game = new Game();
       lobby.addGame(game);
       await play(game, players);
-    } else if (mode === "local") {
-      const players = [player, new HumanPlayer("Player 2")];
-      const game = new Game();
-      lobby.addGame(game);
-      await play(game, players);
+      // } else if (mode === "local") {
+      //   const players = [player, new HumanPlayer("Player 2")];
+      //   const game = new Game();
+      //   lobby.addGame(game);
+      //   await play(game, players);
     } else if (mode === "online") {
       lobby.addAsWaitingPlayer(player);
       let players = await lobby.waitForOpponent(player);
@@ -72,7 +77,7 @@ const runPlayLoop = async (lobby: any, player: any) => {
     playAgainResult = await playAgain(player);
     if (!playAgainResult) {
       player.log("Thank you for playing!");
-      return null;
+      return;
       // process.exit(0);
     }
   }

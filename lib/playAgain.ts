@@ -18,7 +18,7 @@ const isValidPlayAgainAnswer = (player: any, answer: any) => {
   }
 };
 
-const playAgain = async (player: any) => {
+const playAgain = async (player: any): Promise<boolean> => {
   while (true) {
     let answer = await recievePlayAgainChoice(player);
     if (isValidPlayAgainAnswer(player, answer)) {

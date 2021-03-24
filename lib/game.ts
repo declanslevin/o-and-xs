@@ -49,7 +49,7 @@ class Game {
     this.mode = mode;
   }
   // FIXUP - added a test parameter to facilitate testing in short term
-  setPlayOrder(test: any) {
+  setPlayOrder(test?: any) {
     let team;
     if (test) {
       team = test;
@@ -67,7 +67,7 @@ class Game {
     player.sendThisPlayerToBrowser(this);
   }
   // FIXUP - added a test parameter to facilitate testing in short term
-  async setPlayers(players: any, test: any) {
+  async setPlayers(players: any, test?: any) {
     let teams;
     if (test) {
       teams = test;
@@ -77,7 +77,7 @@ class Game {
     this.setPlayer(players[0], teams[0]);
     this.setPlayer(players[1], teams[1]);
   }
-  setNextPlayer(player: any) {
+  setNextPlayer(player?: any) {
     if (player) {
       this.nextPlayer = player;
     } else {

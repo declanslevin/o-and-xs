@@ -42,3 +42,5 @@ TODO:
 - [ ] Remove the older versions of node from github workflow
 
 - [ ] Add types for Classes (replace Any types)
+- [ ] JSON Schema
+- [ ] Make choice an enumerable

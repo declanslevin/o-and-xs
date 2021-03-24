@@ -34,7 +34,7 @@ wss.on("connection", async (ws) => {
   });
 
   playerCount++;
-  const player = new HumanPlayer(`Player ${playerCount}`, true, ws);
+  const player = new HumanPlayer(`Player ${playerCount}`, ws);
 
   await runPlayLoop(lobby, player);
 });
