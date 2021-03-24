@@ -1,4 +1,3 @@
-// @ts-ignore
 import { sleep } from "./helpers";
 
 class Lobby {
