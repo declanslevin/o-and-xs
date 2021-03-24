@@ -1,6 +1,6 @@
-const { sleep } = require("./helpers");
+import { sleep } from "./helpers";
 
-const mapGridValues = (game) => {
+const mapGridValues = (game: any) => {
   let gridArray = [
     [1, 2, 3],
     [4, 5, 6],
@@ -21,9 +21,9 @@ const mapGridValues = (game) => {
   });
 };
 
-const checkMappedGridForWin = async (game, array) => {
+const checkMappedGridForWin = async (game: any, array: any) => {
   let winner = false;
-  array.map((result) => {
+  array.map((result: any) => {
     if (result === "XXX" || result === "OOO") {
       winner = result.split("")[0];
       game.setWinner(winner);
@@ -32,7 +32,7 @@ const checkMappedGridForWin = async (game, array) => {
   return winner;
 };
 
-const checkForDraw = async (game) => {
+const checkForDraw = async (game: any) => {
   if (!game.winner && game.choices.length === 9) {
     game.setWinner("draw");
     return true;
@@ -41,12 +41,12 @@ const checkForDraw = async (game) => {
   }
 };
 
-const checkForWin = async (game) => {
+const checkForWin = async (game: any) => {
   let winner = await checkMappedGridForWin(game, mapGridValues(game));
   return Boolean(winner);
 };
 
-const logGameOver = async (game, win, draw) => {
+const logGameOver = async (game: any, win: any, draw: any) => {
   if (win || draw) {
     let log;
     let gameOverObj;
@@ -69,14 +69,14 @@ const logGameOver = async (game, win, draw) => {
   }
 };
 
-const checkForGameOver = async (game) => {
+const checkForGameOver = async (game: any) => {
   const win = await checkForWin(game);
   const draw = await checkForDraw(game);
   await logGameOver(game, win, draw);
   return win || draw;
 };
 
-const waitForGameOver = async (game) => {
+const waitForGameOver = async (game: any) => {
   let check = await checkForGameOver(game);
   while (!check) {
     await sleep(1000);
@@ -84,9 +84,11 @@ const waitForGameOver = async (game) => {
   }
 };
 
-exports.mapGridValues = mapGridValues;
-exports.checkMappedGridForWin = checkMappedGridForWin;
-exports.checkForDraw = checkForDraw;
-exports.checkForWin = checkForWin;
-exports.checkForGameOver = checkForGameOver;
-exports.waitForGameOver = waitForGameOver;
+export {
+  mapGridValues,
+  checkMappedGridForWin,
+  checkForDraw,
+  checkForWin,
+  checkForGameOver,
+  waitForGameOver,
+};
