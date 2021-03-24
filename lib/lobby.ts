@@ -1,27 +1,31 @@
-const { sleep } = require("./helpers");
+// @ts-ignore
+import { sleep } from "./helpers";
 
 class Lobby {
+  // TODO
+  waitingPlayers: any[];
+  games: Set<any>;
   constructor(waitingPlayers = [], games = new Set()) {
     this.waitingPlayers = waitingPlayers;
     this.games = games;
   }
-  addGame(game) {
+  addGame(game: any) {
     this.games.add(game);
   }
-  addAsWaitingPlayer(player) {
+  addAsWaitingPlayer(player: any) {
     if (!this.waitingPlayers.includes(player)) {
       player.log("Adding you to the lobby");
       this.waitingPlayers.push(player);
     }
   }
-  getGameFromPlayer(player) {
+  getGameFromPlayer(player: any) {
     for (let game of this.games) {
       if (Object.values(game.players).includes(player)) {
         return game;
       }
     }
   }
-  matchPlayers(player) {
+  matchPlayers(player: any) {
     if (this.waitingPlayers.length > 1) {
       const player1 = this.waitingPlayers.pop();
       const player2 = this.waitingPlayers.pop();
@@ -31,7 +35,7 @@ class Lobby {
     }
   }
 
-  async waitForOpponent(player) {
+  async waitForOpponent(player: any) {
     let loopCount = 0;
     while (true) {
       let matchedPlayers = this.matchPlayers(player);
