@@ -1,4 +1,11 @@
 class Game {
+  // TODO
+  grid: any;
+  players: any;
+  nextPlayer: any;
+  choices: any;
+  winner: any;
+  mode: any;
   constructor(
     grid = {
       1: 1,
@@ -27,7 +34,7 @@ class Game {
     this.winner = winner;
     this.mode = mode;
   }
-  getPlayerName(player) {
+  getPlayerName(player: any) {
     return this.players[player].name;
   }
   getNextPlayerName() {
@@ -38,11 +45,11 @@ class Game {
     const player2 = player1 === "O" ? "X" : "O";
     return [player1, player2];
   }
-  setMode(mode) {
+  setMode(mode: any) {
     this.mode = mode;
   }
   // FIXUP - added a test parameter to facilitate testing in short term
-  setPlayOrder(test) {
+  setPlayOrder(test: any) {
     let team;
     if (test) {
       team = test;
@@ -55,12 +62,12 @@ class Game {
       name === "You" ? `${name} get to go first!` : `${name} gets to go first!`;
     this.log(log);
   }
-  setPlayer(player, team) {
+  setPlayer(player: any, team: any) {
     this.players[team] = player;
     player.sendThisPlayerToBrowser(this);
   }
   // FIXUP - added a test parameter to facilitate testing in short term
-  async setPlayers(players, test) {
+  async setPlayers(players: any, test: any) {
     let teams;
     if (test) {
       teams = test;
@@ -70,7 +77,7 @@ class Game {
     this.setPlayer(players[0], teams[0]);
     this.setPlayer(players[1], teams[1]);
   }
-  setNextPlayer(player) {
+  setNextPlayer(player: any) {
     if (player) {
       this.nextPlayer = player;
     } else {
@@ -83,21 +90,21 @@ class Game {
     };
     this.send(playerObj);
   }
-  setWinner(team) {
+  setWinner(team: any) {
     this.winner = team;
   }
   logGrid() {
     this.players.O.logGrid(this);
     this.players.X.logGrid(this);
   }
-  log(message) {
+  log(message: any) {
     this.players.O.log(message);
     this.players.X.log(message);
   }
-  send(messageObj) {
+  send(messageObj: any) {
     this.players.O.send(messageObj);
     this.players.X.send(messageObj);
   }
 }
 
-exports.Game = Game;
+export default Game;

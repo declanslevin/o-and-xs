@@ -2,8 +2,7 @@ import WebSocket from "ws";
 // TODO: Convert these files to typescript
 // @ts-ignore
 import { runPlayLoop } from "../lib/play";
-// @ts-ignore
-import { Lobby } from "../lib/lobby";
+import Lobby from "../lib/lobby";
 // @ts-ignore
 import { HumanPlayer } from "../lib/player";
 

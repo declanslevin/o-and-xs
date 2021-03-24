@@ -55,4 +55,4 @@ class Lobby {
   }
 }
 
-exports.Lobby = Lobby;
+export default Lobby;

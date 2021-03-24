@@ -39,3 +39,6 @@ TODO:
 - [ ] ESlint
 - [ ] Convert first file (entry point - server/index.js?)
 - [ ] Install types for packages
+- [ ] Remove the older versions of node from github workflow
+
+- [ ] Add types for Classes (replace Any types)
