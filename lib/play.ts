@@ -1,24 +1,23 @@
-const { checkForGameOver, waitForGameOver } = require("./checkWin");
-const { playAgain } = require("./playAgain");
-const { Game } = require("./game");
-const { HumanPlayer, CpuPlayer } = require("./player");
+import { checkForGameOver, waitForGameOver } from "./checkWin";
+import { playAgain } from "./playAgain";
+import Game from "./game";
+import { HumanPlayer, CpuPlayer } from "./player";
 
-const playerTurn = async (game, player) => {
+const playerTurn = async (game: any, player: any) => {
   const choice = await player.getGridChoice(game);
   player.setGridChoice(game, choice);
 };
 
-const makeTurn = async (game) => {
+const makeTurn = async (game: any) => {
   const player = game.players[game.nextPlayer];
   player.logGrid(game);
   await playerTurn(game, player);
   game.setNextPlayer();
-  console.log(game);
 };
 
-const receiveGameModeChoice = async (player) => {
+const receiveGameModeChoice = async (player: any) => {
   return new Promise((resolve) => {
-    player.ws.on("message", (message) => {
+    player.ws.on("message", (message: any) => {
       let msg = JSON.parse(message);
       if (msg.type === "mode") {
         return resolve(msg.mode);
@@ -27,11 +26,10 @@ const receiveGameModeChoice = async (player) => {
   });
 };
 
-const play = async (game, players) => {
+const play = async (game: any, players?: any) => {
   if (players) {
     await game.setPlayers(players);
     game.setPlayOrder();
-    console.log(game);
 
     while (!game.winner) {
       const check = await checkForGameOver(game);
@@ -44,7 +42,7 @@ const play = async (game, players) => {
   }
 };
 
-const runPlayLoop = async (lobby, player) => {
+const runPlayLoop = async (lobby: any, player: any) => {
   console.log("Starting runPlayLoop");
   let playAgainResult = true;
   while (playAgainResult) {
@@ -80,6 +78,4 @@ const runPlayLoop = async (lobby, player) => {
   }
 };
 
-exports.playerTurn = playerTurn;
-exports.play = play;
-exports.runPlayLoop = runPlayLoop;
+export { playerTurn, play, runPlayLoop };
