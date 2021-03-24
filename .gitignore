@@ -1,4 +1,5 @@
 /node_modules
 .DS_store
-/css/styles.min.css
-/css/styles.min.css.map
+public/css/styles.min.css
+public/css/styles.min.css.map
+.vscode/

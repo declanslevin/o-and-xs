@@ -1,11 +1,14 @@
 const WebSocket = require("ws");
-const rl = require("../lib/rl");
 const { runPlayLoop } = require("../lib/play");
+const { Lobby } = require("../lib/lobby");
+const { HumanPlayer } = require("../lib/player");
+
+const lobby = new Lobby();
+let playerCount = 0;
 
 console.log("*****************");
 console.log("STARTING");
 const wss = new WebSocket.Server({ port: 8080 });
-
 wss.on("connection", async (ws) => {
   console.log("New client connected!");
 
@@ -14,41 +17,24 @@ wss.on("connection", async (ws) => {
   });
 
   ws.on("message", (message) => {
+    console.log(message);
     let msg = JSON.parse(message);
+    console.log(msg);
     if (msg.type === "grid") {
-      console.log(`User choice made (${msg.grid})`);
+      console.log(`DEBUG User choice made (${msg.grid})`);
     } else if (msg.type === "prompt") {
       const log =
         msg.players === true
-          ? `Game started with 1 human player. They chose team ${msg.team}.`
-          : `Game started with 2 human players. Player 1 chose ${msg.team}.`;
+          ? `DEBUG Game started with 1 human player. They chose team ${msg.team}.`
+          : `DEBUG Game started with 2 human players. Player 1 chose ${msg.team}.`;
       console.log(log);
     } else if (msg.type === "playAgain") {
-      console.log("User(s) decided to play again");
+      console.log("DEBUG User(s) decided to play again");
     }
   });
 
-  // UGLY AF HAX
-  const question = (prompt, cb) => {
-    let promptObj = {
-      type: "prompt",
-      prompt: prompt,
-    };
-    ws.send(JSON.stringify(promptObj));
+  playerCount++;
+  const player = new HumanPlayer(`Player ${playerCount}`, true, ws);
 
-    ws.onmessage = ({ data }) => {
-      let dataObj = JSON.parse(data);
-      if (dataObj.type === "input") {
-        console.log("DATA = " + dataObj.input);
-        cb(dataObj.input);
-        ws.onmessage = null;
-      } else if (dataObj.type === "playAgain") {
-        cb(dataObj.val);
-        ws.onmessage = null;
-      }
-    };
-  };
-  rl.question = question;
-
-  await runPlayLoop(ws);
+  await runPlayLoop(lobby, player);
 });

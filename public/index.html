@@ -19,6 +19,11 @@
   <div class="container">
     <div class="game">
       <div class="game-header">
+        <h2 class="game-header-your-player" id="your-player">Your Player Name</h2>
+        <h2 class="game-header-your-team" id="your-team">Your Team
+        </h2>
+      </div>
+      <div class="game-header">
         <h2 class="game-header-player" id="current-player">Current Player</h2>
         <h2 class="game-header-team" id="current-team">Team</h2>
       </div>
@@ -27,17 +32,24 @@
         <div class="prompts" id="prompts">
           <form class="prompts-form">
             <div class="prompts-wrapper">
-              <section class="prompts-players">
-                <h2 class="prompts-player-header">Players</h2>
+              <section class="prompts-mode">
+                <h2 class="prompts-mode-header">Game mode</h2>
                 <div class="prompts-wrapper-inner">
-                  <label class="prompts-radio-label" for="player-num-1">1</label>
-                  <input class="prompts-radio" type="radio" id="1-player" name="player-num" value="1-player" checked>
+                  <label for="cpu" class="prompts-radio-label">CPU</label>
+                  <input name="mode" type="radio" class="prompts-radio mode" id="mode-cpu" value="mode-cpu" checked>
 
-                  <label class="prompts-radio-label" for="player-num-2">2</label>
-                  <input class="prompts-radio" type="radio" id="2-player" name="player-num" value="2-player">
+                  <label for="local" class="prompts-radio-label">Local 2-Player</label>
+                  <input name="mode" type="radio" class="prompts-radio mode" id="mode-local" value="mode-local">
+
+                  <label for="online" class="prompts-radio-label">Online 2-Player</label>
+                  <input name="mode" type="radio" class="prompts-radio mode" id="mode-online" value="mode-online">
+
+
                 </div>
+                <button type="button" onClick="gameMode()">TEST</button>
               </section>
-              <section class="prompts-team">
+
+              <!-- <section class="prompts-team">
                 <h2 class="prompts-team-header">Team</h2>
                 <div class="prompts-wrapper-inner">
                   <label class="prompts-radio-label" for="team-o">O</label>
@@ -46,7 +58,7 @@
                   <label class="prompts-radio-label" for="team-x">X</label>
                   <input class="prompts-radio" type="radio" id="team-x" name="player-team" value="team-x">
                 </div>
-              </section>
+              </section> -->
             </div>
             <div class="prompts-submit">
               <button
@@ -109,6 +121,7 @@
     gridBehaviour();
 
     ws.addEventListener("message", (message) => {
+      // console.log(message)
       handleMessage(message);
     });
   });

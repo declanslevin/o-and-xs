@@ -1,6 +1,6 @@
 const handleMessage = (message) => {
   let msg = JSON.parse(message.data);
-  console.log(msg);
+  console.log(msg.log);
 
   const logElement = document.getElementById("logs");
   let currentText = logElement.innerHTML;
@@ -21,21 +21,21 @@ const handleMessage = (message) => {
         currentText + `<p class="log-text">${msg.log}</p>`;
       updateScroll();
       break;
-    case "player":
+    case "thisPlayer":
+      document.getElementById("your-player").innerHTML =
+        "Your Name: " + msg.name;
+      document.getElementById("your-team").innerHTML = "Your Team: " + msg.team;
+    case "currentPlayer":
       document.getElementById("current-player").innerHTML =
-        "Turn: " + msg.player.name;
+        "Turn: " + msg.player;
       document.getElementById("current-team").innerHTML = "Team: " + msg.team;
       break;
-    // case "currentPlayer":
-    //   document.getElementById("current-player").innerHTML =
-    //     "Turn: " + msg.currentPlayer;
-    //   break;
-    // case "currentPlayerTeam":
-    //   document.getElementById("current-team").innerHTML =
-    //     "Team: " + msg.currentPlayerTeam;
-    //   break;
-    case "cpuChoice":
+    case "playerChoice":
       let grid = document.getElementById(`grid-${msg.choice}`);
+      grid.innerHTML = msg.team;
+      grid.setAttribute("style", "pointer-events:none");
+    case "cpuChoice":
+      grid = document.getElementById(`grid-${msg.choice}`);
       grid.innerHTML = msg.team;
       grid.setAttribute("style", "pointer-events:none");
       break;
