@@ -1,7 +1,11 @@
-const WebSocket = require("ws");
-const { runPlayLoop } = require("../lib/play");
-const { Lobby } = require("../lib/lobby");
-const { HumanPlayer } = require("../lib/player");
+import WebSocket from "ws";
+// TODO: Convert these files to typescript
+// @ts-ignore
+import { runPlayLoop } from "../lib/play";
+// @ts-ignore
+import { Lobby } from "../lib/lobby";
+// @ts-ignore
+import { HumanPlayer } from "../lib/player";
 
 const lobby = new Lobby();
 let playerCount = 0;
@@ -18,7 +22,7 @@ wss.on("connection", async (ws) => {
 
   ws.on("message", (message) => {
     console.log(message);
-    let msg = JSON.parse(message);
+    let msg = JSON.parse(message.toString());
     console.log(msg);
     if (msg.type === "grid") {
       console.log(`DEBUG User choice made (${msg.grid})`);
