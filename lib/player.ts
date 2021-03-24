@@ -1,15 +1,19 @@
-const { sleep } = require("./helpers");
+import { sleep } from "./helpers";
 
 class Player {
+  // TODO
+  name: any;
+  isHuman: any;
+  ws: any;
   constructor(name = null, isHuman = null, ws = null) {
     this.name = name;
     this.isHuman = isHuman;
     this.ws = ws;
   }
-  getTeam(game) {
+  getTeam(game: any) {
     return Object.keys(game.players).find((key) => game.players[key] === this);
   }
-  getOtherPlayerTeam(game) {
+  getOtherPlayerTeam(game: any) {
     let team;
     Object.keys(game.players).find((key) => {
       if (game.players[key] !== this) {
@@ -18,7 +22,7 @@ class Player {
     });
     return team;
   }
-  _isValidGridChoice(game, choice) {
+  _isValidGridChoice(game: any, choice: any) {
     if (
       isNaN(choice) ||
       choice < 1 ||
@@ -33,7 +37,7 @@ class Player {
       return true;
     }
   }
-  sendThisPlayerToBrowser(game) {
+  sendThisPlayerToBrowser(game: any) {
     let playerObj = {
       type: "thisPlayer",
       team: this.getTeam(game),
@@ -41,7 +45,7 @@ class Player {
     };
     this.send(playerObj);
   }
-  log(message) {
+  log(message: any) {
     if (this.ws) {
       let logObj = {
         type: "log",
@@ -52,12 +56,12 @@ class Player {
       console.log(message);
     }
   }
-  send(messageObj) {
+  send(messageObj: any) {
     if (this.ws) {
       this.ws.send(JSON.stringify(messageObj));
     }
   }
-  logGrid(game) {
+  logGrid(game: any) {
     if (this.name !== "CPU") {
       if (this.ws) {
         this.log(`&nbsp;--- --- ---<br>
@@ -86,7 +90,8 @@ class Player {
 }
 
 class HumanPlayer extends Player {
-  constructor(name = "You", isHuman = null, ws = null) {
+  // TODO - had to assign types in the constructor to stop super() from whining
+  constructor(name: any = "You", isHuman: any = null, ws: any = null) {
     super(name, isHuman, ws);
     this.isHuman = true;
   }
@@ -97,7 +102,7 @@ class HumanPlayer extends Player {
     };
     this.send(promptObj);
     return new Promise((resolve) => {
-      this.ws.on("message", (message) => {
+      this.ws.on("message", (message: any) => {
         let gridObj = JSON.parse(message);
         if (gridObj.type === "grid") {
           return resolve(gridObj.grid);
@@ -105,7 +110,7 @@ class HumanPlayer extends Player {
       });
     });
   }
-  async getGridChoice(game) {
+  async getGridChoice(game: any) {
     if (this.name !== "You") {
       this.log(`${this.name}'s turn:`);
     }
@@ -117,7 +122,7 @@ class HumanPlayer extends Player {
       }
     }
   }
-  async setGridChoice(game, choice) {
+  async setGridChoice(game: any, choice: any) {
     game.grid[choice] = this.getTeam(game);
     game.choices.push(choice);
     let playerChoiceObj = {
@@ -130,15 +135,14 @@ class HumanPlayer extends Player {
 }
 
 class CpuPlayer extends Player {
-  constructor(player) {
-    super(player);
-    this.name = "CPU";
+  constructor(name: any = "CPU", isHuman: any = null) {
+    super(name, isHuman);
     this.isHuman = false;
   }
   _generateCpuGridChoice() {
     return Math.floor(Math.random() * 9 + 1);
   }
-  async getGridChoice(game) {
+  async getGridChoice(game: any) {
     while (true) {
       let choice = this._generateCpuGridChoice();
       if (this._isValidGridChoice(game, choice)) {
@@ -147,7 +151,7 @@ class CpuPlayer extends Player {
       }
     }
   }
-  async setGridChoice(game, choice) {
+  async setGridChoice(game: any, choice: any) {
     game.grid[choice] = this.getTeam(game);
     game.choices.push(choice);
     let cpuChoiceObj = {
@@ -160,6 +164,4 @@ class CpuPlayer extends Player {
   }
 }
 
-exports.Player = Player;
-exports.HumanPlayer = HumanPlayer;
-exports.CpuPlayer = CpuPlayer;
+export { Player, HumanPlayer, CpuPlayer };

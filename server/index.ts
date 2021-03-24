@@ -3,7 +3,6 @@ import WebSocket from "ws";
 // @ts-ignore
 import { runPlayLoop } from "../lib/play";
 import Lobby from "../lib/lobby";
-// @ts-ignore
 import { HumanPlayer } from "../lib/player";
 
 const lobby = new Lobby();
