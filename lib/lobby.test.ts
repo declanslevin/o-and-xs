@@ -1,10 +1,10 @@
-const { Game } = require("./game");
-const { Lobby } = require("./lobby");
-const { HumanPlayer, CpuPlayer } = require("./player");
+import Game from "./game";
+import Lobby from "./lobby";
+import { HumanPlayer, CpuPlayer } from "./player";
 
 describe(Lobby, () => {
-  let consoleOutput = [];
-  const mockedLog = (output) => consoleOutput.push(output);
+  let consoleOutput: string[] = [];
+  const mockedLog = (output: string) => consoleOutput.push(output);
   beforeEach(() => (console.log = mockedLog));
   const originalLog = console.log;
   afterEach(() => {
@@ -75,8 +75,8 @@ describe(Lobby, () => {
       const player1 = new HumanPlayer("Player 1");
       lobby.waitingPlayers = [player1];
 
-      const result = lobby.matchPlayers(player1);
-      expect(result).toEqual(false);
+      const result = lobby.matchPlayers();
+      expect(result).toEqual(null);
     });
   });
 

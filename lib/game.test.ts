@@ -1,9 +1,9 @@
-const { Game } = require("./game");
-const { CpuPlayer, HumanPlayer } = require("./player");
+import Game from "./game";
+import { CpuPlayer, HumanPlayer } from "./player";
 
 describe("Game methods can set values", () => {
-  let consoleOutput = [];
-  const mockedLog = (output) => consoleOutput.push(output);
+  let consoleOutput: string[] = [];
+  const mockedLog = (output: string) => consoleOutput.push(output);
   beforeEach(() => (console.log = mockedLog));
 
   const originalLog = console.log;
@@ -115,7 +115,7 @@ describe("Game methods can set values", () => {
       const expectedGrid = "O";
       const expectedChoices = [5];
 
-      game.setGridChoice(input);
+      // game.setGridChoice(input);
       const resultGrid = game.grid[5];
       const resultChoices = game.choices;
 
@@ -134,7 +134,7 @@ describe("Game methods can set values", () => {
       const expectedGrid = "O";
       const expectedChoices = [5];
 
-      game.setGridChoice(input);
+      // game.setGridChoice(input);
       const resultGrid = game.grid[5];
       const resultChoices = game.choices;
 

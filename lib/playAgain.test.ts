@@ -1,12 +1,12 @@
-const { isValidPlayAgainAnswer, playAgain } = require("./playAgain");
-const { Game } = require("./game");
-const { HumanPlayer } = require("./player");
+import { isValidPlayAgainAnswer, playAgain } from "./playAgain";
+import Game from "./game";
+import { HumanPlayer } from "./player";
 
 jest.mock("./play");
 
 describe("PlayAgain restarts or ends play accordingly", () => {
-  let consoleOutput = [];
-  const mockedLog = (output) => consoleOutput.push(output);
+  let consoleOutput: string[] = [];
+  const mockedLog = (output: string) => consoleOutput.push(output);
   beforeEach(() => (console.log = mockedLog));
 
   const originalLog = console.log;
@@ -55,9 +55,9 @@ describe("PlayAgain restarts or ends play accordingly", () => {
     const expected = true;
     const input = "y";
 
-    rl.question = (question, cb) => {
-      cb(input);
-    };
+    // rl.question = (question, cb) => {
+    //   cb(input);
+    // };
 
     const result = await playAgain(game);
 
@@ -69,9 +69,9 @@ describe("PlayAgain restarts or ends play accordingly", () => {
     const expected = false;
     const input = "n";
 
-    rl.question = (question, cb) => {
-      cb(input);
-    };
+    // rl.question = (question, cb) => {
+    //   cb(input);
+    // };
 
     const result = await playAgain(game);
 

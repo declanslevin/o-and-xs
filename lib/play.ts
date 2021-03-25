@@ -18,13 +18,15 @@ const makeTurn = async (game: Game): Promise<void> => {
 
 const receiveGameModeChoice = async (player: HumanPlayer): Promise<string> => {
   return new Promise((resolve) => {
-    player.ws.on("message", (message: string) => {
-      let msg = JSON.parse(message);
-      // TODO: Message validation
-      if (msg.type === "mode") {
-        return resolve(msg.mode);
-      }
-    });
+    if (player.ws) {
+      player.ws.on("message", (message: string) => {
+        let msg = JSON.parse(message);
+        // TODO: Message validation
+        if (msg.type === "mode") {
+          return resolve(msg.mode);
+        }
+      });
+    }
   });
 };
 

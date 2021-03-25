@@ -3,9 +3,9 @@ import WebSocket from "ws";
 import Game from "./game";
 
 class Player {
-  name: string;
+  name?: string;
   ws?: WebSocket;
-  constructor(name: string, ws?: WebSocket) {
+  constructor(name?: string, ws?: WebSocket) {
     this.name = name;
     this.ws = ws;
   }
@@ -105,9 +105,8 @@ class Player {
 }
 
 class HumanPlayer extends Player {
-  // TODO - had to assign types in the constructor to stop super() from whining
-  ws: WebSocket;
-  constructor(name: string = "You", ws: WebSocket) {
+  ws?: WebSocket;
+  constructor(name: string = "You", ws?: WebSocket) {
     super(name, ws);
     this.name = name;
     this.ws = ws;
@@ -119,12 +118,14 @@ class HumanPlayer extends Player {
     };
     this.send(promptObj);
     return new Promise((resolve) => {
-      this.ws.on("message", (message: string) => {
-        let gridObj = JSON.parse(message);
-        if (gridObj.type === "grid") {
-          return resolve(gridObj.grid);
-        }
-      });
+      if (this.ws) {
+        this.ws.on("message", (message: string) => {
+          let gridObj = JSON.parse(message);
+          if (gridObj.type === "grid") {
+            return resolve(gridObj.grid);
+          }
+        });
+      }
     });
   }
   async getGridChoice(game: Game): Promise<number> {
