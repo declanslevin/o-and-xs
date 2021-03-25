@@ -1,36 +1,28 @@
 import Game from "./game";
 import Lobby from "./lobby";
-import { HumanPlayer, CpuPlayer } from "./player";
+import { HumanPlayer } from "./player";
 
 describe(Lobby, () => {
-  let consoleOutput: string[] = [];
-  const mockedLog = (output: string) => consoleOutput.push(output);
-  beforeEach(() => (console.log = mockedLog));
-  const originalLog = console.log;
-  afterEach(() => {
-    console.log = originalLog;
-    consoleOutput = [];
-  });
-
   describe("addAsWaitingPlayer", () => {
     it("adds player to array when not included", () => {
       const lobby = new Lobby();
       const player = new HumanPlayer("Player 1");
-      const expectedLog = "Adding you to the lobby";
+      player.log = jest.fn();
 
       lobby.addAsWaitingPlayer(player);
 
-      expect(consoleOutput[0]).toEqual(expectedLog);
       expect(lobby.waitingPlayers).toEqual([player]);
+      expect(player.log).toHaveBeenCalledWith("Adding you to the lobby");
     });
 
     it("doesn't add player to array when already included", () => {
       const player = new HumanPlayer("Player 1");
       const lobby = new Lobby([player]);
+      player.log = jest.fn();
 
       lobby.addAsWaitingPlayer(player);
 
-      expect(consoleOutput.length).toEqual(0);
+      expect(player.log).not.toHaveBeenCalled();
       expect(lobby.waitingPlayers).toEqual([player]);
     });
   });

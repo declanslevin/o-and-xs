@@ -1,13 +1,15 @@
+import { Player } from "./player";
+
 class Game {
   // TODO
-  grid: any;
-  players: any;
-  nextPlayer: any;
-  choices: any;
-  winner: any;
-  mode: any;
+  grid?: any;
+  players?: any;
+  nextPlayer: string;
+  choices: number[];
+  winner?: boolean | string;
+  mode?: string | null;
   constructor(
-    grid = {
+    grid: any = {
       1: 1,
       2: 2,
       3: 3,
@@ -18,14 +20,16 @@ class Game {
       8: 8,
       9: 9,
     },
-    players = {
+    players: any = {
       O: null,
       X: null,
     },
-    nextPlayer = null,
-    choices = [],
-    winner = false,
-    mode = null
+    // 😩 TODO: setting a default string of "null" because it causes a headache if I set this to null to begin with
+    // The headache is from trying to use the nextPlayer string as an index/key to access the player object
+    nextPlayer: string = "null",
+    choices: number[] = [],
+    winner: boolean | string = false,
+    mode: string | null = null
   ) {
     this.grid = grid;
     this.players = players;
@@ -34,22 +38,25 @@ class Game {
     this.winner = winner;
     this.mode = mode;
   }
-  getPlayerName(player: any) {
-    return this.players[player].name;
+  getPlayerName(team: string): string {
+    return this.players[team].name;
   }
-  getNextPlayerName() {
+  getNextPlayerName(): string {
+    if (!this.nextPlayer) {
+      throw new Error("this.nextPlayer is undefined");
+    }
     return this.players[this.nextPlayer].name;
   }
-  randomTeams() {
+  randomTeams(): string[] {
     const player1 = Math.random() < 0.5 ? "O" : "X";
     const player2 = player1 === "O" ? "X" : "O";
     return [player1, player2];
   }
-  setMode(mode: any) {
+  setMode(mode: string): void {
     this.mode = mode;
   }
   // FIXUP - added a test parameter to facilitate testing in short term
-  setPlayOrder(test?: any) {
+  setPlayOrder(test?: any): void {
     let team;
     if (test) {
       team = test;
@@ -62,12 +69,12 @@ class Game {
       name === "You" ? `${name} get to go first!` : `${name} gets to go first!`;
     this.log(log);
   }
-  setPlayer(player: any, team: any) {
+  setPlayer(player: Player, team: string): void {
     this.players[team] = player;
     player.sendThisPlayerToBrowser(this);
   }
   // FIXUP - added a test parameter to facilitate testing in short term
-  async setPlayers(players: any, test?: any) {
+  setPlayers(players: any, test?: any): void {
     let teams;
     if (test) {
       teams = test;
@@ -77,9 +84,9 @@ class Game {
     this.setPlayer(players[0], teams[0]);
     this.setPlayer(players[1], teams[1]);
   }
-  setNextPlayer(player?: any) {
-    if (player) {
-      this.nextPlayer = player;
+  setNextPlayer(team?: string): void {
+    if (team) {
+      this.nextPlayer = team;
     } else {
       this.nextPlayer = this.players[this.nextPlayer].getOtherPlayerTeam(this);
     }
@@ -90,18 +97,18 @@ class Game {
     };
     this.send(playerObj);
   }
-  setWinner(team: any) {
+  setWinner(team: string): void {
     this.winner = team;
   }
-  logGrid() {
+  logGrid(): void {
     this.players.O.logGrid(this);
     this.players.X.logGrid(this);
   }
-  log(message: any) {
+  log(message: string): void {
     this.players.O.log(message);
     this.players.X.log(message);
   }
-  send(messageObj: any) {
+  send(messageObj: any): void {
     this.players.O.send(messageObj);
     this.players.X.send(messageObj);
   }

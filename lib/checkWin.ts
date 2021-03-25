@@ -1,6 +1,7 @@
+import Game from "./game";
 import { sleep } from "./helpers";
 
-const mapGridValues = (game: any) => {
+const mapGridValues = (game: Game): string[] => {
   let gridArray = [
     [1, 2, 3],
     [4, 5, 6],
@@ -21,9 +22,12 @@ const mapGridValues = (game: any) => {
   });
 };
 
-const checkMappedGridForWin = async (game: any, array: any) => {
-  let winner = false;
-  array.map((result: any) => {
+const checkMappedGridForWin = async (
+  game: Game,
+  resultArray: string[]
+): Promise<string | null> => {
+  let winner = null;
+  resultArray.map((result: any) => {
     if (result === "XXX" || result === "OOO") {
       winner = result.split("")[0];
       game.setWinner(winner);
@@ -32,7 +36,7 @@ const checkMappedGridForWin = async (game: any, array: any) => {
   return winner;
 };
 
-const checkForDraw = async (game: any) => {
+const checkForDraw = async (game: Game): Promise<boolean> => {
   if (!game.winner && game.choices.length === 9) {
     game.setWinner("draw");
     return true;
@@ -41,16 +45,23 @@ const checkForDraw = async (game: any) => {
   }
 };
 
-const checkForWin = async (game: any) => {
+const checkForWin = async (game: Game): Promise<boolean> => {
   let winner = await checkMappedGridForWin(game, mapGridValues(game));
   return Boolean(winner);
 };
 
-const logGameOver = async (game: any, win: any, draw: any) => {
+const logGameOver = async (
+  game: Game,
+  win: boolean,
+  draw: boolean
+): Promise<void> => {
   if (win || draw) {
-    let log;
+    let log: string;
     let gameOverObj;
     if (win) {
+      if (!game.winner) {
+        throw new Error("game.winner is not a string");
+      }
       const player = game.players[game.winner].name;
       log = `${player} won!`;
       gameOverObj = {
@@ -64,19 +75,20 @@ const logGameOver = async (game: any, win: any, draw: any) => {
       };
     }
     game.logGrid();
+    // @ts-ignore
     game.log(log);
     game.send(gameOverObj);
   }
 };
 
-const checkForGameOver = async (game: any) => {
+const checkForGameOver = async (game: Game): Promise<boolean> => {
   const win = await checkForWin(game);
   const draw = await checkForDraw(game);
   await logGameOver(game, win, draw);
   return win || draw;
 };
 
-const waitForGameOver = async (game: any) => {
+const waitForGameOver = async (game: Game): Promise<void> => {
   let check = await checkForGameOver(game);
   while (!check) {
     await sleep(1000);
