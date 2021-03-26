@@ -62,6 +62,7 @@ const logGameOver = async (
       if (!game.winner) {
         throw new Error("game.winner is not a string");
       }
+      // @ts-ignore
       const player = game.players[game.winner].name;
       log = `${player} won!`;
       gameOverObj = {

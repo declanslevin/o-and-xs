@@ -6,7 +6,7 @@ class Game {
   players?: any;
   nextPlayer: string;
   choices: number[];
-  winner?: boolean | string;
+  winner?: string | null;
   mode?: string | null;
   constructor(
     grid: any = {
@@ -28,7 +28,7 @@ class Game {
     // The headache is from trying to use the nextPlayer string as an index/key to access the player object
     nextPlayer: string = "null",
     choices: number[] = [],
-    winner: boolean | string = false,
+    winner: string | null = null,
     mode: string | null = null
   ) {
     this.grid = grid;

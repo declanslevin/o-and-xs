@@ -70,10 +70,10 @@ describe("checkWin returns the correct result", () => {
     expect(result2).toEqual(expected2);
   });
 
-  it("checkMappedGridForWin returns false when there isn't a winner", async () => {
+  it("checkMappedGridForWin returns null when there isn't a winner", async () => {
     const game = new Game();
     const array = ["123", "XXO", "OXO"];
-    const expected = false;
+    const expected = null;
 
     const result = await checkMappedGridForWin(game, array);
     expect(result).toEqual(expected);
@@ -211,7 +211,7 @@ describe("checkWin returns the correct result", () => {
       },
     };
     const expected = false;
-    const expectedWinner = false;
+    const expectedWinner = null;
 
     const result = await checkForWin(game);
     const resultWinner = game.winner;
