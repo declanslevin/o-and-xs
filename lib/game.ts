@@ -1,6 +1,6 @@
 import { Player } from "./player";
 
-interface Grid {
+export interface Grid {
   [key: number]: number | string;
 }
 
