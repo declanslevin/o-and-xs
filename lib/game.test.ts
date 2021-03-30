@@ -1,6 +1,12 @@
 import Game from "./game";
 import { CpuPlayer, HumanPlayer } from "./player";
 
+// const gameFactory = (): Game => {
+//   const newGame = new Game();
+
+//   return newGame;
+// }
+
 describe("Game methods can set values", () => {
   let consoleOutput: string[] = [];
   const mockedLog = (output: string) => consoleOutput.push(output);

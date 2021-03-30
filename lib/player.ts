@@ -1,11 +1,11 @@
 import { sleep } from "./helpers";
 import WebSocket from "ws";
-import Game from "./game";
+import { Game, Team } from "./game";
 
 class Player {
-  name?: string;
+  name: string;
   ws?: WebSocket;
-  constructor(name?: string, ws?: WebSocket) {
+  constructor(name: string, ws?: WebSocket) {
     this.name = name;
     this.ws = ws;
   }
@@ -15,26 +15,23 @@ class Player {
   async setGridChoice(game: Game, choice: number): Promise<void> {
     throw new Error("You must implement this in your subclass");
   }
-  getTeam(game: Game): string {
-    const result = Object.keys(game.players).find(
-      (key) => game.players[key] === this
-    );
-    if (result === undefined) {
-      throw new Error("Can't return a team");
-    }
-    return result;
-  }
-  getOtherPlayerTeam(game: Game): string {
-    let team;
-    Object.keys(game.players).forEach((key) => {
-      if (game.players[key] !== this) {
-        team = key;
+  getTeam(game: Game): Team {
+    const teams: Team[] = ["O", "X"];
+    for (let key of teams) {
+      if (game.players[key] === this) {
+        return key;
       }
-    });
-    if (team === undefined) {
-      throw new Error("Can't return a team");
     }
-    return team;
+    throw new Error("Can't return a team");
+  }
+  getOtherPlayerTeam(game: Game): Team {
+    const teams: Team[] = ["O", "X"];
+    for (let key of teams) {
+      if (game.players[key] !== this) {
+        return key;
+      }
+    }
+    throw new Error("Can't return a team");
   }
   _isValidGridChoice(game: Game, choice: number): boolean {
     if (

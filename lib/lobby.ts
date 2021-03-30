@@ -26,7 +26,7 @@ class Lobby {
     }
     throw new Error("This player isnt in a game");
   }
-  matchPlayers(): Player[] | null {
+  matchPlayers(): [Player, Player] | null {
     if (this.waitingPlayers.length > 1) {
       const player1 = this.waitingPlayers.pop();
       const player2 = this.waitingPlayers.pop();
@@ -35,7 +35,7 @@ class Lobby {
       return null;
     }
   }
-  async waitForOpponent(player: Player): Promise<Player[] | null> {
+  async waitForOpponent(player: Player): Promise<[Player, Player] | null> {
     let loopCount = 0;
     while (true) {
       let matchedPlayers = this.matchPlayers();

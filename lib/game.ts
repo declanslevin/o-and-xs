@@ -4,16 +4,25 @@ interface Grid {
   [key: number]: number | string;
 }
 
-class Game {
+interface Players {
+  O: Player;
+  X: Player;
+}
+
+export type Team = "O" | "X";
+
+export class Game {
   // TODO
   grid: Grid;
-  players?: any;
-  nextPlayer: string;
+  players: Players;
+  nextPlayer: Team;
   choices: number[];
   winner?: string | null;
   mode?: string | null;
+
   constructor(
-    grid: any = {
+    players: [Player, Player],
+    grid: Grid = {
       1: 1,
       2: 2,
       3: 3,
@@ -24,34 +33,38 @@ class Game {
       8: 8,
       9: 9,
     },
-    players: any = {
-      O: null,
-      X: null,
-    },
-    // 😩 TODO: setting a default string of "null" because it causes a headache if I set this to null to begin with
-    // The headache is from trying to use the nextPlayer string as an index/key to access the player object
-    nextPlayer: string = "null",
+    nextPlayer?: Team,
     choices: number[] = [],
     winner: string | null = null,
     mode: string | null = null
   ) {
     this.grid = grid;
-    this.players = players;
-    this.nextPlayer = nextPlayer;
+    this.players = this.randomPlayersObject(players);
+    this.nextPlayer = nextPlayer || Math.random() < 0.5 ? "X" : "O";
     this.choices = choices;
     this.winner = winner;
     this.mode = mode;
   }
-  getPlayerName(team: string): string {
+  getPlayerName(team: Team): string {
     return this.players[team].name;
   }
   getNextPlayerName(): string {
-    if (!this.nextPlayer) {
-      throw new Error("this.nextPlayer is undefined");
-    }
     return this.players[this.nextPlayer].name;
   }
-  randomTeams(): string[] {
+  randomPlayersObject(players: [Player, Player]): Players {
+    const swap = Math.random() < 0.5;
+    if (swap) {
+      return {
+        X: players[0],
+        O: players[1],
+      };
+    }
+    return {
+      O: players[0],
+      X: players[1],
+    };
+  }
+  randomTeams(): Team[] {
     const player1 = Math.random() < 0.5 ? "O" : "X";
     const player2 = player1 === "O" ? "X" : "O";
     return [player1, player2];
@@ -73,7 +86,7 @@ class Game {
       name === "You" ? `${name} get to go first!` : `${name} gets to go first!`;
     this.log(log);
   }
-  setPlayer(player: Player, team: string): void {
+  setPlayer(player: Player, team: Team): void {
     this.players[team] = player;
     player.sendThisPlayerToBrowser(this);
   }
@@ -88,7 +101,7 @@ class Game {
     this.setPlayer(players[0], teams[0]);
     this.setPlayer(players[1], teams[1]);
   }
-  setNextPlayer(team?: string): void {
+  setNextPlayer(team?: Team): void {
     if (team) {
       this.nextPlayer = team;
     } else {

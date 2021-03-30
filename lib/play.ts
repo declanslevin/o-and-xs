@@ -55,8 +55,8 @@ const runPlayLoop = async (
   while (playAgainResult) {
     const mode = await receiveGameModeChoice(player);
     if (mode === "cpu") {
-      const players = [player, new CpuPlayer()];
-      const game = new Game();
+      const players: [Player, Player] = [player, new CpuPlayer()];
+      const game = new Game(players);
       lobby.addGame(game);
       await play(game, players);
       // } else if (mode === "local") {
@@ -68,7 +68,7 @@ const runPlayLoop = async (
       lobby.addAsWaitingPlayer(player);
       let players = await lobby.waitForOpponent(player);
       if (players) {
-        const game = new Game();
+        const game = new Game(players);
         lobby.addGame(game);
         await play(game, players);
       } else {
