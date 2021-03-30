@@ -1,8 +1,12 @@
 import { Player } from "./player";
 
+interface Grid {
+  [key: number]: number | string;
+}
+
 class Game {
   // TODO
-  grid?: any;
+  grid: Grid;
   players?: any;
   nextPlayer: string;
   choices: number[];

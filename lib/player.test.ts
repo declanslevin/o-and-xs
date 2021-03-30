@@ -147,7 +147,7 @@ describe("Player methods work correctly", () => {
       const gridExpected = "O";
       const choiceExpected = [5];
       await game.players.O.setGridChoice(game, 5);
-      const gridResult = game.grid["5"];
+      const gridResult = game.grid[5];
       const choiceResult = game.choices;
       expect(gridResult).toEqual(gridExpected);
       expect(choiceResult).toEqual(choiceExpected);
@@ -214,7 +214,7 @@ describe("Player methods work correctly", () => {
       const gridExpected = "O";
       const choiceExpected = [5];
       await cpu.setGridChoice(game, 5);
-      const gridResult = game.grid["5"];
+      const gridResult = game.grid[5];
       const choiceResult = game.choices;
       expect(gridResult).toEqual(gridExpected);
       expect(choiceResult).toEqual(choiceExpected);
