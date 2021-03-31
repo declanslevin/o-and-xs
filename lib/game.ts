@@ -40,7 +40,7 @@ export class Game {
   ) {
     this.grid = grid;
     this.players = this.randomPlayersObject(players);
-    this.nextPlayer = nextPlayer || Math.random() < 0.5 ? "X" : "O";
+    this.nextPlayer = nextPlayer || (Math.random() < 0.5 ? "X" : "O");
     this.choices = choices;
     this.winner = winner;
     this.mode = mode;

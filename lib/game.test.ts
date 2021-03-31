@@ -11,15 +11,11 @@ const gameFactory = (
   winner?: string,
   mode?: string
 ): Game => {
-  const regularisePlayers = (game: Game): void => {
-    if (game.players.O.name === "CPU" || game.players.O.name === "Player 2") {
-      const playerO = game.players.O;
-      const playerX = game.players.X;
-      game.players = {
-        O: playerX,
-        X: playerO,
-      };
-    }
+  const regularisePlayers = (game: Game, players: [Player, Player]): void => {
+    game.players = {
+      O: players[0],
+      X: players[1],
+    };
   };
   const gameArgs: [
     Grid | undefined,
@@ -36,17 +32,16 @@ const gameFactory = (
       case "Cpu":
         players = [new HumanPlayer("You"), new CpuPlayer("CPU")];
         game = new Game(players, ...gameArgs);
-        regularisePlayers(game);
+        regularisePlayers(game, players);
         break;
       case "Human":
         players = [new HumanPlayer("Player 1"), new HumanPlayer("Player 2")];
         game = new Game(players, ...gameArgs);
-        regularisePlayers(game);
+        regularisePlayers(game, players);
         break;
     }
   } else {
-    players = [new HumanPlayer(), new CpuPlayer()];
-    game = new Game(players, ...gameArgs);
+    throw new Error("No vs argument supplied");
   }
   return game;
 };
@@ -74,18 +69,19 @@ describe("Game methods can set values", () => {
   });
 
   it("getNextPlayerName returns name of nextPlayer", () => {
-    // const game = gameFactory("Cpu", undefined, "O");
-    const game = gameFactory("Cpu");
-    // game.nextPlayer = "O";
+    const game = gameFactory("Cpu", undefined, "O");
+    expect(game.players.O.name).toEqual("You");
+    expect(game.players.X.name).toEqual("CPU");
+    expect(game.nextPlayer).toEqual("O");
     const expected1 = "You";
-    // const expected2 = "CPU";
+    const expected2 = "CPU";
 
     const result1 = game.getNextPlayerName();
-    // game.nextPlayer = "X";
-    // const result2 = game.getNextPlayerName();
+    game.nextPlayer = "X";
+    const result2 = game.getNextPlayerName();
 
     expect(result1).toEqual(expected1);
-    // expect(result2).toEqual(expected2);
+    expect(result2).toEqual(expected2);
   });
 
   it.skip("setPlayOrder sets nextPlayer", () => {

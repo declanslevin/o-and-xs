@@ -32,8 +32,8 @@ const receiveGameModeChoice = async (player: HumanPlayer): Promise<string> => {
 
 const play = async (game: Game, players?: Player[]): Promise<void> => {
   if (players) {
-    game.setPlayers(players);
-    game.setPlayOrder();
+    // game.setPlayers(players);
+    // game.setPlayOrder();
 
     while (!game.winner) {
       const check = await checkForGameOver(game);
