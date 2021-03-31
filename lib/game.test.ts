@@ -18,20 +18,6 @@ const gameFactory = ({
   winner?: string;
   mode?: string;
 }): Game => {
-  const regularisePlayers = (game: Game, players: [Player, Player]): void => {
-    game.players = {
-      O: players[0],
-      X: players[1],
-    };
-  };
-  const gameArgs: [
-    Grid | undefined,
-    Team | undefined,
-    number[] | undefined,
-    string | undefined,
-    string | undefined
-  ] = [grid, nextPlayer, choices, winner, mode];
-
   let players: [Player, Player];
   switch (vs) {
     case "Cpu":
@@ -44,8 +30,26 @@ const gameFactory = ({
       throw new Error("No vs argument supplied");
   }
 
-  const game = new Game(players, ...gameArgs);
-  regularisePlayers(game, players);
+  const game = new Game(players);
+  game.players = {
+    O: players[0],
+    X: players[1],
+  };
+  if (grid) {
+    game.grid = grid;
+  }
+  if (nextPlayer) {
+    game.nextPlayer = nextPlayer;
+  }
+  if (choices) {
+    game.choices = choices;
+  }
+  if (winner) {
+    game.winner = winner;
+  }
+  if (mode) {
+    game.mode = mode;
+  }
   return game;
 };
 
