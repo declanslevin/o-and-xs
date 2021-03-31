@@ -20,9 +20,8 @@ export class Game {
   winner?: string | null;
   mode?: string | null;
 
-  constructor(
-    players: [Player, Player],
-    grid: Grid = {
+  constructor(players: [Player, Player]) {
+    this.grid = {
       1: 1,
       2: 2,
       3: 3,
@@ -32,18 +31,12 @@ export class Game {
       7: 7,
       8: 8,
       9: 9,
-    },
-    nextPlayer?: Team,
-    choices: number[] = [],
-    winner: string | null = null,
-    mode: string | null = null
-  ) {
-    this.grid = grid;
+    };
     this.players = this.randomPlayersObject(players);
-    this.nextPlayer = nextPlayer || (Math.random() < 0.5 ? "X" : "O");
-    this.choices = choices;
-    this.winner = winner;
-    this.mode = mode;
+    this.nextPlayer = Math.random() < 0.5 ? "X" : "O";
+    this.choices = [];
+    this.winner = null;
+    this.mode = null;
   }
   getPlayerName(team: Team): string {
     return this.players[team].name;
