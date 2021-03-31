@@ -3,14 +3,21 @@ import { CpuPlayer, HumanPlayer, Player } from "./player";
 
 type Vs = "Cpu" | "Human";
 
-const gameFactory = (
-  vs?: Vs,
-  grid?: Grid,
-  nextPlayer?: Team,
-  choices?: number[],
-  winner?: string,
-  mode?: string
-): Game => {
+const gameFactory = ({
+  vs,
+  grid,
+  nextPlayer,
+  choices,
+  winner,
+  mode,
+}: {
+  vs?: Vs;
+  grid?: Grid;
+  nextPlayer?: Team;
+  choices?: number[];
+  winner?: string;
+  mode?: string;
+}): Game => {
   const regularisePlayers = (game: Game, players: [Player, Player]): void => {
     game.players = {
       O: players[0],
@@ -58,7 +65,7 @@ describe("Game methods can set values", () => {
   });
 
   it("getPlayerName returns player name", () => {
-    const game = gameFactory("Cpu");
+    const game = gameFactory({ vs: "Cpu" });
     const expected1 = "You";
     const expected2 = "CPU";
 
@@ -69,7 +76,7 @@ describe("Game methods can set values", () => {
   });
 
   it("getNextPlayerName returns name of nextPlayer", () => {
-    const game = gameFactory("Cpu", undefined, "O");
+    const game = gameFactory({ vs: "Cpu", nextPlayer: "O" });
     expect(game.players.O.name).toEqual("You");
     expect(game.players.X.name).toEqual("CPU");
     expect(game.nextPlayer).toEqual("O");
@@ -85,7 +92,7 @@ describe("Game methods can set values", () => {
   });
 
   it.skip("setPlayOrder sets nextPlayer", () => {
-    const game = gameFactory("Human");
+    const game = gameFactory({ vs: "Human" });
 
     game.setPlayOrder("O");
 
@@ -116,7 +123,7 @@ describe("Game methods can set values", () => {
   });
 
   it("setNextPlayer stores player when passed arg", () => {
-    const game = gameFactory("Human");
+    const game = gameFactory({ vs: "Human" });
 
     const input = "X";
     const expected = "X";
@@ -126,7 +133,7 @@ describe("Game methods can set values", () => {
   });
 
   it("setNextPlayer replaces stored player", () => {
-    const game = gameFactory("Human", undefined, "O");
+    const game = gameFactory({ vs: "Human", nextPlayer: "O" });
 
     const expected = "X";
     game.setNextPlayer();
@@ -179,7 +186,7 @@ describe("Game methods can set values", () => {
   });
 
   it("setWinner stores winner", () => {
-    const game = gameFactory("Cpu");
+    const game = gameFactory({ vs: "Cpu" });
     const expected = "X";
     game.setWinner("X");
     const result = game.winner;
@@ -187,7 +194,7 @@ describe("Game methods can set values", () => {
   });
 
   it("logGrid logs grid correctly", () => {
-    const game = gameFactory("Human");
+    const game = gameFactory({ vs: "Human" });
     game.grid = {
       1: "X",
       2: 2,
