@@ -126,7 +126,7 @@ describe("Game methods can set values", () => {
   });
 
   it("setNextPlayer replaces stored player", () => {
-    const game = gameFactory("Human", "O");
+    const game = gameFactory("Human", undefined, "O");
 
     const expected = "X";
     game.setNextPlayer();
