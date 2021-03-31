@@ -31,25 +31,21 @@ const gameFactory = ({
     string | undefined,
     string | undefined
   ] = [grid, nextPlayer, choices, winner, mode];
-  let game: Game;
-  let players: [Player, Player];
 
-  if (vs) {
-    switch (vs) {
-      case "Cpu":
-        players = [new HumanPlayer("You"), new CpuPlayer("CPU")];
-        game = new Game(players, ...gameArgs);
-        regularisePlayers(game, players);
-        break;
-      case "Human":
-        players = [new HumanPlayer("Player 1"), new HumanPlayer("Player 2")];
-        game = new Game(players, ...gameArgs);
-        regularisePlayers(game, players);
-        break;
-    }
-  } else {
-    throw new Error("No vs argument supplied");
+  let players: [Player, Player];
+  switch (vs) {
+    case "Cpu":
+      players = [new HumanPlayer("You"), new CpuPlayer("CPU")];
+      break;
+    case "Human":
+      players = [new HumanPlayer("Player 1"), new HumanPlayer("Player 2")];
+      break;
+    default:
+      throw new Error("No vs argument supplied");
   }
+
+  const game = new Game(players, ...gameArgs);
+  regularisePlayers(game, players);
   return game;
 };
 
