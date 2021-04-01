@@ -1,6 +1,6 @@
-import Game from "./game";
 import Lobby from "./lobby";
 import { HumanPlayer } from "./player";
+import { gameFactory } from "./test-helpers";
 
 describe(Lobby, () => {
   describe("addAsWaitingPlayer", () => {
@@ -30,17 +30,10 @@ describe(Lobby, () => {
   describe("getGameFromPlayer", () => {
     it("returns game that player belongs too", () => {
       const lobby = new Lobby();
-      const game1 = new Game();
-      const game2 = new Game();
-      const player = new HumanPlayer("Player 2");
-      game1.players = {
-        O: new HumanPlayer("Player 1"),
-        X: new HumanPlayer("Player 2"),
-      };
-      game2.players = {
-        O: player,
-        X: new HumanPlayer("Player 4"),
-      };
+      const game1 = gameFactory({ vs: "Human" });
+      const game2 = gameFactory({ vs: "Human" });
+      const player = game2.players.O;
+
       lobby.addGame(game1);
       lobby.addGame(game2);
 

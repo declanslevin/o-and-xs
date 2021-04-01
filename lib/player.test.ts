@@ -1,5 +1,6 @@
 import Game from "./game";
 import { Player, HumanPlayer, CpuPlayer } from "./player";
+import { gameFactory } from "./test-helpers";
 
 describe("Player methods work correctly", () => {
   let consoleOutput: string[] = [];
@@ -15,35 +16,30 @@ describe("Player methods work correctly", () => {
   describe("Base Player class methods", () => {
     it("getTeam returns player team", () => {
       const player = new Player();
-      const cpu = new CpuPlayer();
-      const game = new Game();
-      game.players = {
-        O: player,
-        X: cpu,
-      };
+      const game = gameFactory({ vs: "Cpu" });
+      game.players.O = player;
 
       const expected1 = "O";
       const expected2 = "X";
       const result1 = player.getTeam(game);
-      const result2 = cpu.getTeam(game);
+      const result2 = game.players.X.getTeam(game);
       expect(result1).toEqual(expected1);
       expect(result2).toEqual(expected2);
     });
     it("getOtherPlayerTeam returns the other player's team", () => {
       const player = new Player();
-      const cpu = new CpuPlayer();
-      const game = new Game();
-      game.players = {
-        O: player,
-        X: cpu,
-      };
+      const game = gameFactory({ vs: "Cpu" });
+      game.players.O = player;
+
       const expected = "X";
       const result = player.getOtherPlayerTeam(game);
       expect(result).toEqual(expected);
     });
     it("_isValidGridChoice returns true", () => {
       const player = new Player();
-      const game = new Game();
+      const game = gameFactory({ vs: "Cpu" });
+      game.players.O = player;
+
       const expected = true;
       const input1 = 1;
       const input2 = 9;
@@ -56,13 +52,11 @@ describe("Player methods work correctly", () => {
     });
 
     it("_isValidGridChoice returns false", () => {
-      const game = new Game();
-      const player = new HumanPlayer("Player 1");
-      game.players = {
-        O: player,
-        X: new CpuPlayer("CPU"),
-      };
-      game.choices = [5];
+      const choices = [5];
+      const player = new Player();
+      const game = gameFactory({ vs: "Cpu", choices: choices });
+      game.players.O = player;
+
       const expected = false;
       const expectedLog =
         "Please enter a valid grid number. Make sure it hasn't already been picked!";
@@ -86,12 +80,8 @@ describe("Player methods work correctly", () => {
 
   describe("HumanPlayer class methods", () => {
     it.skip("getGridChoice returns a valid grid choice", async () => {
-      const game = new Game();
-      game.players = {
-        O: new HumanPlayer("You"),
-        X: new CpuPlayer("CPU"),
-      };
-      game.nextPlayer = "O";
+      const game = gameFactory({ vs: "Cpu", nextPlayer: "O" });
+
       const input = 5;
       const expected = 5;
       const expectedLog = `You chose ${input}!`;
@@ -106,13 +96,7 @@ describe("Player methods work correctly", () => {
     });
 
     it.skip("getGridChoice rejects until given a valid grid choice", async () => {
-      const game = new Game();
-      game.players = {
-        O: new HumanPlayer("You"),
-        X: new CpuPlayer("CPU"),
-      };
-      game.nextPlayer = "O";
-      game.choices = [5];
+      const game = gameFactory({ vs: "Cpu", nextPlayer: "O", choices: [5] });
       const expected = 1;
       const expectedLog =
         "Please enter a valid grid number. Make sure it hasn't already been picked!";
@@ -139,14 +123,13 @@ describe("Player methods work correctly", () => {
     });
 
     it("setGridChoice sets grid choice", async () => {
-      const game = new Game();
-      game.players = {
-        O: new HumanPlayer("You"),
-        X: new CpuPlayer("CPU"),
-      };
+      const game = gameFactory({ vs: "Cpu" });
+
       const gridExpected = "O";
       const choiceExpected = [5];
+
       await game.players.O.setGridChoice(game, 5);
+
       const gridResult = game.grid[5];
       const choiceResult = game.choices;
       expect(gridResult).toEqual(gridExpected);
@@ -179,11 +162,7 @@ describe("Player methods work correctly", () => {
     });
 
     it("getGridChoice returns a grid choice", async () => {
-      const game = new Game();
-      game.players = {
-        O: new HumanPlayer("You"),
-        X: new CpuPlayer("CPU"),
-      };
+      const game = gameFactory({ vs: "Cpu" });
       const expected = true;
 
       const check = (input: number) => {
@@ -203,17 +182,11 @@ describe("Player methods work correctly", () => {
     });
 
     it("setGridChoice sets grid choice", async () => {
-      const game = new Game();
-      const cpu = new CpuPlayer();
-      const player = new HumanPlayer();
+      const game = gameFactory({ vs: "Cpu" });
 
-      game.players = {
-        O: cpu,
-        X: player,
-      };
-      const gridExpected = "O";
+      const gridExpected = "X";
       const choiceExpected = [5];
-      await cpu.setGridChoice(game, 5);
+      await game.players.X.setGridChoice(game, 5);
       const gridResult = game.grid[5];
       const choiceResult = game.choices;
       expect(gridResult).toEqual(gridExpected);

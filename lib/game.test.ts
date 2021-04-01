@@ -1,57 +1,6 @@
-import { Game, Grid, Team } from "./game";
-import { CpuPlayer, HumanPlayer, Player } from "./player";
-
-type Vs = "Cpu" | "Human";
-
-const gameFactory = ({
-  vs,
-  grid,
-  nextPlayer,
-  choices,
-  winner,
-  mode,
-}: {
-  vs?: Vs;
-  grid?: Grid;
-  nextPlayer?: Team;
-  choices?: number[];
-  winner?: string;
-  mode?: string;
-}): Game => {
-  let players: [Player, Player];
-  switch (vs) {
-    case "Cpu":
-      players = [new HumanPlayer("You"), new CpuPlayer("CPU")];
-      break;
-    case "Human":
-      players = [new HumanPlayer("Player 1"), new HumanPlayer("Player 2")];
-      break;
-    default:
-      throw new Error("No vs argument supplied");
-  }
-
-  const game = new Game(players);
-  game.players = {
-    O: players[0],
-    X: players[1],
-  };
-  if (grid) {
-    game.grid = grid;
-  }
-  if (nextPlayer) {
-    game.nextPlayer = nextPlayer;
-  }
-  if (choices) {
-    game.choices = choices;
-  }
-  if (winner) {
-    game.winner = winner;
-  }
-  if (mode) {
-    game.mode = mode;
-  }
-  return game;
-};
+import Game from "./game";
+import { CpuPlayer, HumanPlayer } from "./player";
+import { gameFactory } from "./test-helpers";
 
 describe("Game methods can set values", () => {
   let consoleOutput: string[] = [];
@@ -194,8 +143,7 @@ describe("Game methods can set values", () => {
   });
 
   it("logGrid logs grid correctly", () => {
-    const game = gameFactory({ vs: "Human" });
-    game.grid = {
+    const grid = {
       1: "X",
       2: 2,
       3: 3,
@@ -206,6 +154,8 @@ describe("Game methods can set values", () => {
       8: 8,
       9: "O",
     };
+    const game = gameFactory({ vs: "Human", grid: grid });
+
     const expected = `
            --- --- ---
           | X | 2 | 3 |

@@ -1,6 +1,5 @@
 import { isValidPlayAgainAnswer, playAgain } from "./playAgain";
-import Game from "./game";
-import { HumanPlayer } from "./player";
+import { gameFactory } from "./test-helpers";
 
 jest.mock("./play");
 
@@ -16,7 +15,7 @@ describe("PlayAgain restarts or ends play accordingly", () => {
   });
 
   it("isValidPlayAgainAnswer returns true", () => {
-    const game = new Game();
+    const game = gameFactory({ vs: "Human" });
     const expected = true;
     const input = "y";
     const input2 = "yes";
@@ -35,11 +34,8 @@ describe("PlayAgain restarts or ends play accordingly", () => {
   });
 
   it("isValidPlayAgainAnswer returns false", () => {
-    const game = new Game();
-    game.players = {
-      O: new HumanPlayer("Player 1"),
-      X: new HumanPlayer("Player 2"),
-    };
+    const game = gameFactory({ vs: "Human" });
+
     const expected = false;
     const expectedLog =
       "Please enter one of the following: 'y', 'yes', 'n' or 'no'";
@@ -51,7 +47,8 @@ describe("PlayAgain restarts or ends play accordingly", () => {
   });
 
   it.skip("playAgain returns true", async () => {
-    const game = new Game();
+    const game = gameFactory({ vs: "Human" });
+
     const expected = true;
     const input = "y";
 
@@ -65,7 +62,7 @@ describe("PlayAgain restarts or ends play accordingly", () => {
   });
 
   it.skip("playAgain returns false", async () => {
-    const game = new Game();
+    const game = gameFactory({ vs: "Human" });
     const expected = false;
     const input = "n";
 

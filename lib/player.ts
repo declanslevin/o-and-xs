@@ -5,7 +5,7 @@ import { Game, Team } from "./game";
 class Player {
   name: string;
   ws?: WebSocket;
-  constructor(name: string, ws?: WebSocket) {
+  constructor(name: string = "Player", ws?: WebSocket) {
     this.name = name;
     this.ws = ws;
   }
