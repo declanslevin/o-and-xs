@@ -1,15 +1,19 @@
-const recievePlayAgainChoice = (player) => {
+import { Player } from "./player";
+
+const recievePlayAgainChoice = (player: Player): Promise<string> => {
   return new Promise((resolve) => {
-    player.ws.on("message", (message) => {
-      let msg = JSON.parse(message);
-      if (msg.type === "playAgain") {
-        return resolve(msg.val);
-      }
-    });
+    if (player.ws) {
+      player.ws.on("message", (message: any) => {
+        let msg = JSON.parse(message);
+        if (msg.type === "playAgain") {
+          return resolve(msg.val);
+        }
+      });
+    }
   });
 };
 
-const isValidPlayAgainAnswer = (player, answer) => {
+const isValidPlayAgainAnswer = (player: Player, answer: any) => {
   if (answer === "y" || answer === "yes" || answer === "n" || answer === "no") {
     return true;
   } else {
@@ -18,7 +22,7 @@ const isValidPlayAgainAnswer = (player, answer) => {
   }
 };
 
-const playAgain = async (player) => {
+const playAgain = async (player: Player): Promise<boolean> => {
   while (true) {
     let answer = await recievePlayAgainChoice(player);
     if (isValidPlayAgainAnswer(player, answer)) {
@@ -31,5 +35,4 @@ const playAgain = async (player) => {
   }
 };
 
-exports.isValidPlayAgainAnswer = isValidPlayAgainAnswer;
-exports.playAgain = playAgain;
+export { isValidPlayAgainAnswer, playAgain };

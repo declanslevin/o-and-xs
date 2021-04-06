@@ -31,3 +31,16 @@ To run the server with live updating:
 
 If you want live updating in the frontend:
 `npx live-server`
+
+TODO:
+
+- [x] TS compiler
+- [x] tsconfig file
+- [ ] ESlint
+- [x] Convert first file (entry point - server/index.js?)
+- [x] Install types for packages
+- [x] Remove the older versions of node from github workflow
+
+- [ ] Add types for Classes (replace Any types)
+- [ ] JSON Schema
+- [ ] Make choice an enumerable

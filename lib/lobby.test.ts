@@ -1,36 +1,31 @@
-const { Game } = require("./game");
-const { Lobby } = require("./lobby");
-const { HumanPlayer, CpuPlayer } = require("./player");
+import Lobby from "./lobby";
+import { HumanPlayer } from "./player";
+import { gameFactory } from "./test-helpers";
 
 describe(Lobby, () => {
-  let consoleOutput = [];
-  const mockedLog = (output) => consoleOutput.push(output);
-  beforeEach(() => (console.log = mockedLog));
-  const originalLog = console.log;
-  afterEach(() => {
-    console.log = originalLog;
-    consoleOutput = [];
-  });
-
   describe("addAsWaitingPlayer", () => {
     it("adds player to array when not included", () => {
       const lobby = new Lobby();
       const player = new HumanPlayer("Player 1");
-      const expectedLog = "Adding you to the lobby";
+      player.log = jest.fn();
 
       lobby.addAsWaitingPlayer(player);
 
-      expect(consoleOutput[0]).toEqual(expectedLog);
       expect(lobby.waitingPlayers).toEqual([player]);
+      expect(player.log).toHaveBeenCalledWith("Adding you to the lobby");
     });
 
     it("doesn't add player to array when already included", () => {
       const player = new HumanPlayer("Player 1");
-      const lobby = new Lobby([player]);
+      const lobby = new Lobby();
+      const log = jest.fn();
+      player.log = log;
 
       lobby.addAsWaitingPlayer(player);
+      log.mockReset();
+      lobby.addAsWaitingPlayer(player);
 
-      expect(consoleOutput.length).toEqual(0);
+      expect(player.log).not.toHaveBeenCalled();
       expect(lobby.waitingPlayers).toEqual([player]);
     });
   });
@@ -38,17 +33,10 @@ describe(Lobby, () => {
   describe("getGameFromPlayer", () => {
     it("returns game that player belongs too", () => {
       const lobby = new Lobby();
-      const game1 = new Game();
-      const game2 = new Game();
-      const player = new HumanPlayer("Player 2");
-      game1.players = {
-        O: new HumanPlayer("Player 1"),
-        X: new HumanPlayer("Player 2"),
-      };
-      game2.players = {
-        O: player,
-        X: new HumanPlayer("Player 4"),
-      };
+      const game1 = gameFactory({ vs: "Human" });
+      const game2 = gameFactory({ vs: "Human" });
+      const player = game2.players.O;
+
       lobby.addGame(game1);
       lobby.addGame(game2);
 
@@ -75,8 +63,8 @@ describe(Lobby, () => {
       const player1 = new HumanPlayer("Player 1");
       lobby.waitingPlayers = [player1];
 
-      const result = lobby.matchPlayers(player1);
-      expect(result).toEqual(false);
+      const result = lobby.matchPlayers();
+      expect(result).toEqual(null);
     });
   });
 

@@ -29,17 +29,6 @@ const gameMode = () => {
 };
 
 const startGame = () => {
-  // const checkNumPlayers = document.getElementById("1-player").checked;
-  // // const numPlayers = checkNumPlayers ? 1 : 2;
-  // const numPlayers = checkNumPlayers ? true : false;
-  // const checkTeamChoice = document.getElementById("team-o").checked;
-  // const teamChoice = checkTeamChoice ? "O" : "X";
-  // let promptObj = {
-  //   type: "prompt",
-  //   players: numPlayers,
-  //   team: teamChoice,
-  // };
-  // ws.send(JSON.stringify(promptObj));
   gameMode();
 
   const promptElement = document.getElementById("prompts");

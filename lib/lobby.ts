@@ -1,40 +1,44 @@
-const { sleep } = require("./helpers");
+import Game from "./game";
+import { sleep } from "./helpers";
+import { Player } from "./player";
 
 class Lobby {
-  constructor(waitingPlayers = [], games = new Set()) {
-    this.waitingPlayers = waitingPlayers;
-    this.games = games;
+  waitingPlayers: Player[];
+  games: Set<Game>;
+  constructor() {
+    this.waitingPlayers = [];
+    this.games = new Set();
   }
-  addGame(game) {
+  addGame(game: Game): void {
     this.games.add(game);
   }
-  addAsWaitingPlayer(player) {
+  addAsWaitingPlayer(player: Player): void {
     if (!this.waitingPlayers.includes(player)) {
       player.log("Adding you to the lobby");
       this.waitingPlayers.push(player);
     }
   }
-  getGameFromPlayer(player) {
+  getGameFromPlayer(player: Player): Game {
     for (let game of this.games) {
       if (Object.values(game.players).includes(player)) {
         return game;
       }
     }
+    throw new Error("This player isnt in a game");
   }
-  matchPlayers(player) {
+  matchPlayers(): [Player, Player] | null {
     if (this.waitingPlayers.length > 1) {
       const player1 = this.waitingPlayers.pop();
       const player2 = this.waitingPlayers.pop();
-      return [player1, player2];
+      return [player1!, player2!];
     } else {
-      return false;
+      return null;
     }
   }
-
-  async waitForOpponent(player) {
+  async waitForOpponent(player: Player): Promise<[Player, Player] | null> {
     let loopCount = 0;
     while (true) {
-      let matchedPlayers = this.matchPlayers(player);
+      let matchedPlayers = this.matchPlayers();
       if (matchedPlayers) {
         player.log("Opponent player has joined your game");
         return matchedPlayers;
@@ -52,4 +56,4 @@ class Lobby {
   }
 }
 
-exports.Lobby = Lobby;
+export default Lobby;

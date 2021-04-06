@@ -1,7 +1,7 @@
-const WebSocket = require("ws");
-const { runPlayLoop } = require("../lib/play");
-const { Lobby } = require("../lib/lobby");
-const { HumanPlayer } = require("../lib/player");
+import WebSocket from "ws";
+import { runPlayLoop } from "../lib/play";
+import Lobby from "../lib/lobby";
+import { HumanPlayer } from "../lib/player";
 
 const lobby = new Lobby();
 let playerCount = 0;
@@ -18,7 +18,7 @@ wss.on("connection", async (ws) => {
 
   ws.on("message", (message) => {
     console.log(message);
-    let msg = JSON.parse(message);
+    let msg = JSON.parse(message.toString());
     console.log(msg);
     if (msg.type === "grid") {
       console.log(`DEBUG User choice made (${msg.grid})`);
@@ -34,7 +34,7 @@ wss.on("connection", async (ws) => {
   });
 
   playerCount++;
-  const player = new HumanPlayer(`Player ${playerCount}`, true, ws);
+  const player = new HumanPlayer(`Player ${playerCount}`, ws);
 
   await runPlayLoop(lobby, player);
 });
