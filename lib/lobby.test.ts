@@ -17,9 +17,12 @@ describe(Lobby, () => {
 
     it("doesn't add player to array when already included", () => {
       const player = new HumanPlayer("Player 1");
-      const lobby = new Lobby([player]);
-      player.log = jest.fn();
+      const lobby = new Lobby();
+      const log = jest.fn();
+      player.log = log;
 
+      lobby.addAsWaitingPlayer(player);
+      log.mockReset();
       lobby.addAsWaitingPlayer(player);
 
       expect(player.log).not.toHaveBeenCalled();

@@ -5,9 +5,9 @@ import { Player } from "./player";
 class Lobby {
   waitingPlayers: Player[];
   games: Set<Game>;
-  constructor(waitingPlayers: Player[] = [], games: Set<Game> = new Set()) {
-    this.waitingPlayers = waitingPlayers;
-    this.games = games;
+  constructor() {
+    this.waitingPlayers = [];
+    this.games = new Set();
   }
   addGame(game: Game): void {
     this.games.add(game);
