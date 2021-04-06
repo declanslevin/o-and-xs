@@ -33,9 +33,6 @@ const receiveGameModeChoice = async (player: HumanPlayer): Promise<string> => {
 const play = async (game: Game, players?: Player[]): Promise<void> => {
   if (players) {
     game.sendInitialBrowserState();
-    // game.setPlayers(players);
-    // game.setPlayOrder();
-
     while (!game.winner) {
       const check = await checkForGameOver(game);
       if (!check) {
@@ -51,7 +48,6 @@ const runPlayLoop = async (
   lobby: Lobby,
   player: HumanPlayer
 ): Promise<void> => {
-  console.log("Starting runPlayLoop");
   let playAgainResult = true;
   while (playAgainResult) {
     const mode = await receiveGameModeChoice(player);
@@ -78,12 +74,8 @@ const runPlayLoop = async (
       }
     }
     playAgainResult = await playAgain(player);
-    if (!playAgainResult) {
-      player.log("Thank you for playing!");
-      return;
-      // process.exit(0);
-    }
   }
+  player.log("Thank you for playing!");
 };
 
 export { playerTurn, play, runPlayLoop };
