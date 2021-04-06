@@ -12,13 +12,11 @@ interface Players {
 export type Team = "O" | "X";
 
 export class Game {
-  // TODO
   grid: Grid;
   players: Players;
   nextPlayer: Team;
   choices: number[];
   winner?: string | null;
-  mode?: string | null;
 
   constructor(players: [Player, Player]) {
     this.grid = {
@@ -36,7 +34,6 @@ export class Game {
     this.nextPlayer = Math.random() < 0.5 ? "X" : "O";
     this.choices = [];
     this.winner = null;
-    this.mode = null;
   }
   getPlayerName(team: Team): string {
     return this.players[team].name;
@@ -51,16 +48,12 @@ export class Game {
         X: players[0],
         O: players[1],
       };
+    } else {
+      return {
+        O: players[0],
+        X: players[1],
+      };
     }
-    return {
-      O: players[0],
-      X: players[1],
-    };
-  }
-  randomTeams(): Team[] {
-    const player1 = Math.random() < 0.5 ? "O" : "X";
-    const player2 = player1 === "O" ? "X" : "O";
-    return [player1, player2];
   }
   sendInitialBrowserState(): void {
     this.players.O.sendThisPlayerToBrowser(this);
@@ -75,39 +68,6 @@ export class Game {
       player: name,
     };
     this.send(playerObj);
-  }
-
-  setMode(mode: string): void {
-    this.mode = mode;
-  }
-  // FIXUP - added a test parameter to facilitate testing in short term
-  setPlayOrder(test?: any): void {
-    let team;
-    if (test) {
-      team = test;
-    } else {
-      team = Math.random() < 0.5 ? "X" : "O";
-    }
-    this.setNextPlayer(team);
-    const name = this.getPlayerName(team);
-    const log =
-      name === "You" ? `${name} get to go first!` : `${name} gets to go first!`;
-    this.log(log);
-  }
-  setPlayer(player: Player, team: Team): void {
-    this.players[team] = player;
-    player.sendThisPlayerToBrowser(this);
-  }
-  // FIXUP - added a test parameter to facilitate testing in short term
-  setPlayers(players: any, test?: any): void {
-    let teams;
-    if (test) {
-      teams = test;
-    } else if (test === undefined) {
-      teams = this.randomTeams();
-    }
-    this.setPlayer(players[0], teams[0]);
-    this.setPlayer(players[1], teams[1]);
   }
   setNextPlayer(team?: Team): void {
     if (team) {

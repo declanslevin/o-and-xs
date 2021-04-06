@@ -43,6 +43,7 @@ describe("Game methods can set values", () => {
   it.skip("setPlayOrder sets nextPlayer", () => {
     const game = gameFactory({ vs: "Human" });
 
+    // @ts-ignore
     game.setPlayOrder("O");
 
     const expected = "O";
@@ -59,6 +60,7 @@ describe("Game methods can set values", () => {
     const players = [player1, player2];
     const teams = ["O", "X"];
 
+    // @ts-ignore
     game.setPlayers(players, teams);
 
     const expected1 = "Player 1";

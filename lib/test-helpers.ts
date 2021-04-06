@@ -9,14 +9,12 @@ const gameFactory = ({
   nextPlayer,
   choices = [],
   winner = null,
-  mode = null,
 }: {
   vs: Vs;
   grid?: Grid;
   nextPlayer?: Team;
   choices?: number[];
   winner?: string | null;
-  mode?: string | null;
 }): Game => {
   let players: [Player, Player];
   switch (vs) {
@@ -44,7 +42,6 @@ const gameFactory = ({
   }
   game.choices = choices;
   game.winner = winner;
-  game.mode = mode;
 
   return game;
 };
