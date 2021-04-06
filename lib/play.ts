@@ -32,6 +32,7 @@ const receiveGameModeChoice = async (player: HumanPlayer): Promise<string> => {
 
 const play = async (game: Game, players?: Player[]): Promise<void> => {
   if (players) {
+    game.sendInitialBrowserState();
     // game.setPlayers(players);
     // game.setPlayOrder();
 

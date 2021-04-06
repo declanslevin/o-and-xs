@@ -62,6 +62,21 @@ export class Game {
     const player2 = player1 === "O" ? "X" : "O";
     return [player1, player2];
   }
+  sendInitialBrowserState(): void {
+    this.players.O.sendThisPlayerToBrowser(this);
+    this.players.X.sendThisPlayerToBrowser(this);
+    const name = this.getNextPlayerName();
+    const log =
+      name === "You" ? `${name} get to go first!` : `${name} gets to go first!`;
+    this.log(log);
+    let playerObj = {
+      type: "currentPlayer",
+      team: this.nextPlayer,
+      player: name,
+    };
+    this.send(playerObj);
+  }
+
   setMode(mode: string): void {
     this.mode = mode;
   }

@@ -74,9 +74,10 @@ const logGameOver = async (
       gameOverObj = {
         type: "draw",
       };
+    } else {
+      throw new Error("There was no win or draw");
     }
     game.logGrid();
-    // @ts-ignore
     game.log(log);
     game.send(gameOverObj);
   }
