@@ -1,7 +1,9 @@
-const handleMessage = (message) => {
-  let msg = JSON.parse(message.data);
-  console.log(msg.log);
+import { updateScroll } from "./ui";
+import { gameOver } from "./game";
 
+export const handleMessage = (message) => {
+  let msg = JSON.parse(message.data);
+  console.log(msg);
   const logElement = document.getElementById("logs");
   let currentText = logElement.innerHTML;
   switch (msg.type) {
@@ -33,6 +35,7 @@ const handleMessage = (message) => {
     case "playerChoice":
       let grid = document.getElementById(`grid-${msg.choice}`);
       grid.innerHTML = msg.team;
+      // TODO: Do this by adding a class i.e. disabled
       grid.setAttribute("style", "pointer-events:none");
     case "cpuChoice":
       grid = document.getElementById(`grid-${msg.choice}`);
@@ -47,24 +50,5 @@ const handleMessage = (message) => {
       document.getElementById("game-winner").innerHTML = `${msg.winner} won!`;
       gameOver();
       break;
-  }
-};
-
-const gridBehaviour = () => {
-  const gridArray = document.getElementsByClassName("game-grid-item");
-  for (let i = 0; i < gridArray.length; i++) {
-    gridArray[i].addEventListener("click", (event) => {
-      const id = gridArray[i].getAttribute("id").split("-")[1];
-      let gridObj = {
-        grid: Number(id),
-        type: "grid",
-      };
-      ws.send(JSON.stringify(gridObj));
-      gridArray[i].innerHTML = document
-        .getElementById("current-team")
-        .innerHTML.split(" ")[1];
-      // gridArray[i].disabled = true;
-      gridArray[i].setAttribute("style", "pointer-events:none");
-    });
   }
 };

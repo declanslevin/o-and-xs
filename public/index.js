@@ -1,92 +1,42 @@
-const addClass = (element, classToAdd) => {
-  const elementClass = element.getAttribute("class");
-  const addedClass = elementClass + " " + classToAdd;
-  element.setAttribute("class", addedClass);
-};
+import { startGame, playAgain } from "./game";
+import { registerGridBehaviour } from "./ui";
+import { handleMessage } from "./message";
 
-const removeClass = (element, classToRemove) => {
-  const removedClass = element
-    .getAttribute("class")
-    .split(" ")
-    .filter((c) => c !== classToRemove)
-    .join(" ");
-  element.setAttribute("class", removedClass);
-};
-
-const gameMode = () => {
-  const modeArray = document.getElementsByClassName("mode");
-  let checkedMode;
-  for (let i = 0; i < modeArray.length; i++) {
-    if (modeArray[i].checked) {
-      checkedMode = modeArray[i].getAttribute("id").split("-")[1];
+const init = () => {
+  // add ticket to add retry logic
+  // ? kill server and reconnect to games already running (database?)
+  const ws = new WebSocket("ws://localhost:8080");
+  ws.addEventListener("error", (err) => {
+    // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
+    // 3	CLOSED	The connection is closed or couldn't be opened.
+    if (err.currentTarget.readyState === 3) {
+      console.log("run your server dummy");
+      const logElement = document.getElementById("logs");
+      let currentText = logElement.innerHTML;
+      logElement.innerHTML = "Check your server is running (try 'yarn server')";
     }
-  }
-  let modeObj = {
-    type: "mode",
-    mode: checkedMode,
-  };
-  ws.send(JSON.stringify(modeObj));
+    console.log(err);
+  });
+
+  ws.addEventListener("open", (event) => {
+    if (event.target !== ws) {
+      throw new Error("Why is this not the WebSocket?");
+    }
+    console.log("We are connected!");
+    registerGridBehaviour(ws);
+
+    ws.addEventListener("message", (message) => {
+      handleMessage(message);
+    });
+  });
+
+  document.getElementById("js-start").addEventListener("click", () => {
+    startGame(ws);
+  });
+
+  document.getElementById("js-play-again").addEventListener("click", () => {
+    playAgain(ws);
+  });
 };
 
-const startGame = () => {
-  gameMode();
-
-  const promptElement = document.getElementById("prompts");
-  addClass(promptElement, "hidden");
-
-  const radioArray = document.getElementsByClassName("prompts-radio");
-  for (let i = 0; i < radioArray.length; i++) {
-    radioArray[i].disabled = true;
-  }
-
-  const gameGrid = document.getElementById("game-grid");
-  removeClass(gameGrid, "disabled");
-};
-
-const gameOver = () => {
-  let gameGrid = document.getElementById("game-grid");
-  addClass(gameGrid, "disabled");
-
-  let gameOver = document.getElementById("game-over");
-  removeClass(gameOver, "hidden");
-};
-
-const resetGame = () => {
-  const radioArray = document.getElementsByClassName("prompts-radio");
-  for (let i = 0; i < radioArray.length; i++) {
-    radioArray[i].disabled = false;
-  }
-
-  const gridArray = document.getElementsByClassName("game-grid-item");
-  for (let i = 0; i < gridArray.length; i++) {
-    const gridIdNum = gridArray[i].getAttribute("id").split("-")[1];
-    gridArray[i].removeAttribute("style");
-    gridArray[i].innerHTML = gridIdNum;
-  }
-
-  document.getElementById("log-container").innerHTML =
-    '<p class="log-text" id="logs">Logs appear here</p>';
-
-  const gameOver = document.getElementById("game-over");
-  addClass(gameOver, "hidden");
-
-  const promptElement = document.getElementById("prompts");
-  removeClass(promptElement, "hidden");
-
-  document.getElementById("current-player").innerHTML = "Current Player";
-  document.getElementById("current-team").innerHTML = "Team";
-};
-
-const playAgain = () => {
-  let playAgainObj = {
-    type: "playAgain",
-    val: "y",
-  };
-  ws.send(JSON.stringify(playAgainObj));
-  resetGame();
-};
-
-const updateScroll = () => {
-  const element = document.getElementById("log-container");
-  element.scrollTop = element.scrollHeight;
-};
+init();
