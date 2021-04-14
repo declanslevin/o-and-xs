@@ -1,6 +1,7 @@
 import { startGame, playAgain } from "./game";
 import { registerGridBehaviour } from "./ui";
 import { handleMessage } from "./message";
+import { getLogsElement, getElementById } from "./helpers";
 
 const init = (): void => {
   // add ticket to add retry logic
@@ -16,10 +17,7 @@ const init = (): void => {
     if (state === 3) {
       // if (err.currentTarget.readyState === 3) {
       console.log("Run your server dummy");
-      const logElement = document.getElementById("logs");
-      if (!logElement) {
-        throw new Error("Unable to return 'logs' element");
-      }
+      const logElement = getLogsElement();
       logElement.innerHTML = "Check your server is running (try 'yarn server')";
     }
     console.log(err);
@@ -39,19 +37,11 @@ const init = (): void => {
     });
   });
 
-  const startElement = document.getElementById("js-start");
-  if (!startElement) {
-    throw new Error("Unable to return 'js-start' element");
-  }
-  startElement.addEventListener("click", (): void => {
+  getElementById("js-start").addEventListener("click", (): void => {
     startGame(ws);
   });
 
-  const playAgainElement = document.getElementById("js-play-again");
-  if (!playAgainElement) {
-    throw new Error("Unable to return 'js-play-again' element");
-  }
-  playAgainElement.addEventListener("click", (): void => {
+  getElementById("js-play-again").addEventListener("click", (): void => {
     playAgain(ws);
   });
 };

@@ -1,14 +1,6 @@
 import { updateScroll } from "./ui";
 import { gameOver } from "./game";
-
-//  TODO: Does it need to be more specific than HTMLElement? i.e. HTMLParagraphElement
-export const getLogsElement = (): HTMLElement => {
-  const logs = document.getElementById("logs");
-  if (!logs) {
-    throw new Error("Unable to return 'logs' element");
-  }
-  return logs;
-};
+import { getLogsElement, getElementById } from "./helpers";
 
 // TODO: What type to use for message - string or MessageEvent?
 export const handleMessage = (message: MessageEvent): void => {
@@ -36,67 +28,35 @@ export const handleMessage = (message: MessageEvent): void => {
       break;
 
     case "thisPlayer":
-      const yourPlayer = document.getElementById("your-player");
-      if (!yourPlayer) {
-        throw new Error("Unable to return 'your-player' element");
-      }
-      yourPlayer.innerHTML = `Your Name: ${msg.name}`;
-
-      const yourTeam = document.getElementById("your-team");
-      if (!yourTeam) {
-        throw new Error("Unable to return 'your-team' element");
-      }
-      yourTeam.innerHTML = `Your Team: ${msg.team}`;
+      getElementById("your-player").innerHTML = `Your Name: ${msg.name}`;
+      getElementById("your-team").innerHTML = `Your Team: ${msg.team}`;
       break;
 
     case "currentPlayer":
-      const currentPlayer = document.getElementById("current-player");
-      if (!currentPlayer) {
-        throw new Error("Unable to return 'current-player' element");
-      }
-      currentPlayer.innerHTML = `Turn: ${msg.player}`;
-
-      const currentTeam = document.getElementById("current-team");
-      if (!currentTeam) {
-        throw new Error("Unable to return 'current-team' element");
-      }
-      currentTeam.innerHTML = `Team: ${msg.team}`;
+      getElementById("current-player").innerHTML = `Turn: ${msg.player}`;
+      getElementById("current-team").innerHTML = `Team: ${msg.team}`;
       break;
 
     case "playerChoice":
-      let grid = document.getElementById(`grid-${msg.choice}`);
-      if (!grid) {
-        throw new Error(`Unable to return 'grid-${msg.choice}' element`);
-      }
+      let grid = getElementById(`grid-${msg.choice}`);
       grid.innerHTML = msg.team;
       // TODO: Do this by adding a class i.e. disabled
       grid.setAttribute("style", "pointer-events:none");
       break;
 
     case "cpuChoice":
-      grid = document.getElementById(`grid-${msg.choice}`);
-      if (!grid) {
-        throw new Error(`Unable to return 'grid-${msg.choice}' element`);
-      }
+      grid = getElementById(`grid-${msg.choice}`);
       grid.innerHTML = msg.team;
       grid.setAttribute("style", "pointer-events:none");
       break;
 
     case "draw":
-      let gameWinner = document.getElementById("game-winner");
-      if (!gameWinner) {
-        throw new Error("Unable to return 'game-winner' element");
-      }
-      gameWinner.innerHTML = "You drew!";
+      getElementById("game-winner").innerHTML = "You drew!";
       gameOver();
       break;
 
     case "win":
-      gameWinner = document.getElementById("game-winner");
-      if (!gameWinner) {
-        throw new Error("Unable to return 'game-winner' element");
-      }
-      gameWinner.innerHTML = `${msg.winner} won!`;
+      getElementById("game-winner").innerHTML = `${msg.winner} won!`;
       gameOver();
       break;
   }

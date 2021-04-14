@@ -1,3 +1,5 @@
+import { getElementById } from "./helpers";
+
 export const gameMode = (ws: WebSocket): void => {
   const modeArray = document.getElementsByClassName(
     "mode"
@@ -22,11 +24,7 @@ export const gameMode = (ws: WebSocket): void => {
 export const startGame = (ws: WebSocket): void => {
   gameMode(ws);
 
-  const prompts = document.getElementById("prompts");
-  if (!prompts) {
-    throw new Error("Unable to return 'prompts' element");
-  }
-  prompts.classList.add("hidden");
+  getElementById("prompts").classList.add("hidden");
 
   const radioArray = document.getElementsByClassName(
     "prompts-radio"
@@ -35,25 +33,12 @@ export const startGame = (ws: WebSocket): void => {
     radioArray[i].disabled = true;
   }
 
-  const gameGrid = document.getElementById("game-grid");
-  if (!gameGrid) {
-    throw new Error("Unable to return 'game-grid' element");
-  }
-  gameGrid.classList.remove("disabled");
+  getElementById("game-grid").classList.remove("disabled");
 };
 
 export const gameOver = (): void => {
-  const gameGrid = document.getElementById("game-grid");
-  if (!gameGrid) {
-    throw new Error("Unable to return 'game-grid' element");
-  }
-  gameGrid.classList.add("disabled");
-
-  const gameOver = document.getElementById("game-over");
-  if (!gameOver) {
-    throw new Error("Unable to return 'game-over' element");
-  }
-  gameOver.classList.remove("hidden");
+  getElementById("game-grid").classList.add("disabled");
+  getElementById("game-over").classList.remove("hidden");
 };
 
 export const resetGame = (): void => {
@@ -75,35 +60,12 @@ export const resetGame = (): void => {
     gridArray[i].innerHTML = gridIdNum;
   }
 
-  const logContainer = document.getElementById("log-container");
-  if (!logContainer) {
-    throw new Error("Unable to return 'log-container' element");
-  }
-  logContainer.innerHTML = '<p class="log-text" id="logs">Logs appear here</p>';
-
-  const gameOver = document.getElementById("game-over");
-  if (!gameOver) {
-    throw new Error("Unable to return 'game-over' element");
-  }
-  gameOver.classList.add("hidden");
-
-  const prompts = document.getElementById("prompts");
-  if (!prompts) {
-    throw new Error("Unable to return 'prompts' element");
-  }
-  prompts.classList.remove("hidden");
-
-  const currentPlayer = document.getElementById("current-player");
-  if (!currentPlayer) {
-    throw new Error("Unable to return 'current-player' element");
-  }
-  currentPlayer.innerHTML = "Current Player";
-
-  const currentTeam = document.getElementById("current-team");
-  if (!currentTeam) {
-    throw new Error("Unable to return 'current-team' element");
-  }
-  currentTeam.innerHTML = "Team";
+  getElementById("log-container").innerHTML =
+    '<p class="log-text" id="logs">Logs appear here</p>';
+  getElementById("game-over").classList.add("hidden");
+  getElementById("prompts").classList.remove("hidden");
+  getElementById("current-player").innerHTML = "Current Player";
+  getElementById("current-team").innerHTML = "Team";
 };
 
 export const playAgain = (ws: WebSocket): void => {

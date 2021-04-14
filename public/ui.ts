@@ -1,8 +1,7 @@
+import { getElementById } from "./helpers";
+
 export const updateScroll = (): void => {
-  const element: HTMLElement | null = document.getElementById("log-container");
-  if (!element) {
-    throw new Error("Unable to return the 'log-container' element");
-  }
+  const element = getElementById("log-container");
   element.scrollTop = element.scrollHeight;
 };
 
@@ -26,10 +25,7 @@ export const registerGridBehaviour = (ws: WebSocket): void => {
       };
       ws.send(JSON.stringify(gridObj));
 
-      const currentTeam = document.getElementById("current-team");
-      if (!currentTeam) {
-        throw new Error("Unable to return the 'current-team' element");
-      }
+      const currentTeam = getElementById("current-team");
       gridArray[i].innerHTML = currentTeam.innerHTML.split(" ")[1];
       // gridArray[i].disabled = true;
       gridArray[i].setAttribute("style", "pointer-events:none");
