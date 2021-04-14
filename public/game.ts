@@ -1,11 +1,15 @@
-// import { addClass, removeClass } from "./ui";
-
-export const gameMode = (ws) => {
-  const modeArray = document.getElementsByClassName("mode");
+export const gameMode = (ws: WebSocket): void => {
+  const modeArray = document.getElementsByClassName(
+    "mode"
+  ) as HTMLCollectionOf<HTMLInputElement>;
   let checkedMode;
   for (let i = 0; i < modeArray.length; i++) {
     if (modeArray[i].checked) {
-      checkedMode = modeArray[i].getAttribute("id").split("-")[1];
+      const element = modeArray[i].getAttribute("id");
+      if (!element) {
+        throw new Error("Unable to return checked 'mode' element");
+      }
+      checkedMode = element.split("-")[1];
     }
   }
   let modeObj = {
@@ -15,48 +19,94 @@ export const gameMode = (ws) => {
   ws.send(JSON.stringify(modeObj));
 };
 
-export const startGame = (ws) => {
+export const startGame = (ws: WebSocket): void => {
   gameMode(ws);
 
-  document.getElementById("prompts").classList.add("hidden");
+  const prompts = document.getElementById("prompts");
+  if (!prompts) {
+    throw new Error("Unable to return 'prompts' element");
+  }
+  prompts.classList.add("hidden");
 
-  const radioArray = document.getElementsByClassName("prompts-radio");
+  const radioArray = document.getElementsByClassName(
+    "prompts-radio"
+  ) as HTMLCollectionOf<HTMLInputElement>;
   for (let i = 0; i < radioArray.length; i++) {
     radioArray[i].disabled = true;
   }
 
-  document.getElementById("game-grid").classList.remove("disabled");
+  const gameGrid = document.getElementById("game-grid");
+  if (!gameGrid) {
+    throw new Error("Unable to return 'game-grid' element");
+  }
+  gameGrid.classList.remove("disabled");
 };
 
-export const gameOver = () => {
-  document.getElementById("game-grid").classList.add("disabled");
-  document.getElementById("game-over").classList.remove("hidden");
+export const gameOver = (): void => {
+  const gameGrid = document.getElementById("game-grid");
+  if (!gameGrid) {
+    throw new Error("Unable to return 'game-grid' element");
+  }
+  gameGrid.classList.add("disabled");
+
+  const gameOver = document.getElementById("game-over");
+  if (!gameOver) {
+    throw new Error("Unable to return 'game-over' element");
+  }
+  gameOver.classList.remove("hidden");
 };
 
-export const resetGame = () => {
-  const radioArray = document.getElementsByClassName("prompts-radio");
+export const resetGame = (): void => {
+  const radioArray = document.getElementsByClassName(
+    "prompts-radio"
+  ) as HTMLCollectionOf<HTMLInputElement>;
   for (let i = 0; i < radioArray.length; i++) {
     radioArray[i].disabled = false;
   }
 
   const gridArray = document.getElementsByClassName("game-grid-item");
   for (let i = 0; i < gridArray.length; i++) {
-    const gridIdNum = gridArray[i].getAttribute("id").split("-")[1];
+    const gridId = gridArray[i].getAttribute("id");
+    if (!gridId) {
+      throw new Error("Unable to return 'game-grid-item' id");
+    }
+    const gridIdNum = gridId.split("-")[1];
     gridArray[i].removeAttribute("style");
     gridArray[i].innerHTML = gridIdNum;
   }
 
-  document.getElementById("log-container").innerHTML =
-    '<p class="log-text" id="logs">Logs appear here</p>';
+  const logContainer = document.getElementById("log-container");
+  if (!logContainer) {
+    throw new Error("Unable to return 'log-container' element");
+  }
+  logContainer.innerHTML = '<p class="log-text" id="logs">Logs appear here</p>';
 
-  document.getElementById("game-over").classList.add("hidden");
-  document.getElementById("prompts").classList.remove("hidden");
+  const gameOver = document.getElementById("game-over");
+  if (!gameOver) {
+    throw new Error("Unable to return 'game-over' element");
+  }
+  gameOver.classList.add("hidden");
 
-  document.getElementById("current-player").innerHTML = "Current Player";
-  document.getElementById("current-team").innerHTML = "Team";
+  const prompts = document.getElementById("prompts");
+  if (!prompts) {
+    throw new Error("Unable to return 'prompts' element");
+  }
+  prompts.classList.remove("hidden");
+
+  const currentPlayer = document.getElementById("current-player");
+  if (!currentPlayer) {
+    throw new Error("Unable to return 'current-player' element");
+  }
+  currentPlayer.innerHTML = "Current Player";
+
+  const currentTeam = document.getElementById("current-team");
+  if (!currentTeam) {
+    throw new Error("Unable to return 'current-team' element");
+  }
+  currentTeam.innerHTML = "Team";
 };
 
-export const playAgain = (ws) => {
+export const playAgain = (ws: WebSocket): void => {
   let playAgainObj = {
     type: "playAgain",
     val: "y",

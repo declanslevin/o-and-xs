@@ -12,8 +12,10 @@ const init = (): void => {
     if (!err || !err.currentTarget) {
       throw new Error("Unable to return error event");
     }
-    if (err.currentTarget.readyState === 3) {
-      console.log("run your server dummy");
+    const state: WebSocket["readyState"] = ws.readyState;
+    if (state === 3) {
+      // if (err.currentTarget.readyState === 3) {
+      console.log("Run your server dummy");
       const logElement = document.getElementById("logs");
       if (!logElement) {
         throw new Error("Unable to return 'logs' element");
