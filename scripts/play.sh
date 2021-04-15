@@ -3,6 +3,6 @@
 set -eu
 
 REPO_ROOT="$(git rev-parse --show-toplevel)"
-cd $REPO_ROOT/src
+cd $REPO_ROOT
 
-node main.js
+yarn parcel public/index.html

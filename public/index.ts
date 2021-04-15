@@ -10,12 +10,8 @@ const init = (): void => {
   ws.addEventListener("error", (err): void => {
     // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
     // 3	CLOSED	The connection is closed or couldn't be opened.
-    if (!err || !err.currentTarget) {
-      throw new Error("Unable to return error event");
-    }
     const state: WebSocket["readyState"] = ws.readyState;
     if (state === 3) {
-      // if (err.currentTarget.readyState === 3) {
       console.log("Run your server dummy");
       const logElement = getLogsElement();
       logElement.innerHTML = "Check your server is running (try 'yarn server')";
