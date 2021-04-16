@@ -14,19 +14,24 @@ export const getElementById = (id: string): HTMLElement => {
   return element;
 };
 
-export const disableRadioButtons = (): void => {
+export const getRadios = (
+  radioClass: string
+): HTMLCollectionOf<HTMLInputElement> => {
   const radioArray = document.getElementsByClassName(
-    "prompts-radio"
+    radioClass
   ) as HTMLCollectionOf<HTMLInputElement>;
+  return radioArray;
+};
+
+export const disableRadioButtons = (): void => {
+  const radioArray = getRadios("prompts-radio");
   for (let i = 0; i < radioArray.length; i++) {
     radioArray[i].disabled = true;
   }
 };
 
 export const enableRadioButtons = (): void => {
-  const radioArray = document.getElementsByClassName(
-    "prompts-radio"
-  ) as HTMLCollectionOf<HTMLInputElement>;
+  const radioArray = getRadios("prompts-radio");
   for (let i = 0; i < radioArray.length; i++) {
     radioArray[i].disabled = false;
   }

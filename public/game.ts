@@ -2,12 +2,11 @@ import {
   disableRadioButtons,
   enableRadioButtons,
   getElementById,
+  getRadios,
 } from "./helpers";
 
 export const getGameMode = (): string => {
-  const modeArray = document.getElementsByClassName(
-    "mode"
-  ) as HTMLCollectionOf<HTMLInputElement>;
+  const modeArray = getRadios("mode");
   let checkedMode: string = "";
   for (const el of modeArray) {
     if (el.checked) {
