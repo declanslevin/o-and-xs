@@ -13,3 +13,21 @@ export const getElementById = (id: string): HTMLElement => {
   }
   return element;
 };
+
+export const disableRadioButtons = (): void => {
+  const radioArray = document.getElementsByClassName(
+    "prompts-radio"
+  ) as HTMLCollectionOf<HTMLInputElement>;
+  for (let i = 0; i < radioArray.length; i++) {
+    radioArray[i].disabled = true;
+  }
+};
+
+export const enableRadioButtons = (): void => {
+  const radioArray = document.getElementsByClassName(
+    "prompts-radio"
+  ) as HTMLCollectionOf<HTMLInputElement>;
+  for (let i = 0; i < radioArray.length; i++) {
+    radioArray[i].disabled = false;
+  }
+};

@@ -1,19 +1,28 @@
-import { getElementById } from "./helpers";
+import {
+  disableRadioButtons,
+  enableRadioButtons,
+  getElementById,
+} from "./helpers";
 
-export const gameMode = (ws: WebSocket): void => {
+export const getGameMode = (): string => {
   const modeArray = document.getElementsByClassName(
     "mode"
   ) as HTMLCollectionOf<HTMLInputElement>;
-  let checkedMode;
-  for (let i = 0; i < modeArray.length; i++) {
-    if (modeArray[i].checked) {
-      const element = modeArray[i].getAttribute("id");
-      if (!element) {
+  let checkedMode: string = "";
+  for (const el of modeArray) {
+    if (el.checked) {
+      const domId = el.getAttribute("id");
+      if (!domId) {
         throw new Error("Unable to return checked 'mode' element");
       }
-      checkedMode = element.split("-")[1];
+      checkedMode = domId.replace("mode-", "");
     }
   }
+  return checkedMode;
+};
+
+export const sendGameMode = (ws: WebSocket): void => {
+  const checkedMode = getGameMode();
   let modeObj = {
     type: "mode",
     mode: checkedMode,
@@ -22,16 +31,10 @@ export const gameMode = (ws: WebSocket): void => {
 };
 
 export const startGame = (ws: WebSocket): void => {
-  gameMode(ws);
+  sendGameMode(ws);
 
   getElementById("prompts").classList.add("hidden");
-
-  const radioArray = document.getElementsByClassName(
-    "prompts-radio"
-  ) as HTMLCollectionOf<HTMLInputElement>;
-  for (let i = 0; i < radioArray.length; i++) {
-    radioArray[i].disabled = true;
-  }
+  disableRadioButtons();
 
   getElementById("game-grid").classList.remove("disabled");
 };
@@ -42,12 +45,7 @@ export const gameOver = (): void => {
 };
 
 export const resetGame = (): void => {
-  const radioArray = document.getElementsByClassName(
-    "prompts-radio"
-  ) as HTMLCollectionOf<HTMLInputElement>;
-  for (let i = 0; i < radioArray.length; i++) {
-    radioArray[i].disabled = false;
-  }
+  enableRadioButtons();
 
   const gridArray = document.getElementsByClassName("game-grid-item");
   for (let i = 0; i < gridArray.length; i++) {
