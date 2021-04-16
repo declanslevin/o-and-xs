@@ -1,36 +1,31 @@
-# Command Line
+# Play
 
-To play the game on the command line: `yarn play`.
+From the command line, run the server:
+
+- `yarn server`
+  OR
+- `yarn server:watch`
+
+Then in a separate tab:
+
+- `yarn play`
+
+Everything is compiled and bundled by Parcel and hosted on port 1234
+
+- open http://localhost:1234
+
+# Testing
 
 To run tests: `yarn test`.
 Run specific tests with `yarn test <test name>`.
 
-# Browser
-
-To play the game in a browser: `yarn play:browser`.
+# Other
 
 Compile SASS:
 
 - `yarn sass:compile`
   Watch SASS:
 - `yarn sass:watch`
-
-Run the server:
-
-- `yarn server`
-  OR
-- cd into /server/
-- execute `node index.js`
-
-To run the server with live updating:
-
-- `yarn server:watch`
-  OR
-- install watchexec if you don't already have it `brew install watchexec`
-- run `watchexec --restart --watch index.js -- node index.js`
-
-If you want live updating in the frontend:
-`npx live-server`
 
 TODO:
 
