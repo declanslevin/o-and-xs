@@ -2,14 +2,12 @@ import { updateScroll } from "./ui";
 import { gameOver } from "./game";
 import { getLogsElement, getElementById } from "./helpers";
 
-// TODO: What type to use for message - string or MessageEvent?
 export const handleMessage = (message: MessageEvent): void => {
-  // string type introduces errors
   let msg = JSON.parse(message.data);
   console.log(msg);
-  let currentText = getLogsElement().innerHTML;
   switch (msg.type) {
-    case "prompt":
+    case "prompt": {
+      let currentText = getLogsElement().innerHTML;
       if (currentText === "Logs appear here") {
         currentText = "";
       }
@@ -17,8 +15,10 @@ export const handleMessage = (message: MessageEvent): void => {
         currentText + `<p class="log-text">${msg.prompt}</p>`;
       updateScroll();
       break;
+    }
 
-    case "log":
+    case "log": {
+      let currentText = getLogsElement().innerHTML;
       if (currentText === "Logs appear here") {
         currentText = "";
       }
@@ -26,6 +26,7 @@ export const handleMessage = (message: MessageEvent): void => {
         currentText + `<p class="log-text">${msg.log}</p>`;
       updateScroll();
       break;
+    }
 
     case "thisPlayer":
       getElementById("your-player").innerHTML = `Your Name: ${msg.name}`;

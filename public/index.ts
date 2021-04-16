@@ -4,14 +4,11 @@ import { handleMessage } from "./message";
 import { getLogsElement, getElementById } from "./helpers";
 
 const init = (): void => {
-  // add ticket to add retry logic
-  // ? kill server and reconnect to games already running (database?)
   const ws = new WebSocket("ws://localhost:8080");
   ws.addEventListener("error", (err): void => {
     // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
     // 3	CLOSED	The connection is closed or couldn't be opened.
-    const state: WebSocket["readyState"] = ws.readyState;
-    if (state === 3) {
+    if (ws.readyState === 3) {
       console.log("Run your server dummy");
       const logElement = getLogsElement();
       logElement.innerHTML = "Check your server is running (try 'yarn server')";
@@ -19,7 +16,6 @@ const init = (): void => {
     console.log(err);
   });
 
-  // TODO: Add type for event?
   ws.addEventListener("open", (event): void => {
     if (event.target !== ws) {
       throw new Error("Why is this not the WebSocket?");
@@ -27,7 +23,6 @@ const init = (): void => {
     console.log("We are connected!");
     registerGridBehaviour(ws);
 
-    // TODO: Add type for message?
     ws.addEventListener("message", (message): void => {
       handleMessage(message);
     });
