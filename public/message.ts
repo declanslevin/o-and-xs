@@ -3,7 +3,7 @@ import { gameOver } from "./game";
 import { getLogsElement, getElementById } from "./helpers";
 
 export const handleMessage = (message: MessageEvent): void => {
-  let msg = JSON.parse(message.data);
+  const msg = JSON.parse(message.data);
   console.log(msg);
   switch (msg.type) {
     case "prompt": {

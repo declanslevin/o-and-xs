@@ -18,7 +18,7 @@ wss.on("connection", async (ws) => {
 
   ws.on("message", (message) => {
     console.log(message);
-    let msg = JSON.parse(message.toString());
+    const msg = JSON.parse(message.toString());
     console.log(msg);
     if (msg.type === "grid") {
       console.log(`DEBUG User choice made (${msg.grid})`);

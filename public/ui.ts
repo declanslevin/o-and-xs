@@ -16,7 +16,7 @@ export const registerGridBehaviour = (ws: WebSocket): void => {
       }
       const id = domId.replace("grid-", "");
 
-      let gridObj = {
+      const gridObj = {
         grid: Number(id),
         type: "grid",
       };

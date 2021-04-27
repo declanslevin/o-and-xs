@@ -20,7 +20,7 @@ const receiveGameModeChoice = async (player: HumanPlayer): Promise<string> => {
   return new Promise((resolve) => {
     if (player.ws) {
       player.ws.on("message", (message: string) => {
-        let msg = JSON.parse(message);
+        const msg = JSON.parse(message);
         // TODO: Message validation
         if (msg.type === "mode") {
           return resolve(msg.mode);
@@ -63,7 +63,7 @@ const runPlayLoop = async (
       //   await play(game, players);
     } else if (mode === "online") {
       lobby.addAsWaitingPlayer(player);
-      let players = await lobby.waitForOpponent(player);
+      const players = await lobby.waitForOpponent(player);
       if (players) {
         const game = new Game(players);
         lobby.addGame(game);

@@ -7,7 +7,7 @@ const init = (): void => {
   const ws = new WebSocket("ws://localhost:8080");
   ws.addEventListener("error", (err): void => {
     // https://developer.mozilla.org/en-US/docs/Web/API/WebSocket/readyState
-    // 3	CLOSED	The connection is closed or couldn't be opened.
+    // 3 CLOSED The connection is closed or couldn't be opened.
     if (ws.readyState === 3) {
       console.log("Run your server dummy");
       const logElement = getLogsElement();

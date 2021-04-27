@@ -2,7 +2,7 @@ import Game from "./game";
 import { sleep } from "./helpers";
 
 const mapGridValues = (game: Game): string[] => {
-  let gridArray = [
+  const gridArray = [
     [1, 2, 3],
     [4, 5, 6],
     [7, 8, 9],
@@ -13,7 +13,7 @@ const mapGridValues = (game: Game): string[] => {
     [3, 5, 7],
   ];
   return gridArray.map((array) => {
-    let result = array
+    const result = array
       .map((ref) => {
         return game.grid[ref];
       })
@@ -46,7 +46,7 @@ const checkForDraw = async (game: Game): Promise<boolean> => {
 };
 
 const checkForWin = async (game: Game): Promise<boolean> => {
-  let winner = await checkMappedGridForWin(game, mapGridValues(game));
+  const winner = await checkMappedGridForWin(game, mapGridValues(game));
   return Boolean(winner);
 };
 
