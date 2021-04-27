@@ -22,7 +22,11 @@
     "server": "scripts/server.sh",
     "server:watch": "scripts/server-watch.sh",
     "sass:compile": "sass scss/styles.scss public/css/styles.min.css -s compressed",
-    "sass:watch": "sass scss/styles.scss css/styles.min.css -s compressed --watch"
+    "sass:watch": "sass scss/styles.scss css/styles.min.css -s compressed --watch",
+    "lint": "yarn eslint . --ext .js,.jsx,.ts,.tsx",
+    "lint:fix": "yarn eslint . --ext .js,.jsx,.ts,.tsx --fix",
+    "lint:sass": "yarn stylelint '**/*.scss'",
+    "lint:sass-fix": "yarn stylelint '**/*.scss'"
   },
   "devDependencies": {
     "@types/jest": "^26.0.21",
