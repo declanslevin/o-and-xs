@@ -1,6 +1,6 @@
 import Game from "./game";
 import { sleep } from "./helpers";
-import { Message } from "./message";
+import { MessageToFrontEnd } from "./message";
 
 const mapGridValues = (game: Game): string[] => {
   const gridArray = [
@@ -58,7 +58,7 @@ const logGameOver = async (
 ): Promise<void> => {
   if (win || draw) {
     let log: string;
-    let gameOverObj: Message;
+    let gameOverObj: MessageToFrontEnd;
     if (win) {
       if (!game.winner) {
         throw new Error("game.winner is not a string");

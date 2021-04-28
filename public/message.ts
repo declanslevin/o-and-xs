@@ -1,10 +1,10 @@
 import { updateScroll } from "./ui";
 import { gameOver } from "./game";
 import { getLogsElement, getElementById } from "./helpers";
-import { Message } from "../lib/message";
+import { MessageToFrontEnd } from "../lib/message";
 
 export const handleMessage = (message: MessageEvent): void => {
-  const msg: Message = JSON.parse(message.data);
+  const msg: MessageToFrontEnd = JSON.parse(message.data);
   console.log(msg);
   switch (msg.type) {
     case "prompt": {

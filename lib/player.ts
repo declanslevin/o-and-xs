@@ -1,7 +1,7 @@
 import { sleep } from "./helpers";
 import WebSocket from "ws";
 import { Game, Team } from "./game";
-import { Message } from "./message";
+import { MessageToFrontEnd } from "./message";
 
 class Player {
   name: string;
@@ -66,7 +66,7 @@ class Player {
 
   log(message: string): void {
     if (this.ws) {
-      const logObj: Message = {
+      const logObj: MessageToFrontEnd = {
         type: "log",
         log: message,
       };
@@ -76,7 +76,7 @@ class Player {
     }
   }
 
-  send(messageObj: Message): void {
+  send(messageObj: MessageToFrontEnd): void {
     if (this.ws) {
       this.ws.send(JSON.stringify(messageObj));
     }

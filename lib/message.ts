@@ -1,6 +1,6 @@
 import { Team } from "./game";
 
-export type Message =
+export type MessageToFrontEnd =
   | {
       type: "prompt";
       prompt: string;

@@ -1,4 +1,4 @@
-import { Message } from "./message";
+import { MessageToFrontEnd } from "./message";
 import { Player } from "./player";
 
 export interface Grid {
@@ -103,7 +103,7 @@ export class Game {
     this.players.X.log(message);
   }
 
-  send(messageObj: Message): void {
+  send(messageObj: MessageToFrontEnd): void {
     this.players.O.send(messageObj);
     this.players.X.send(messageObj);
   }
