@@ -1,5 +1,4 @@
-import Game from "./game";
-import { Player, HumanPlayer, CpuPlayer } from "./player";
+import { Player, CpuPlayer } from "./player";
 import { gameFactory } from "./test-helpers";
 
 describe("Player methods work correctly", () => {

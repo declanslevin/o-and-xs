@@ -4,7 +4,7 @@ const recievePlayAgainChoice = (player: Player): Promise<string> => {
   return new Promise((resolve) => {
     if (player.ws) {
       player.ws.on("message", (message: any) => {
-        let msg = JSON.parse(message);
+        const msg = JSON.parse(message);
         if (msg.type === "playAgain") {
           return resolve(msg.val);
         }
@@ -24,7 +24,7 @@ const isValidPlayAgainAnswer = (player: Player, answer: any) => {
 
 const playAgain = async (player: Player): Promise<boolean> => {
   while (true) {
-    let answer = await recievePlayAgainChoice(player);
+    const answer = await recievePlayAgainChoice(player);
     if (isValidPlayAgainAnswer(player, answer)) {
       if (answer === "y" || answer === "yes") {
         return true;

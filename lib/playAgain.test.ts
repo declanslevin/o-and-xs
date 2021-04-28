@@ -50,7 +50,7 @@ describe("PlayAgain restarts or ends play accordingly", () => {
     const player = new HumanPlayer("Player 1");
 
     const expected = true;
-    const input = "y";
+    // const input = "y";
 
     // rl.question = (question, cb) => {
     //   cb(input);
@@ -64,7 +64,7 @@ describe("PlayAgain restarts or ends play accordingly", () => {
   it.skip("playAgain returns false", async () => {
     const player = new HumanPlayer("Player 1");
     const expected = false;
-    const input = "n";
+    // const input = "n";
 
     // rl.question = (question, cb) => {
     //   cb(input);

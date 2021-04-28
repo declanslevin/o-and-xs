@@ -26,6 +26,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Install dependencies
         run: yarn install
+      - name: Run ESLint
+        run: yarn eslint . --ext .js,.jsx,.ts,.tsx
+      - name: Run stylelint
+        run: yarn stylelint "**/*.scss"
       - name: Compile SCSS
         run: yarn sass:compile
       - name: Run tests

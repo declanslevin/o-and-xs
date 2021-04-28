@@ -5,28 +5,32 @@ import { Player } from "./player";
 class Lobby {
   waitingPlayers: Player[];
   games: Set<Game>;
-  constructor() {
+  constructor () {
     this.waitingPlayers = [];
     this.games = new Set();
   }
-  addGame(game: Game): void {
+
+  addGame (game: Game): void {
     this.games.add(game);
   }
-  addAsWaitingPlayer(player: Player): void {
+
+  addAsWaitingPlayer (player: Player): void {
     if (!this.waitingPlayers.includes(player)) {
       player.log("Adding you to the lobby");
       this.waitingPlayers.push(player);
     }
   }
-  getGameFromPlayer(player: Player): Game {
-    for (let game of this.games) {
+
+  getGameFromPlayer (player: Player): Game {
+    for (const game of this.games) {
       if (Object.values(game.players).includes(player)) {
         return game;
       }
     }
     throw new Error("This player isnt in a game");
   }
-  matchPlayers(): [Player, Player] | null {
+
+  matchPlayers (): [Player, Player] | null {
     if (this.waitingPlayers.length > 1) {
       const player1 = this.waitingPlayers.pop();
       const player2 = this.waitingPlayers.pop();
@@ -35,10 +39,11 @@ class Lobby {
       return null;
     }
   }
-  async waitForOpponent(player: Player): Promise<[Player, Player] | null> {
+
+  async waitForOpponent (player: Player): Promise<[Player, Player] | null> {
     let loopCount = 0;
     while (true) {
-      let matchedPlayers = this.matchPlayers();
+      const matchedPlayers = this.matchPlayers();
       if (matchedPlayers) {
         player.log("Opponent player has joined your game");
         return matchedPlayers;

@@ -3,7 +3,7 @@ import { gameOver } from "./game";
 import { getLogsElement, getElementById } from "./helpers";
 
 export const handleMessage = (message: MessageEvent): void => {
-  let msg = JSON.parse(message.data);
+  const msg = JSON.parse(message.data);
   console.log(msg);
   switch (msg.type) {
     case "prompt": {
@@ -38,18 +38,20 @@ export const handleMessage = (message: MessageEvent): void => {
       getElementById("current-team").innerHTML = `Team: ${msg.team}`;
       break;
 
-    case "playerChoice":
-      let grid = getElementById(`grid-${msg.choice}`);
+    case "playerChoice": {
+      const grid = getElementById(`grid-${msg.choice}`);
       grid.innerHTML = msg.team;
       // TODO: Do this by adding a class i.e. disabled
       grid.setAttribute("style", "pointer-events:none");
       break;
+    }
 
-    case "cpuChoice":
-      grid = getElementById(`grid-${msg.choice}`);
+    case "cpuChoice": {
+      const grid = getElementById(`grid-${msg.choice}`);
       grid.innerHTML = msg.team;
       grid.setAttribute("style", "pointer-events:none");
       break;
+    }
 
     case "draw":
       getElementById("game-winner").innerHTML = "You drew!";

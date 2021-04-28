@@ -22,7 +22,7 @@ export const getGameMode = (): string => {
 
 export const sendGameMode = (ws: WebSocket): void => {
   const checkedMode = getGameMode();
-  let modeObj = {
+  const modeObj = {
     type: "mode",
     mode: checkedMode,
   };
@@ -66,7 +66,7 @@ export const resetGame = (): void => {
 };
 
 export const playAgain = (ws: WebSocket): void => {
-  let playAgainObj = {
+  const playAgainObj = {
     type: "playAgain",
     val: "y",
   };
