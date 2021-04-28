@@ -27,7 +27,7 @@ const checkMappedGridForWin = async (
   resultArray: string[]
 ): Promise<string | null> => {
   let winner = null;
-  resultArray.map((result: any) => {
+  resultArray.forEach((result: any) => {
     if (result === "XXX" || result === "OOO") {
       winner = result.split("")[0];
       game.setWinner(winner);

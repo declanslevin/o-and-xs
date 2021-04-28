@@ -102,7 +102,6 @@ describe("Game methods can set values", () => {
         X: { name: "CPU" },
       };
       game.nextPlayer = "O";
-      const input = 5;
       const expectedGrid = "O";
       const expectedChoices = [5];
 
@@ -123,7 +122,6 @@ describe("Game methods can set values", () => {
         X: { name: "You" },
       };
       game.nextPlayer = "O";
-      const input = 5;
       const expectedGrid = "O";
       const expectedChoices = [5];
 

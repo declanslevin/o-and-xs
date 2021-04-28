@@ -26,5 +26,11 @@
       "semi": ["off"],
       "quotes": ["off"],
       "comma-dangle": ["off"]
-    }
+    },
+    "overrides": [ {
+      "files": ["*.ts"],
+      "rules": {
+        "no-undef": ["off"]
+      }
+    }]
 }

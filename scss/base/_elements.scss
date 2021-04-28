@@ -1,6 +1,6 @@
 *,
-*:before,
-*:after {
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -27,6 +27,7 @@
     justify-content: space-around;
     width: 100%;
     padding: 10px 0;
+
     &-inner {
       padding: 10px;
       display: flex;
