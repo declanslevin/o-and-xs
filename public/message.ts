@@ -1,39 +1,7 @@
 import { updateScroll } from "./ui";
 import { gameOver } from "./game";
 import { getLogsElement, getElementById } from "./helpers";
-import { Team } from "../lib/game";
-
-type Message =
-  | {
-      type: "prompt";
-      prompt: string;
-    }
-  | {
-      type: "log";
-      log: string;
-    }
-  | {
-      type: "thisPlayer";
-      team: Team;
-      name: string;
-    }
-  | {
-      type: "currentPlayer";
-      team: Team;
-      player: string;
-    }
-  | {
-      type: "playerChoice";
-      choice: number;
-      team: Team;
-    }
-  | {
-      type: "draw";
-    }
-  | {
-      type: "win";
-      winner: string;
-    };
+import { Message } from "../lib/message";
 
 export const handleMessage = (message: MessageEvent): void => {
   const msg: Message = JSON.parse(message.data);

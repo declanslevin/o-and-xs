@@ -1,3 +1,4 @@
+import { Message } from "./message";
 import { Player } from "./player";
 
 export interface Grid {
@@ -18,7 +19,7 @@ export class Game {
   choices: number[];
   winner?: string | null;
 
-  constructor (players: [Player, Player]) {
+  constructor(players: [Player, Player]) {
     this.grid = {
       1: 1,
       2: 2,
@@ -36,15 +37,15 @@ export class Game {
     this.winner = null;
   }
 
-  getPlayerName (team: Team): string {
+  getPlayerName(team: Team): string {
     return this.players[team].name;
   }
 
-  getNextPlayerName (): string {
+  getNextPlayerName(): string {
     return this.players[this.nextPlayer].name;
   }
 
-  randomPlayersObject (players: [Player, Player]): Players {
+  randomPlayersObject(players: [Player, Player]): Players {
     const swap = Math.random() < 0.5;
     if (swap) {
       return {
@@ -59,7 +60,7 @@ export class Game {
     }
   }
 
-  sendInitialBrowserState (): void {
+  sendInitialBrowserState(): void {
     this.players.O.sendThisPlayerToBrowser(this);
     this.players.X.sendThisPlayerToBrowser(this);
     const name = this.getNextPlayerName();
@@ -67,42 +68,42 @@ export class Game {
       name === "You" ? `${name} get to go first!` : `${name} gets to go first!`;
     this.log(log);
     const playerObj = {
-      type: "currentPlayer",
+      type: "currentPlayer" as const,
       team: this.nextPlayer,
       player: name,
     };
     this.send(playerObj);
   }
 
-  setNextPlayer (team?: Team): void {
+  setNextPlayer(team?: Team): void {
     if (team) {
       this.nextPlayer = team;
     } else {
       this.nextPlayer = this.players[this.nextPlayer].getOtherPlayerTeam(this);
     }
     const playerObj = {
-      type: "currentPlayer",
+      type: "currentPlayer" as const,
       team: this.nextPlayer,
       player: this.players[this.nextPlayer].name,
     };
     this.send(playerObj);
   }
 
-  setWinner (team: string): void {
+  setWinner(team: string): void {
     this.winner = team;
   }
 
-  logGrid (): void {
+  logGrid(): void {
     this.players.O.logGrid(this);
     this.players.X.logGrid(this);
   }
 
-  log (message: string): void {
+  log(message: string): void {
     this.players.O.log(message);
     this.players.X.log(message);
   }
 
-  send (messageObj: any): void {
+  send(messageObj: Message): void {
     this.players.O.send(messageObj);
     this.players.X.send(messageObj);
   }

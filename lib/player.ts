@@ -1,38 +1,7 @@
 import { sleep } from "./helpers";
 import WebSocket from "ws";
 import { Game, Team } from "./game";
-
-type Message =
-  | {
-      type: "prompt";
-      prompt: string;
-    }
-  | {
-      type: "log";
-      log: string;
-    }
-  | {
-      type: "thisPlayer";
-      team: Team;
-      name: string;
-    }
-  | {
-      type: "currentPlayer";
-      team: Team;
-      player: string;
-    }
-  | {
-      type: "playerChoice";
-      choice: number;
-      team: Team;
-    }
-  | {
-      type: "draw";
-    }
-  | {
-      type: "win";
-      winner: string;
-    };
+import { Message } from "./message";
 
 class Player {
   name: string;
@@ -97,11 +66,11 @@ class Player {
 
   log(message: string): void {
     if (this.ws) {
-      const logObj = {
+      const logObj: Message = {
         type: "log",
         log: message,
       };
-      this.ws.send(JSON.stringify(logObj));
+      this.send(logObj);
     } else {
       console.log(message);
     }
@@ -184,7 +153,7 @@ class HumanPlayer extends Player {
     game.grid[choice] = this.getTeam(game);
     game.choices.push(choice);
     const playerChoiceObj = {
-      type: "playerChoice",
+      type: "playerChoice" as const,
       choice: choice,
       team: this.getTeam(game),
     };
@@ -215,7 +184,7 @@ class CpuPlayer extends Player {
     game.grid[choice] = this.getTeam(game);
     game.choices.push(choice);
     const cpuChoiceObj = {
-      type: "playerChoice",
+      type: "playerChoice" as const,
       choice: choice,
       team: this.getTeam(game),
     };
