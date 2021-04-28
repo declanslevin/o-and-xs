@@ -2,23 +2,55 @@ import { sleep } from "./helpers";
 import WebSocket from "ws";
 import { Game, Team } from "./game";
 
+type Message =
+  | {
+      type: "prompt";
+      prompt: string;
+    }
+  | {
+      type: "log";
+      log: string;
+    }
+  | {
+      type: "thisPlayer";
+      team: Team;
+      name: string;
+    }
+  | {
+      type: "currentPlayer";
+      team: Team;
+      player: string;
+    }
+  | {
+      type: "playerChoice";
+      choice: number;
+      team: Team;
+    }
+  | {
+      type: "draw";
+    }
+  | {
+      type: "win";
+      winner: string;
+    };
+
 class Player {
   name: string;
   ws?: WebSocket;
-  constructor (name: string = "Player", ws?: WebSocket) {
+  constructor(name: string = "Player", ws?: WebSocket) {
     this.name = name;
     this.ws = ws;
   }
 
-  async getGridChoice (game: Game): Promise<number> {
+  async getGridChoice(game: Game): Promise<number> {
     throw new Error("You must implement this in your subclass");
   }
 
-  async setGridChoice (game: Game, choice: number): Promise<void> {
+  async setGridChoice(game: Game, choice: number): Promise<void> {
     throw new Error("You must implement this in your subclass");
   }
 
-  getTeam (game: Game): Team {
+  getTeam(game: Game): Team {
     const teams: Team[] = ["O", "X"];
     for (const key of teams) {
       if (game.players[key] === this) {
@@ -28,7 +60,7 @@ class Player {
     throw new Error("Can't return a team");
   }
 
-  getOtherPlayerTeam (game: Game): Team {
+  getOtherPlayerTeam(game: Game): Team {
     const teams: Team[] = ["O", "X"];
     for (const key of teams) {
       if (game.players[key] !== this) {
@@ -38,7 +70,7 @@ class Player {
     throw new Error("Can't return a team");
   }
 
-  _isValidGridChoice (game: Game, choice: number): boolean {
+  _isValidGridChoice(game: Game, choice: number): boolean {
     if (
       isNaN(choice) ||
       choice < 1 ||
@@ -54,16 +86,16 @@ class Player {
     }
   }
 
-  sendThisPlayerToBrowser (game: Game): void {
+  sendThisPlayerToBrowser(game: Game): void {
     const playerObj = {
-      type: "thisPlayer",
+      type: "thisPlayer" as const,
       team: this.getTeam(game),
       name: this.name,
     };
     this.send(playerObj);
   }
 
-  log (message: string): void {
+  log(message: string): void {
     if (this.ws) {
       const logObj = {
         type: "log",
@@ -75,14 +107,13 @@ class Player {
     }
   }
 
-  // TODO: Type this properly
-  send (messageObj: any): void {
+  send(messageObj: Message): void {
     if (this.ws) {
       this.ws.send(JSON.stringify(messageObj));
     }
   }
 
-  logGrid (game: Game): void {
+  logGrid(game: Game): void {
     if (this.name !== "CPU") {
       if (this.ws) {
         this.log(`&nbsp;--- --- ---<br>
@@ -112,15 +143,15 @@ class Player {
 
 class HumanPlayer extends Player {
   ws?: WebSocket;
-  constructor (name: string = "You", ws?: WebSocket) {
+  constructor(name: string = "You", ws?: WebSocket) {
     super(name, ws);
     this.name = name;
     this.ws = ws;
   }
 
-  async _recieveUserGridChoice (): Promise<number> {
+  async _recieveUserGridChoice(): Promise<number> {
     const promptObj = {
-      type: "prompt",
+      type: "prompt" as const,
       prompt: "Choose a grid number:",
     };
     this.send(promptObj);
@@ -136,7 +167,7 @@ class HumanPlayer extends Player {
     });
   }
 
-  async getGridChoice (game: Game): Promise<number> {
+  async getGridChoice(game: Game): Promise<number> {
     if (this.name !== "You") {
       this.log(`${this.name}'s turn:`);
     }
@@ -149,7 +180,7 @@ class HumanPlayer extends Player {
     }
   }
 
-  async setGridChoice (game: Game, choice: number): Promise<void> {
+  async setGridChoice(game: Game, choice: number): Promise<void> {
     game.grid[choice] = this.getTeam(game);
     game.choices.push(choice);
     const playerChoiceObj = {
@@ -162,15 +193,15 @@ class HumanPlayer extends Player {
 }
 
 class CpuPlayer extends Player {
-  constructor (name: any = "CPU") {
+  constructor(name: any = "CPU") {
     super(name);
   }
 
-  _generateCpuGridChoice (): number {
+  _generateCpuGridChoice(): number {
     return Math.floor(Math.random() * 9 + 1);
   }
 
-  async getGridChoice (game: any): Promise<number> {
+  async getGridChoice(game: any): Promise<number> {
     while (true) {
       const choice = this._generateCpuGridChoice();
       if (this._isValidGridChoice(game, choice)) {
@@ -180,7 +211,7 @@ class CpuPlayer extends Player {
     }
   }
 
-  async setGridChoice (game: Game, choice: number): Promise<void> {
+  async setGridChoice(game: Game, choice: number): Promise<void> {
     game.grid[choice] = this.getTeam(game);
     game.choices.push(choice);
     const cpuChoiceObj = {

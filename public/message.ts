@@ -1,9 +1,42 @@
 import { updateScroll } from "./ui";
 import { gameOver } from "./game";
 import { getLogsElement, getElementById } from "./helpers";
+import { Team } from "../lib/game";
+
+type Message =
+  | {
+      type: "prompt";
+      prompt: string;
+    }
+  | {
+      type: "log";
+      log: string;
+    }
+  | {
+      type: "thisPlayer";
+      team: Team;
+      name: string;
+    }
+  | {
+      type: "currentPlayer";
+      team: Team;
+      player: string;
+    }
+  | {
+      type: "playerChoice";
+      choice: number;
+      team: Team;
+    }
+  | {
+      type: "draw";
+    }
+  | {
+      type: "win";
+      winner: string;
+    };
 
 export const handleMessage = (message: MessageEvent): void => {
-  const msg = JSON.parse(message.data);
+  const msg: Message = JSON.parse(message.data);
   console.log(msg);
   switch (msg.type) {
     case "prompt": {
@@ -42,13 +75,6 @@ export const handleMessage = (message: MessageEvent): void => {
       const grid = getElementById(`grid-${msg.choice}`);
       grid.innerHTML = msg.team;
       // TODO: Do this by adding a class i.e. disabled
-      grid.setAttribute("style", "pointer-events:none");
-      break;
-    }
-
-    case "cpuChoice": {
-      const grid = getElementById(`grid-${msg.choice}`);
-      grid.innerHTML = msg.team;
       grid.setAttribute("style", "pointer-events:none");
       break;
     }
