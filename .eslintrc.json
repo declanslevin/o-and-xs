@@ -25,7 +25,8 @@
     "rules": {
       "semi": ["off"],
       "quotes": ["off"],
-      "comma-dangle": ["off"]
+      "comma-dangle": ["off"],
+      "space-before-function-paren": ["off"]
     },
     "overrides": [ {
       "files": ["*.ts"],
