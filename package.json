@@ -7,6 +7,16 @@
   "author": "declanslevin <33623842+declanslevin@users.noreply.github.com>",
   "license": "MIT",
   "dependencies": {
+    "@testing-library/jest-dom": "^5.11.4",
+    "@testing-library/react": "^11.1.0",
+    "@testing-library/user-event": "^12.1.10",
+    "@types/node": "^12.0.0",
+    "@types/react": "^17.0.0",
+    "@types/react-dom": "^17.0.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3",
+    "web-vitals": "^1.0.1",
     "@types/ws": "^7.4.0",
     "dart-sass": "^1.25.0",
     "sass": "^1.32.5",
@@ -44,5 +54,17 @@
     "stylelint": "^13.13.0",
     "stylelint-config-standard": "^22.0.0",
     "ts-jest": "^26.5.4"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
   }
 }
