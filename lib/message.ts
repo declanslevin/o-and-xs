@@ -1,33 +1,33 @@
-import { Team } from "./game";
+import { Team } from "./game"
 
 export type MessageToFrontEnd =
   | {
-      type: "prompt";
-      prompt: string;
+      type: "prompt"
+      prompt: string
     }
   | {
-      type: "log";
-      log: string;
+      type: "log"
+      log: string
     }
   | {
-      type: "thisPlayer";
-      team: Team;
-      name: string;
+      type: "thisPlayer"
+      team: Team
+      name: string
     }
   | {
-      type: "currentPlayer";
-      team: Team;
-      player: string;
+      type: "currentPlayer"
+      team: Team
+      name: string
     }
   | {
-      type: "playerChoice";
-      choice: number;
-      team: Team;
+      type: "playerChoice"
+      choice: number
+      team: Team
     }
   | {
-      type: "draw";
+      type: "draw"
     }
   | {
-      type: "win";
-      winner: string;
-    };
+      type: "win"
+      winner: string
+    }

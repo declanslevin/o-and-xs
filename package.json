@@ -9,6 +9,7 @@
   "dependencies": {
     "@types/ws": "^7.4.0",
     "dart-sass": "^1.25.0",
+    "redux": "^4.1.0",
     "sass": "^1.32.5",
     "ts-node": "^9.1.1",
     "tsc": "^1.20150623.0",
