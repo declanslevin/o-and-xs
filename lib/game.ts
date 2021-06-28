@@ -1,23 +1,23 @@
-import { MessageToFrontEnd } from "./message"
-import { Player } from "./player"
+import { MessageToFrontEnd } from "./message";
+import { Player } from "./player";
 
-export type Team = "O" | "X"
+export type Team = "O" | "X";
 
 export interface Grid {
-  [key: number]: number | Team
+  [key: number]: number | Team;
 }
 
 interface Players {
-  O: Player
-  X: Player
+  O: Player;
+  X: Player;
 }
 
 export class Game {
-  grid: Grid
-  players: Players
-  nextPlayer: Team
-  choices: number[]
-  winner?: string | null
+  grid: Grid;
+  players: Players;
+  nextPlayer: Team;
+  choices: number[];
+  winner?: string | null;
 
   constructor(players: [Player, Player]) {
     this.grid = {
@@ -30,83 +30,83 @@ export class Game {
       7: 7,
       8: 8,
       9: 9,
-    }
-    this.players = this.randomPlayersObject(players)
-    this.nextPlayer = Math.random() < 0.5 ? "X" : "O"
-    this.choices = []
-    this.winner = null
+    };
+    this.players = this.randomPlayersObject(players);
+    this.nextPlayer = Math.random() < 0.5 ? "X" : "O";
+    this.choices = [];
+    this.winner = null;
   }
 
   getPlayerName(team: Team): string {
-    return this.players[team].name
+    return this.players[team].name;
   }
 
   getNextPlayerName(): string {
-    return this.players[this.nextPlayer].name
+    return this.players[this.nextPlayer].name;
   }
 
   randomPlayersObject(players: [Player, Player]): Players {
-    const swap = Math.random() < 0.5
+    const swap = Math.random() < 0.5;
     if (swap) {
       return {
         X: players[0],
         O: players[1],
-      }
+      };
     } else {
       return {
         O: players[0],
         X: players[1],
-      }
+      };
     }
   }
 
   sendInitialBrowserState(): void {
-    this.players.O.sendThisPlayerToBrowser(this)
-    this.players.X.sendThisPlayerToBrowser(this)
-    const name = this.getNextPlayerName()
+    this.players.O.sendThisPlayerToBrowser(this);
+    this.players.X.sendThisPlayerToBrowser(this);
+    const name = this.getNextPlayerName();
     const log =
-      name === "You" ? `${name} get to go first!` : `${name} gets to go first!`
-    this.log(log)
+      name === "You" ? `${name} get to go first!` : `${name} gets to go first!`;
+    this.log(log);
     const playerObj = {
       type: "currentPlayer" as const,
       team: this.nextPlayer,
       name: name,
-    }
-    this.send(playerObj)
+    };
+    this.send(playerObj);
   }
 
   setNextPlayer(team?: Team): void {
     if (team) {
-      this.nextPlayer = team
+      this.nextPlayer = team;
     } else {
-      this.nextPlayer = this.players[this.nextPlayer].getOtherPlayerTeam(this)
+      this.nextPlayer = this.players[this.nextPlayer].getOtherPlayerTeam(this);
     }
     const playerObj = {
       type: "currentPlayer" as const,
       team: this.nextPlayer,
       name: this.players[this.nextPlayer].name,
-    }
-    this.send(playerObj)
+    };
+    this.send(playerObj);
   }
 
   setWinner(team: string): void {
-    this.winner = team
+    this.winner = team;
   }
 
   logGrid(): void {
-    this.players.O.logGrid(this)
-    this.players.X.logGrid(this)
+    this.players.O.logGrid(this);
+    this.players.X.logGrid(this);
   }
 
   log(message: string): void {
-    this.players.O.log(message)
-    this.players.X.log(message)
+    this.players.O.log(message);
+    this.players.X.log(message);
   }
 
   send(messageObj: MessageToFrontEnd): void {
-    this.players.O.send(messageObj)
-    this.players.X.send(messageObj)
+    this.players.O.send(messageObj);
+    this.players.X.send(messageObj);
   }
 }
 
-export default Game
+export default Game;

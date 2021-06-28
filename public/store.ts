@@ -1,18 +1,18 @@
-import { createStore } from "redux"
-import { Grid } from "../lib/game"
-import { MessageToFrontEnd } from "../lib/message"
+import { createStore } from "redux";
+import { Grid } from "../lib/game";
+import { MessageToFrontEnd } from "../lib/message";
 
 interface Player {
-  name: string | null
-  team: string | null
+  name: string | null;
+  team: string | null;
 }
 
 interface State {
-  grid: Grid
-  logs: string[]
-  thisPlayer: Player
-  currentPlayer: Player
-  winner: string | null
+  grid: Grid;
+  logs: string[];
+  thisPlayer: Player;
+  currentPlayer: Player;
+  winner: string | null;
 }
 
 const initialState: State = {
@@ -37,44 +37,44 @@ const initialState: State = {
     team: null,
   },
   winner: null,
-}
+};
 const reducer = (state = initialState, action: MessageToFrontEnd): State => {
   switch (action.type) {
     case "prompt": {
-      const { prompt } = action
-      return { ...state, logs: [...state.logs, prompt] }
+      const { prompt } = action;
+      return { ...state, logs: [...state.logs, prompt] };
     }
     case "log": {
-      const { log } = action
-      return { ...state, logs: [...state.logs, log] }
+      const { log } = action;
+      return { ...state, logs: [...state.logs, log] };
     }
     case "thisPlayer": {
-      const { team, name } = action
-      return { ...state, thisPlayer: { team, name } }
+      const { team, name } = action;
+      return { ...state, thisPlayer: { team, name } };
     }
     case "currentPlayer": {
-      console.log(action)
-      const { team, name } = action
-      return { ...state, currentPlayer: { team, name } }
+      console.log(action);
+      const { team, name } = action;
+      return { ...state, currentPlayer: { team, name } };
     }
     case "playerChoice": {
-      const { choice, team } = action
+      const { choice, team } = action;
       return {
         ...state,
         grid: { ...state.grid, [choice]: team },
-      }
+      };
     }
     case "draw": {
-      return { ...state, winner: "draw" }
+      return { ...state, winner: "draw" };
     }
     case "win": {
-      const { winner } = action
-      return { ...state, winner: winner }
+      const { winner } = action;
+      return { ...state, winner: winner };
     }
     default: {
-      return state
+      return state;
     }
   }
-}
+};
 
-export const store = createStore(reducer)
+export const store = createStore(reducer);
