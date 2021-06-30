@@ -2,9 +2,12 @@ import { updateScroll } from "./ui";
 import { gameOver } from "./game";
 import { getLogsElement, getElementById } from "./helpers";
 import { MessageToFrontEnd } from "../lib/message";
+import { store } from "./store";
 
 export const handleMessage = (message: MessageEvent): void => {
   const msg: MessageToFrontEnd = JSON.parse(message.data);
+  store.dispatch(msg);
+  console.log("STATE = ", store.getState());
   console.log(msg);
   switch (msg.type) {
     case "prompt": {
@@ -35,7 +38,7 @@ export const handleMessage = (message: MessageEvent): void => {
       break;
 
     case "currentPlayer":
-      getElementById("current-player").innerHTML = `Turn: ${msg.player}`;
+      getElementById("current-player").innerHTML = `Turn: ${msg.name}`;
       getElementById("current-team").innerHTML = `Team: ${msg.team}`;
       break;
 

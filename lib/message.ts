@@ -17,7 +17,7 @@ export type MessageToFrontEnd =
   | {
       type: "currentPlayer";
       team: Team;
-      player: string;
+      name: string;
     }
   | {
       type: "playerChoice";

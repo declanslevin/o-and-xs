@@ -1,16 +1,16 @@
 import { MessageToFrontEnd } from "./message";
 import { Player } from "./player";
 
+export type Team = "O" | "X";
+
 export interface Grid {
-  [key: number]: number | string;
+  [key: number]: number | Team;
 }
 
 interface Players {
   O: Player;
   X: Player;
 }
-
-export type Team = "O" | "X";
 
 export class Game {
   grid: Grid;
@@ -70,7 +70,7 @@ export class Game {
     const playerObj = {
       type: "currentPlayer" as const,
       team: this.nextPlayer,
-      player: name,
+      name: name,
     };
     this.send(playerObj);
   }
@@ -84,7 +84,7 @@ export class Game {
     const playerObj = {
       type: "currentPlayer" as const,
       team: this.nextPlayer,
-      player: this.players[this.nextPlayer].name,
+      name: this.players[this.nextPlayer].name,
     };
     this.send(playerObj);
   }
