@@ -3,8 +3,10 @@ import { Player } from "./player";
 
 export type Team = "O" | "X";
 
-export interface Grid {
-  [key: number]: number | Team;
+export type GridType = number | Team;
+
+export interface GridObj {
+  [key: number]: GridType;
 }
 
 interface Players {
@@ -13,7 +15,7 @@ interface Players {
 }
 
 export class Game {
-  grid: Grid;
+  grid: GridObj;
   players: Players;
   nextPlayer: Team;
   choices: number[];

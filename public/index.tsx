@@ -6,6 +6,10 @@ import { startGame, playAgain } from "./game";
 import { registerGridBehaviour } from "./ui";
 import { handleMessage } from "./message";
 import { getLogsElement, getElementById } from "./helpers";
+import Grid from "../src/components/Grid/Grid";
+import { GridObj } from "../lib/game";
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 const init = (): void => {
   const ws = new WebSocket("ws://localhost:8080");
@@ -41,14 +45,29 @@ const init = (): void => {
   });
 };
 
-init();
+const labels: GridObj = {
+  1: 1,
+  2: 2,
+  3: 3,
+  4: 4,
+  5: 5,
+  6: 6,
+  7: 7,
+  8: 8,
+  9: 9,
+};
 
 ReactDOM.render(
   <React.StrictMode>
-    <button>hello world</button>
+    <Provider store={store}>
+      <button>hello world</button>
+      <Grid />
+    </Provider>
   </React.StrictMode>,
   document.getElementById("root")
 );
+
+init();
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

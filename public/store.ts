@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { Grid } from "../lib/game";
+import { GridObj } from "../lib/game";
 import { MessageToFrontEnd } from "../lib/message";
 
 interface Player {
@@ -7,8 +7,8 @@ interface Player {
   team: string | null;
 }
 
-interface State {
-  grid: Grid;
+export interface State {
+  grid: GridObj;
   logs: string[];
   thisPlayer: Player;
   currentPlayer: Player;
@@ -53,7 +53,6 @@ const reducer = (state = initialState, action: MessageToFrontEnd): State => {
       return { ...state, thisPlayer: { team, name } };
     }
     case "currentPlayer": {
-      console.log(action);
       const { team, name } = action;
       return { ...state, currentPlayer: { team, name } };
     }
