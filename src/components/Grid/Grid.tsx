@@ -1,7 +1,8 @@
-import React, { ReactNode } from "react";
-import { useSelector } from "react-redux";
+import React, { ReactNode, useCallback, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import { GridType } from "../../../lib/game";
+import WebSocket from "ws";
+import { GridType, Team } from "../../../lib/game";
 import { State } from "../../../public/store";
 
 const GridContainer = styled.div`
@@ -32,14 +33,35 @@ const Square = styled.div`
 `;
 const Label = styled.p``;
 
-const Grid: React.FC = () => {
+interface GridProps {
+  ws: WebSocket;
+}
+
+const Grid: React.FC<GridProps> = ({ ws }) => {
   const labels: GridType[] = Object.values(
     useSelector((state: State) => state.grid)
   );
+  const getCurrentPlayerTeam = () =>
+    useSelector((state: State) => state.currentPlayer.team);
+  const currentTeam = getCurrentPlayerTeam();
+  const dispatch = useDispatch();
+  useEffect;
+  const onClickHandler = (label: number | Team, ws: WebSocket) => {
+    console.log(label, "CLICKED");
+    const gridObj = {
+      grid: Number(label),
+      type: "grid",
+    };
+    ws.send(JSON.stringify(gridObj));
+    dispatch({
+      type: "playerChoice",
+      payload: { choice: label, team: currentTeam },
+    });
+  };
   return (
     <GridContainer>
       {labels.map((label, i) => (
-        <Square key={i}>
+        <Square key={i} onClick={(e) => onClickHandler(label, ws)}>
           <Label>{label}</Label>
         </Square>
       ))}
@@ -48,3 +70,11 @@ const Grid: React.FC = () => {
 };
 
 export default Grid;
+
+// const handleOnClickAddSkill = (event: React.MouseEvent) => {
+//   const { currentTarget } = event;
+//   const skillUri = currentTarget.getAttribute('data-skill-uri');
+//   if (skillUri) {
+//     dispatch(addSkill(skillUri));
+//   }
+// };

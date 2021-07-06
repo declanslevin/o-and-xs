@@ -43,29 +43,27 @@ const init = (): void => {
   getElementById("js-play-again").addEventListener("click", (): void => {
     playAgain(ws);
   });
+
+  ReactDOM.render(
+    <React.StrictMode>
+      <Provider store={store}>
+        <button>hello world</button>
+        <Grid ws={ws} />
+      </Provider>
+    </React.StrictMode>,
+    document.getElementById("root")
+  );
 };
 
-const labels: GridObj = {
-  1: 1,
-  2: 2,
-  3: 3,
-  4: 4,
-  5: 5,
-  6: 6,
-  7: 7,
-  8: 8,
-  9: 9,
-};
-
-ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <button>hello world</button>
-      <Grid />
-    </Provider>
-  </React.StrictMode>,
-  document.getElementById("root")
-);
+// ReactDOM.render(
+//   <React.StrictMode>
+//     <Provider store={store}>
+//       <button>hello world</button>
+//       <Grid ws={ws}/>
+//     </Provider>
+//   </React.StrictMode>,
+//   document.getElementById("root")
+// );
 
 init();
 
