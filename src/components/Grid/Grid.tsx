@@ -1,7 +1,6 @@
 import React, { ReactNode, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
-import WebSocket from "ws";
 import { GridType, Team } from "../../../lib/game";
 import { State } from "../../../public/store";
 
@@ -41,27 +40,27 @@ const Grid: React.FC<GridProps> = ({ ws }) => {
   const labels: GridType[] = Object.values(
     useSelector((state: State) => state.grid)
   );
-  const getCurrentPlayerTeam = () =>
-    useSelector((state: State) => state.currentPlayer.team);
-  const currentTeam = getCurrentPlayerTeam();
+  const currentTeam = useSelector((state: State) => state.currentPlayer.team);
   const dispatch = useDispatch();
-  useEffect;
-  const onClickHandler = (label: number | Team, ws: WebSocket) => {
+  const onClickHandler = (label: number | Team) => {
     console.log(label, "CLICKED");
     const gridObj = {
       grid: Number(label),
       type: "grid",
     };
     ws.send(JSON.stringify(gridObj));
+    // TODO: Create Action creator
+    // TODO: THUNK that wraps the body of the onClickHandler
     dispatch({
       type: "playerChoice",
       payload: { choice: label, team: currentTeam },
     });
   };
+
   return (
     <GridContainer>
       {labels.map((label, i) => (
-        <Square key={i} onClick={(e) => onClickHandler(label, ws)}>
+        <Square key={i} onClick={() => onClickHandler(label)}>
           <Label>{label}</Label>
         </Square>
       ))}

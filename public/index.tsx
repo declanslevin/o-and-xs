@@ -7,7 +7,7 @@ import { registerGridBehaviour } from "./ui";
 import { handleMessage } from "./message";
 import { getLogsElement, getElementById } from "./helpers";
 import Grid from "../src/components/Grid/Grid";
-import { GridObj } from "../lib/game";
+import Header from "../src/components/Header";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
@@ -40,30 +40,21 @@ const init = (): void => {
     startGame(ws);
   });
 
-  getElementById("js-play-again").addEventListener("click", (): void => {
-    playAgain(ws);
-  });
+  // getElementById("js-play-again").addEventListener("click", (): void => {
+  //   playAgain(ws);
+  // });
 
   ReactDOM.render(
     <React.StrictMode>
       <Provider store={store}>
         <button>hello world</button>
+        <Header />
         <Grid ws={ws} />
       </Provider>
     </React.StrictMode>,
     document.getElementById("root")
   );
 };
-
-// ReactDOM.render(
-//   <React.StrictMode>
-//     <Provider store={store}>
-//       <button>hello world</button>
-//       <Grid ws={ws}/>
-//     </Provider>
-//   </React.StrictMode>,
-//   document.getElementById("root")
-// );
 
 init();
 
