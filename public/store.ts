@@ -2,7 +2,7 @@ import { createStore } from "redux";
 import { GridObj } from "../lib/game";
 import { MessageToFrontEnd } from "../lib/message";
 
-interface Player {
+export interface Player {
   name: string | null;
   team: string | null;
 }

@@ -69,11 +69,3 @@ const Grid: React.FC<GridProps> = ({ ws }) => {
 };
 
 export default Grid;
-
-// const handleOnClickAddSkill = (event: React.MouseEvent) => {
-//   const { currentTarget } = event;
-//   const skillUri = currentTarget.getAttribute('data-skill-uri');
-//   if (skillUri) {
-//     dispatch(addSkill(skillUri));
-//   }
-// };

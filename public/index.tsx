@@ -8,6 +8,7 @@ import { handleMessage } from "./message";
 import { getLogsElement, getElementById } from "./helpers";
 import Grid from "../src/components/Grid/Grid";
 import Header from "../src/components/Header";
+import PlayerIndicator from "../src/components/PlayerIndicator";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
@@ -49,6 +50,7 @@ const init = (): void => {
       <Provider store={store}>
         <button>hello world</button>
         <Header />
+        <PlayerIndicator />
         <Grid ws={ws} />
       </Provider>
     </React.StrictMode>,
