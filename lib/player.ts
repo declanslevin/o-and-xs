@@ -85,14 +85,13 @@ class Player {
   logGrid(game: Game): void {
     if (this.name !== "CPU") {
       if (this.ws) {
-        this.log(`&nbsp;--- --- ---<br>
-          | ${game.grid[1]} | ${game.grid[2]} | ${game.grid[3]} |<br>
-          &nbsp;--- --- ---<br>
-          | ${game.grid[4]} | ${game.grid[5]} | ${game.grid[6]} |<br>
-          &nbsp;--- --- ---<br>
-          | ${game.grid[7]} | ${game.grid[8]} | ${game.grid[9]} |<br>
-          &nbsp;--- --- ---
-          `);
+        this.log(` --- --- ---
+| ${game.grid[1]} | ${game.grid[2]} | ${game.grid[3]} |
+ --- --- ---
+| ${game.grid[4]} | ${game.grid[5]} | ${game.grid[6]} |
+ --- --- ---
+| ${game.grid[7]} | ${game.grid[8]} | ${game.grid[9]} |
+ --- --- ---`);
       } else {
         this.log(
           `

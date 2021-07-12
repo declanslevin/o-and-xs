@@ -1,6 +1,5 @@
 import React from "react";
 import ReactDOM from "react-dom";
-// import App from '../my-app/src/App';
 import reportWebVitals from "../my-app/src/reportWebVitals";
 import { startGame, playAgain } from "./game";
 import { registerGridBehaviour } from "./ui";
@@ -10,6 +9,7 @@ import Grid from "../src/components/Grid/Grid";
 import Header from "../src/components/Header";
 import GameMode from "../src/components/GameMode";
 import PlayerIndicator from "../src/components/PlayerIndicator";
+import Logs from "../src/components/Logs";
 import { Provider } from "react-redux";
 import { store } from "./store";
 
@@ -54,6 +54,7 @@ const init = (): void => {
         <GameMode ws={ws} />
         <PlayerIndicator />
         <Grid ws={ws} />
+        <Logs />
       </Provider>
     </React.StrictMode>,
     document.getElementById("root")
