@@ -32,16 +32,6 @@ export const handleMessage = (message: MessageEvent): void => {
       break;
     }
 
-    case "thisPlayer":
-      getElementById("your-player").innerHTML = `Your Name: ${msg.name}`;
-      getElementById("your-team").innerHTML = `Your Team: ${msg.team}`;
-      break;
-
-    case "currentPlayer":
-      getElementById("current-player").innerHTML = `Turn: ${msg.name}`;
-      getElementById("current-team").innerHTML = `Team: ${msg.team}`;
-      break;
-
     case "draw":
       getElementById("game-winner").innerHTML = "You drew!";
       gameOver();

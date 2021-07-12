@@ -1,19 +1,12 @@
 import React, { SyntheticEvent, useState } from "react";
 import styled from "styled-components";
-import {
-  disableRadioButtons,
-  enableRadioButtons,
-  getElementById,
-  getRadios,
-} from "../../public/helpers";
-
-interface InputProps {
-  onChange: React.ChangeEventHandler<HTMLInputElement>;
-  // isDisabled: boolean;
-}
 
 const GameModeWrapper = styled.div``;
 const RadioWrapper = styled.section``;
+
+interface InputProps {
+  onChange: React.ChangeEventHandler<HTMLInputElement>;
+}
 const Input = styled.input<InputProps>``;
 
 interface GameModeProps {
@@ -46,9 +39,7 @@ const GameMode: React.FC<GameModeProps> = ({ ws }) => {
         <label htmlFor="cpu">CPU</label>
         <Input
           name="mode"
-          className="mode-radio"
           type="radio"
-          id="mode-cpu"
           value="cpu"
           checked={selectedOption === "cpu"}
           onChange={onChangeHandler}
@@ -58,9 +49,7 @@ const GameMode: React.FC<GameModeProps> = ({ ws }) => {
         <label htmlFor="local">Local 2-Player</label>
         <Input
           name="mode"
-          className="mode-radio"
           type="radio"
-          id="mode-local"
           value="local"
           checked={selectedOption === "local"}
           onChange={onChangeHandler}
@@ -70,9 +59,7 @@ const GameMode: React.FC<GameModeProps> = ({ ws }) => {
         <label htmlFor="online">Online 2-Player</label>
         <Input
           name="mode"
-          className="mode-radio"
           type="radio"
-          id="mode-online"
           value="online"
           checked={selectedOption === "online"}
           onChange={onChangeHandler}
