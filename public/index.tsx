@@ -8,6 +8,7 @@ import { handleMessage } from "./message";
 import { getLogsElement, getElementById } from "./helpers";
 import Grid from "../src/components/Grid/Grid";
 import Header from "../src/components/Header";
+import GameMode from "../src/components/GameMode";
 import PlayerIndicator from "../src/components/PlayerIndicator";
 import { Provider } from "react-redux";
 import { store } from "./store";
@@ -37,9 +38,9 @@ const init = (): void => {
     });
   });
 
-  getElementById("js-start").addEventListener("click", (): void => {
-    startGame(ws);
-  });
+  // getElementById("js-start").addEventListener("click", (): void => {
+  //   startGame(ws);
+  // });
 
   // getElementById("js-play-again").addEventListener("click", (): void => {
   //   playAgain(ws);
@@ -48,8 +49,9 @@ const init = (): void => {
   ReactDOM.render(
     <React.StrictMode>
       <Provider store={store}>
-        <button>hello world</button>
+        {/* <button>hello world</button> */}
         <Header />
+        <GameMode ws={ws} />
         <PlayerIndicator />
         <Grid ws={ws} />
       </Provider>
