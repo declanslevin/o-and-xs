@@ -10,27 +10,27 @@ export const handleMessage = (message: MessageEvent): void => {
   console.log("STATE = ", store.getState());
   console.log(msg);
   switch (msg.type) {
-    case "prompt": {
-      let currentText = getLogsElement().innerHTML;
-      if (currentText === "Logs appear here") {
-        currentText = "";
-      }
-      getLogsElement().innerHTML =
-        currentText + `<p class="log-text">${msg.prompt}</p>`;
-      updateScroll();
-      break;
-    }
+    // case "prompt": {
+    //   let currentText = getLogsElement().innerHTML;
+    //   if (currentText === "Logs appear here") {
+    //     currentText = "";
+    //   }
+    //   getLogsElement().innerHTML =
+    //     currentText + `<p class="log-text">${msg.prompt}</p>`;
+    //   updateScroll();
+    //   break;
+    // }
 
-    case "log": {
-      let currentText = getLogsElement().innerHTML;
-      if (currentText === "Logs appear here") {
-        currentText = "";
-      }
-      getLogsElement().innerHTML =
-        currentText + `<p class="log-text">${msg.log}</p>`;
-      updateScroll();
-      break;
-    }
+    // case "log": {
+    //   let currentText = getLogsElement().innerHTML;
+    //   if (currentText === "Logs appear here") {
+    //     currentText = "";
+    //   }
+    //   getLogsElement().innerHTML =
+    //     currentText + `<p class="log-text">${msg.log}</p>`;
+    //   updateScroll();
+    //   break;
+    // }
 
     case "draw":
       getElementById("game-winner").innerHTML = "You drew!";

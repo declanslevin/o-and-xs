@@ -1,7 +1,8 @@
-import React, { ReactNode, useCallback, useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { GridType, Team } from "../../../lib/game";
+import { MessageToFrontEnd } from "../../../lib/message";
 import { State } from "../../../public/store";
 
 const GridContainer = styled.div`
@@ -43,6 +44,12 @@ const Grid: React.FC<GridProps> = ({ ws }) => {
   const currentTeam = useSelector((state: State) => state.currentPlayer.team);
   const dispatch = useDispatch();
   const onClickHandler = (label: number | Team) => {
+    if (typeof label !== "number") {
+      throw new Error("Clicked on a O or X grid");
+    }
+    if (!currentTeam) {
+      throw new Error("Unable to get player team");
+    }
     console.log(label, "CLICKED");
     const gridObj = {
       grid: Number(label),
@@ -51,9 +58,11 @@ const Grid: React.FC<GridProps> = ({ ws }) => {
     ws.send(JSON.stringify(gridObj));
     // TODO: Create Action creator
     // TODO: THUNK that wraps the body of the onClickHandler
-    dispatch({
+    // TODO: Work out the best typing pattern for dispatch
+    dispatch<MessageToFrontEnd>({
       type: "playerChoice",
-      payload: { choice: label, team: currentTeam },
+      choice: label,
+      team: currentTeam,
     });
   };
 

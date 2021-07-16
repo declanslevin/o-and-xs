@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { State } from "../../public/store";
@@ -17,7 +17,7 @@ const TextContainer = styled.div`
   height: 500px;
   display: flex;
   flex-direction: column;
-  overflow: scroll;
+  overflow-y: scroll;
   color: limegreen;
   background-color: black;
 `;
@@ -28,10 +28,18 @@ const Text = styled.p`
 
 const Logs: React.FC = () => {
   const logArray = useSelector((state: State) => state.logs);
+
+  useEffect(() => {
+    const el = document.getElementById("log-text-container");
+    if (!el) {
+      throw new Error("Unable to return 'log-text-container' element");
+    }
+    el.scrollTop = el.scrollHeight;
+  });
   return (
     <LogContainer>
       <LogHeader>Game Logs</LogHeader>
-      <TextContainer>
+      <TextContainer id="log-text-container">
         {logArray.length === 0 ? (
           <Text>Logs appear here</Text>
         ) : (
