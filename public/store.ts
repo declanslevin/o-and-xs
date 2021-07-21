@@ -1,18 +1,19 @@
 import { createStore } from "redux";
-import { Grid } from "../lib/game";
+import { GameStage, GridObj, Team } from "../lib/game";
 import { MessageToFrontEnd } from "../lib/message";
 
-interface Player {
+export interface Player {
   name: string | null;
-  team: string | null;
+  team: Team | null;
 }
 
-interface State {
-  grid: Grid;
+export interface State {
+  grid: GridObj;
   logs: string[];
   thisPlayer: Player;
   currentPlayer: Player;
   winner: string | null;
+  stage: GameStage;
 }
 
 const initialState: State = {
@@ -37,6 +38,7 @@ const initialState: State = {
     team: null,
   },
   winner: null,
+  stage: "initial",
 };
 const reducer = (state = initialState, action: MessageToFrontEnd): State => {
   switch (action.type) {
@@ -53,7 +55,6 @@ const reducer = (state = initialState, action: MessageToFrontEnd): State => {
       return { ...state, thisPlayer: { team, name } };
     }
     case "currentPlayer": {
-      console.log(action);
       const { team, name } = action;
       return { ...state, currentPlayer: { team, name } };
     }
@@ -71,10 +72,21 @@ const reducer = (state = initialState, action: MessageToFrontEnd): State => {
       const { winner } = action;
       return { ...state, winner: winner };
     }
+    case "stage": {
+      const { stage } = action;
+      return { ...state, stage: stage };
+    }
     default: {
       return state;
     }
   }
 };
 
-export const store = createStore(reducer);
+const rootReducer = (state = initialState, action: MessageToFrontEnd) => {
+  if (action.type === "reset") {
+    return reducer(undefined, action);
+  }
+  return reducer(state, action);
+};
+
+export const store = createStore(rootReducer);

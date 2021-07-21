@@ -33,6 +33,7 @@ const receiveGameModeChoice = async (player: HumanPlayer): Promise<string> => {
 const play = async (game: Game, players?: Player[]): Promise<void> => {
   if (players) {
     game.sendInitialBrowserState();
+    game.setGameStage("playing");
     while (!game.winner) {
       const check = await checkForGameOver(game);
       if (!check) {

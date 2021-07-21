@@ -1,39 +1,54 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "node": true,
-        "jest/globals": true
+  "env": {
+    "browser": true,
+    "es2021": true,
+    "node": true,
+    "jest/globals": true
+  },
+  "extends": [
+    "plugin:react/recommended",
+    "standard",
+    "react-app",
+    "react-app/jest"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
     },
-    "extends": [
-        "plugin:react/recommended",
-        "standard",
-        "react-app",
-      "react-app/jest"
+    "ecmaVersion": 12,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "jest"
+  ],
+  "rules": {
+    "semi": [
+      "off"
     ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
-        "@typescript-eslint",
-        "jest"
+    "quotes": [
+      "off"
     ],
-    "rules": {
-      "semi": ["off"],
-      "quotes": ["off"],
-      "comma-dangle": ["off"],
-      "space-before-function-paren": ["off"]
-    },
-    "overrides": [ {
-      "files": ["*.ts"],
+    "comma-dangle": [
+      "off"
+    ],
+    "space-before-function-paren": [
+      "off"
+    ],
+    "react/prop-types": "off"
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
       "rules": {
-        "no-undef": ["off"]
+        "no-undef": [
+          "off"
+        ]
       }
-    }]
+    }
+  ]
 }

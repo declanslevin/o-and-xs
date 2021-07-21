@@ -80,6 +80,7 @@ const logGameOver = async (
     }
     game.logGrid();
     game.log(log);
+    game.setGameStage("over");
     game.send(gameOverObj);
   }
 };

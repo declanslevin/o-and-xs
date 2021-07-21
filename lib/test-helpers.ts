@@ -1,4 +1,4 @@
-import Game, { Grid, Team } from "./game";
+import Game, { GridObj, Team } from "./game";
 import { Player, HumanPlayer, CpuPlayer } from "./player";
 
 type Vs = "Cpu" | "Human";
@@ -11,7 +11,7 @@ const gameFactory = ({
   winner = null,
 }: {
   vs: Vs;
-  grid?: Grid;
+  grid?: GridObj;
   nextPlayer?: Team;
   choices?: number[];
   winner?: string | null;

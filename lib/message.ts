@@ -1,4 +1,4 @@
-import { Team } from "./game";
+import { GameStage, Team } from "./game";
 
 export type MessageToFrontEnd =
   | {
@@ -30,4 +30,11 @@ export type MessageToFrontEnd =
   | {
       type: "win";
       winner: string;
-    };
+    }
+  | {
+      type: "stage";
+      stage: GameStage;
+  }
+  | {
+    type: "reset";
+  };

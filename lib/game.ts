@@ -3,9 +3,13 @@ import { Player } from "./player";
 
 export type Team = "O" | "X";
 
-export interface Grid {
-  [key: number]: number | Team;
+export type GridType = number | Team;
+
+export interface GridObj {
+  [key: number]: GridType;
 }
+
+export type GameStage = "initial" | "playing" | "over";
 
 interface Players {
   O: Player;
@@ -13,10 +17,11 @@ interface Players {
 }
 
 export class Game {
-  grid: Grid;
+  grid: GridObj;
   players: Players;
   nextPlayer: Team;
   choices: number[];
+  stage: GameStage;
   winner?: string | null;
 
   constructor(players: [Player, Player]) {
@@ -34,6 +39,7 @@ export class Game {
     this.players = this.randomPlayersObject(players);
     this.nextPlayer = Math.random() < 0.5 ? "X" : "O";
     this.choices = [];
+    this.stage = "initial";
     this.winner = null;
   }
 
@@ -87,6 +93,15 @@ export class Game {
       name: this.players[this.nextPlayer].name,
     };
     this.send(playerObj);
+  }
+
+  setGameStage(stage: GameStage): void {
+    this.stage = stage;
+    const stageObj = {
+      type: "stage" as const,
+      stage: stage,
+    }
+    this.send(stageObj);
   }
 
   setWinner(team: string): void {

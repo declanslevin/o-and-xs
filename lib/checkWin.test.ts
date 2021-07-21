@@ -5,6 +5,7 @@ import {
   checkForWin,
   checkForGameOver,
 } from "./checkWin";
+import { GridObj } from "./game";
 import { gameFactory } from "./test-helpers";
 
 jest.mock("./playAgain");
@@ -21,7 +22,7 @@ describe("checkWin returns the correct result", () => {
   });
 
   it("mapGridValues returns array of stored grid values", () => {
-    const grid = {
+    const grid: GridObj = {
       1: "X",
       2: 2,
       3: 3,
@@ -80,7 +81,7 @@ describe("checkWin returns the correct result", () => {
   });
 
   it("checkForDraw returns true when there is a draw", async () => {
-    const grid = {
+    const grid: GridObj = {
       1: "O",
       2: "O",
       3: "X",
@@ -100,7 +101,7 @@ describe("checkWin returns the correct result", () => {
   });
 
   it("checkForDraw sets game.winner when there is a draw", async () => {
-    const grid = {
+    const grid: GridObj = {
       1: "O",
       2: "O",
       3: "X",
@@ -130,7 +131,7 @@ describe("checkWin returns the correct result", () => {
   });
 
   it("checkForWin announces user win and returns true", async () => {
-    const grid = {
+    const grid: GridObj = {
       1: "X",
       2: 2,
       3: "O",
@@ -154,7 +155,7 @@ describe("checkWin returns the correct result", () => {
   });
 
   it("checkForWin announces cpu win and returns true", async () => {
-    const grid = {
+    const grid: GridObj = {
       1: "O",
       2: 2,
       3: "X",
@@ -178,7 +179,7 @@ describe("checkWin returns the correct result", () => {
   });
 
   it("checkForWin returns false when no winner", async () => {
-    const grid = {
+    const grid: GridObj = {
       1: "O",
       2: 2,
       3: "X",
@@ -214,7 +215,7 @@ describe("checkWin returns the correct result", () => {
   // });
 
   it("checkForGameOver returns true when there is a user win", async () => {
-    const grid = {
+    const grid: GridObj = {
       1: "O",
       2: "O",
       3: "X",
@@ -235,7 +236,7 @@ describe("checkWin returns the correct result", () => {
   });
 
   it("checkForGameOver returns true when there is a cpu win", async () => {
-    const grid = {
+    const grid: GridObj = {
       1: "O",
       2: "O",
       3: "X",
@@ -256,7 +257,7 @@ describe("checkWin returns the correct result", () => {
   });
 
   it("checkForGameOver returns true when there is a draw", async () => {
-    const grid = {
+    const grid: GridObj = {
       1: "O",
       2: "O",
       3: "X",
