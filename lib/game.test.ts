@@ -1,4 +1,4 @@
-import Game from "./game";
+import Game, { GridObj } from "./game";
 import { CpuPlayer, HumanPlayer } from "./player";
 import { gameFactory } from "./test-helpers";
 
@@ -143,7 +143,7 @@ describe("Game methods can set values", () => {
   });
 
   it("logGrid logs grid correctly", () => {
-    const grid = {
+    const grid: GridObj = {
       1: "X",
       2: 2,
       3: 3,
