@@ -14,7 +14,6 @@ export interface State {
   currentPlayer: Player;
   winner: string | null;
   stage: GameStage;
-  wasReset?: boolean;
 }
 
 const initialState: State = {
@@ -83,15 +82,11 @@ const reducer = (state = initialState, action: MessageToFrontEnd): State => {
   }
 };
 
-// export const store = createStore(reducer);
-
-const resetState = { ...initialState, wasReset: true };
-
 const rootReducer = (state = initialState, action: MessageToFrontEnd) => {
   if (action.type === "reset") {
-    return reducer(resetState, action)
+    return reducer(undefined, action);
   }
-  return reducer(state, action)
-}
+  return reducer(state, action);
+};
 
 export const store = createStore(rootReducer);

@@ -1,10 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import reportWebVitals from "../my-app/src/reportWebVitals";
-// import { startGame, playAgain } from "./game";
-import { registerGridBehaviour } from "./ui";
 import { handleMessage } from "./message";
-// import { getLogsElement } from "./helpers";
 import Grid from "../src/components/Grid/Grid";
 import Header from "../src/components/Header";
 import GameMode from "../src/components/GameMode";
@@ -21,7 +18,8 @@ const init = (): void => {
     // 3 CLOSED The connection is closed or couldn't be opened.
     if (ws.readyState === 3) {
       console.log("Run your server dummy");
-      const logElement = document.getElementById("log-text-container").firstChild as HTMLParagraphElement;
+      const logElement = document.getElementById("log-text-container")
+        .firstChild as HTMLParagraphElement;
       logElement.innerHTML = "Check your server is running (try 'yarn server')";
     }
     console.log(err);
@@ -32,25 +30,16 @@ const init = (): void => {
       throw new Error("Why is this not the WebSocket?");
     }
     console.log("We are connected!");
-    registerGridBehaviour(ws);
+    // registerGridBehaviour(ws);
 
     ws.addEventListener("message", (message): void => {
       handleMessage(message);
     });
   });
 
-  // getElementById("js-start").addEventListener("click", (): void => {
-  //   startGame(ws);
-  // });
-
-  // getElementById("js-play-again").addEventListener("click", (): void => {
-  //   playAgain(ws);
-  // });
-
   ReactDOM.render(
     <React.StrictMode>
       <Provider store={store}>
-        {/* <button>hello world</button> */}
         <Header />
         <GameMode ws={ws} />
         <PlayerIndicator />
