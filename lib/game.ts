@@ -9,6 +9,8 @@ export interface GridObj {
   [key: number]: GridType;
 }
 
+export type GameStage = "initial" | "playing" | "over";
+
 interface Players {
   O: Player;
   X: Player;
@@ -19,6 +21,7 @@ export class Game {
   players: Players;
   nextPlayer: Team;
   choices: number[];
+  stage: GameStage;
   winner?: string | null;
 
   constructor(players: [Player, Player]) {
@@ -36,6 +39,7 @@ export class Game {
     this.players = this.randomPlayersObject(players);
     this.nextPlayer = Math.random() < 0.5 ? "X" : "O";
     this.choices = [];
+    this.stage = "initial";
     this.winner = null;
   }
 
@@ -89,6 +93,15 @@ export class Game {
       name: this.players[this.nextPlayer].name,
     };
     this.send(playerObj);
+  }
+
+  setGameStage(stage: GameStage): void {
+    this.stage = stage;
+    const stageObj = {
+      type: "stage" as const,
+      stage: stage,
+    }
+    this.send(stageObj);
   }
 
   setWinner(team: string): void {
