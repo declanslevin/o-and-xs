@@ -1,5 +1,7 @@
-import React, { SyntheticEvent, useState } from "react";
+import React, { SyntheticEvent, useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { State, store } from "../../public/store";
 
 const GameModeWrapper = styled.div``;
 const RadioWrapper = styled.section``;
@@ -16,22 +18,32 @@ interface GameModeProps {
 const GameMode: React.FC<GameModeProps> = ({ ws }) => {
   const [selectedOption, setSelectedOption] = useState("cpu");
   const [disabled, setDisabled] = useState(false);
-  const toggle = (previous: boolean) => !previous;
+  const gameStage = useSelector((state: State) => state.stage);
+  const setDisabledToTrue = () => {
+    setDisabled(true);
+  };
+  const setDisabledToFalse = () => {
+    setDisabled(false);
+  };
 
   const startOnClickHandler = () => {
     console.log("Start button clicked");
+    console.log(store.getState());
     const modeObj = {
       type: "mode",
       mode: selectedOption,
     };
     ws.send(JSON.stringify(modeObj));
-    setDisabled(toggle);
   };
 
   const onChangeHandler = (changeEvent: SyntheticEvent) => {
     const target = changeEvent.target as HTMLInputElement;
     setSelectedOption(target.value);
   };
+
+  useEffect(() => {
+    gameStage === "initial" ? setDisabledToFalse() : setDisabledToTrue();
+  });
 
   return (
     <GameModeWrapper>

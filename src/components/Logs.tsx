@@ -40,6 +40,7 @@ const Logs: React.FC = () => {
     <LogContainer>
       <LogHeader>Game Logs</LogHeader>
       <TextContainer id="log-text-container">
+        {/* eslint-disable-next-line */}
         {logArray.length === 0 ? (
           <Text>Logs appear here</Text>
         ) : (

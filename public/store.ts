@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { GridObj, Team } from "../lib/game";
+import { GameStage, GridObj, Team } from "../lib/game";
 import { MessageToFrontEnd } from "../lib/message";
 
 export interface Player {
@@ -13,6 +13,8 @@ export interface State {
   thisPlayer: Player;
   currentPlayer: Player;
   winner: string | null;
+  stage: GameStage;
+  wasReset?: boolean;
 }
 
 const initialState: State = {
@@ -37,6 +39,7 @@ const initialState: State = {
     team: null,
   },
   winner: null,
+  stage: "initial",
 };
 const reducer = (state = initialState, action: MessageToFrontEnd): State => {
   switch (action.type) {
@@ -70,10 +73,25 @@ const reducer = (state = initialState, action: MessageToFrontEnd): State => {
       const { winner } = action;
       return { ...state, winner: winner };
     }
+    case "stage": {
+      const { stage } = action;
+      return { ...state, stage: stage };
+    }
     default: {
       return state;
     }
   }
 };
 
-export const store = createStore(reducer);
+// export const store = createStore(reducer);
+
+const resetState = { ...initialState, wasReset: true };
+
+const rootReducer = (state = initialState, action: MessageToFrontEnd) => {
+  if (action.type === "reset") {
+    return reducer(resetState, action)
+  }
+  return reducer(state, action)
+}
+
+export const store = createStore(rootReducer);
